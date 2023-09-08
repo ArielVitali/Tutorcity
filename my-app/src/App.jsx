@@ -1,5 +1,15 @@
+import HomeServicesContainer from "./components/Containers/HomeServicesContainer.jsx";
+import HomeHero from "./components/Hero/HomeHero.jsx";
+import NavBar from "./components/NavBar/NavBar.jsx";
+
 function App() {
-  return <h1 className="text-3xl font-bold underline">Hello world!</h1>;
+  return (
+    <div className="h-full w-full font-barlow">
+      <NavBar />
+      <HomeHero />
+      <HomeServicesContainer />
+    </div>
+  );
 }
 
 export default App;
