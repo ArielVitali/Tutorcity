@@ -12,7 +12,7 @@ const Container = ({ component }) => {
       {isArray
         ? component.map((Component, index) => (
             <div key={index} className="md:w-full md:mb-4">
-              <Component /> {/* Call the component as a function */}
+              {React.cloneElement(Component)}
             </div>
           ))
         : component()}
