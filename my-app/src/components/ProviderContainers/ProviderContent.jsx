@@ -1,14 +1,13 @@
-import FilterBarInputs from "../FilterBar/FilterBarInputs.jsx";
-import Container from "./Container.jsx";
-import ServiceContainer from "./ServiceContainer.jsx";
+import React from "react";
 import {
   PiGuitarDuotone,
   PiCameraDuotone,
   PiBabyDuotone,
 } from "react-icons/pi";
+import ServiceContainer from "../Containers/ServiceContainer.jsx";
 
-const HomeServicesContainer = () => {
-  const servicesMock = [
+const ProviderContent = () => {
+  const publishedServicesMock = [
     {
       //this is a mock object, it will be replaced by the data from the database
       icon: <PiGuitarDuotone className="text-3xl " />,
@@ -33,6 +32,8 @@ const HomeServicesContainer = () => {
         "Clases de guitarra para principiantes Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae repellat harum, architecto, ullam unde minima autem, maxime asperiores eius voluptatibus pariatur quidem! Error ut exercitationem consequatur reiciendis vel consectetur veritatis.",
       isPublished: true,
     },
+  ];
+  const unpublishedServicesMock = [
     {
       //this is a mock object, it will be replaced by the data from the database
       icon: <PiBabyDuotone className="text-3xl " />,
@@ -46,27 +47,42 @@ const HomeServicesContainer = () => {
     },
   ];
 
-  const services = servicesMock.map((service, index) => (
-    <ServiceContainer
-      key={index}
-      icon={service.icon}
-      name={service.name}
-      admin={service.admin}
-      duration={service.duration}
-      frequency={service.frequency}
-      rating={service.rating}
-      description={service.description}
-      isPublished={service.isPublished}
-    />
-  ));
-
   return (
-    <div className="p-4  md:container md:mx-auto content-start justify-center h-screen w-screen bg-green-300">
-      <h1 className="flex justify-center h-fit">Services</h1>
-      <Container component={FilterBarInputs} />
-      <Container component={services} />
+    <div>
+      <ul>
+        <h4>Published</h4>
+        {publishedServicesMock.map((service, index) => (
+          <ServiceContainer
+            key={index}
+            icon={service.icon}
+            name={service.name}
+            admin={service.admin}
+            duration={service.duration}
+            frequency={service.frequency}
+            rating={service.rating}
+            description={service.description}
+            isPublished={true}
+          />
+        ))}
+      </ul>
+      <ul>
+        <h4>Unpublished</h4>
+        {unpublishedServicesMock.map((service, index) => (
+          <ServiceContainer
+            key={index}
+            icon={service.icon}
+            name={service.name}
+            admin={service.admin}
+            duration={service.duration}
+            frequency={service.frequency}
+            rating={service.rating}
+            description={service.description}
+            isPublished={false}
+          />
+        ))}
+      </ul>
     </div>
   );
 };
 
-export default HomeServicesContainer;
+export default ProviderContent;

@@ -1,5 +1,7 @@
 import { PiClockDuotone, PiStarDuotone } from "react-icons/pi";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../js/AuthContextProvider/AuthContext";
+import Badge from "../Utils/PublishedBadge/Badge.jsx";
 
 const ServiceContainer = ({
   icon,
@@ -8,7 +10,13 @@ const ServiceContainer = ({
   duration,
   frequency,
   rating,
+  description,
+  isPublished,
 }) => {
+  const published = <Badge isPublished={isPublished} />;
+
+  const { isLoggedIn } = useAuth();
+
   return (
     <div className="grid grid-cols-1 p-4 my-2 w-full md:flex md:w-full  md:justify-between items-center bg-red-200 rounded-md">
       <div
@@ -38,15 +46,26 @@ const ServiceContainer = ({
           {rating} <PiStarDuotone className="mx-2" />
         </h5>
       </div>
+      {isLoggedIn && (
+        <div className="flex items-center justify-center md:w-full md:h-full">
+          {published}
+        </div>
+      )}
       <div className="flex items-center justify-center md:w-full md:h-full">
-        <button className="btn btn-outline">
-          <Link
-            to="/ServiceDetails"
-            state={{ name, admin, duration, frequency, rating }}
-          >
-            View service
-          </Link>
-        </button>
+        <Link
+          to="/ServiceDetails"
+          state={{
+            name,
+            admin,
+            duration,
+            frequency,
+            rating,
+            description,
+            isPublished,
+          }}
+        >
+          <button className="btn btn-outline">View service</button>
+        </Link>
       </div>
     </div>
   );

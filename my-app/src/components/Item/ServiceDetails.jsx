@@ -6,7 +6,8 @@ import { PiMaskHappyDuotone } from "react-icons/pi";
 
 const ServiceDetails = () => {
   let { state } = useLocation();
-  const { name, admin, duration, frequency, rating } = state;
+  const { name, admin, duration, frequency, rating, description, isPublished } =
+    state;
 
   const commentsMock = [
     {
@@ -61,6 +62,8 @@ const ServiceDetails = () => {
         duration={duration}
         frequency={frequency}
         rating={rating}
+        description={description}
+        isPublished={isPublished}
       />
 
       <CommentsContainer comments={comments} serviceName={name} />

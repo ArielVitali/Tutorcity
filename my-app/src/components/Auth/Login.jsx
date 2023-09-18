@@ -1,8 +1,11 @@
 import React from "react";
 import { PiChalkboardTeacherDuotone } from "react-icons/pi";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../js/AuthContextProvider/AuthContext";
 
 const Login = () => {
+  const { login } = useAuth();
+
   return (
     <div className="w-full h-screen flex flex-col items-center justify-center px-4 ">
       <div className="max-w-sm w-full text-gray-600">
@@ -42,9 +45,14 @@ const Login = () => {
               className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
             />
           </div>
-          <button className="w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150">
-            Sign in
-          </button>
+          <Link to={"/ProviderHome"}>
+            <button
+              onClick={login}
+              className="w-full px-4 py-2 my-6 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
+            >
+              Sign in
+            </button>
+          </Link>
           <div className="text-center">
             <Link to={"/forgotPassword"} className="hover:text-indigo-600">
               Forgot password?

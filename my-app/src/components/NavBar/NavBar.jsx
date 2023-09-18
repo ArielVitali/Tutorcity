@@ -1,7 +1,10 @@
-import React from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../js/AuthContextProvider/AuthContext.jsx";
 
-const NavBar = () => {
+const NavBar = ({ menus }) => {
+  // State to track user's login status
+  const { isLoggedIn, logout } = useAuth();
+
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
@@ -26,23 +29,24 @@ const NavBar = () => {
             tabIndex={0}
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
-            <li>
-              <a>Item 1</a>
-            </li>
-            <li>
-              <a>Parent</a>
-              <ul className="p-2">
-                <li>
-                  <a>Submenu 1</a>
+            {isLoggedIn ? (
+              menus.map((Menu, index) => (
+                <li
+                  key={index}
+                  className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white bg-white  text-sm items-center gap-x-4 
+                  ${Menu.gap ? "mt-9" : "mt-2"} ${
+                    index === 0 && "bg-light-white"
+                  } `}
+                >
+                  <div>{Menu.src}</div>
+                  <span className={`${!open && "hidden"}  duration-200`}>
+                    {Menu.title}
+                  </span>
                 </li>
-                <li>
-                  <a>Submenu 2</a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <a>Item 3</a>
-            </li>
+              ))
+            ) : (
+              <li></li>
+            )}
           </ul>
         </div>
         <Link to={"/"} className="btn btn-ghost normal-case text-xl">
@@ -51,9 +55,38 @@ const NavBar = () => {
       </div>
 
       <div className="navbar-end">
-        <Link to={"/login"} className="btn">
-          Service Provider
-        </Link>
+        {isLoggedIn ? (
+          <div id="profile" className="dropdown dropdown-end">
+            <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+              <div className="w-10 rounded-full">
+                <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.QjynegEfQVPq5kIEuX9fWQHaFj%26pid%3DApi&f=1&ipt=a37cb0f91afc6cb8e58fc76eed4cd6958f97d4ad880b07c8159dcc2a992e17ed&ipo=images" />
+              </div>
+            </label>
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+            >
+              <li>
+                <a className="justify-between">
+                  Profile
+                  <span className="badge">New</span>
+                </a>
+              </li>
+              <li>
+                <a>Settings</a>
+              </li>
+              <Link to={"/"}>
+                <li>
+                  <a onClick={logout}>Logout</a>
+                </li>
+              </Link>
+            </ul>
+          </div>
+        ) : (
+          <Link to={"/login"} className="btn">
+            Service Provider
+          </Link>
+        )}
       </div>
     </div>
   );
