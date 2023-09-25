@@ -1,14 +1,16 @@
-import ServiceDetails from "./components/Item/ServiceDetails.jsx";
+import ServiceDetails from "./pages/ServiceDetails/index.jsx";
 import NavBar from "./components/NavBar/NavBar.jsx";
-import Home from "./components/Containers/Home.jsx";
-import Login from "./components/Auth/Login.jsx";
-import SignUp from "./components/Auth/SignUp.jsx";
-import ForgotPassword from "./components/Auth/ForgotPassword.jsx";
+import Home from "./pages/Home/index.jsx";
+import Login from "./pages/Login/index.jsx";
+import SignUp from "./pages/Signup/index.jsx";
+import ForgotPassword from "./pages/ForgotPassword/index.jsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import HireServiceForm from "./components/Forms/HireServiceForm.jsx";
-import ProviderHome from "./components/ProviderContainers/ProviderHome.jsx";
-import { AuthProvider } from "./js/AuthContextProvider/AuthContext.jsx";
-import { Menus } from "./components/ProviderContainers/ProviderHome.jsx";
+import HireServiceForm from "./pages/HireService/index.jsx";
+import ProviderHome from "./pages/HomeProvider/index.jsx";
+import { AuthProvider } from "./context/AuthContextProvider/AuthContext.jsx";
+import { Menus } from "./components/NavBar/SideMenu.jsx";
+import CommentsInbox from "./pages/PendingComments/index.jsx";
+import HiringsHome from "./pages/Hirings/index.jsx";
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/hireService" element={<HireServiceForm />} />
           <Route path="/ProviderHome" element={<ProviderHome />} />
+          <Route path="/CommentsInbox" element={<CommentsInbox />} />
+          <Route path="/Hirings" element={<HiringsHome />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

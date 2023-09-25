@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useAuth } from "../../js/AuthContextProvider/AuthContext.jsx";
+import { useAuth } from "../../context/AuthContextProvider/AuthContext.jsx";
 
 const NavBar = ({ menus }) => {
   // State to track user's login status
