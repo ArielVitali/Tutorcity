@@ -11,6 +11,7 @@ import { AuthProvider } from "./context/AuthContextProvider/AuthContext.jsx";
 import { Menus } from "./components/NavBar/SideMenu.jsx";
 import CommentsInbox from "./pages/PendingComments/index.jsx";
 import HiringsHome from "./pages/Hirings/index.jsx";
+import NewService from "./pages/NewService/index.jsx";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/ProviderHome" element={<ProviderHome />} />
           <Route path="/CommentsInbox" element={<CommentsInbox />} />
           <Route path="/Hirings" element={<HiringsHome />} />
+          <Route path="/NewService" element={<NewService />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

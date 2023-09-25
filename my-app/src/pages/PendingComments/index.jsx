@@ -3,6 +3,7 @@ import PendingComment from "./PendingComment.jsx";
 import { useLocation, useNavigate } from "react-router-dom";
 import { commentsMock } from "./services.jsx";
 import { serviceCommentsMock } from "./services.jsx";
+import ActionsNav from "../../components/ActionsNav/index.jsx";
 
 const index = () => {
   const navigate = useNavigate();
@@ -12,16 +13,7 @@ const index = () => {
 
   return (
     <div>
-      <div className=" md:flex md:w-full items-center">
-        <div>
-          <button className="btn glass m-4" onClick={() => navigate(-1)}>
-            <PiArrowCircleLeftDuotone className="text-4xl" />
-          </button>
-        </div>
-        <div className="flex justify-center">
-          <h3>{serviceName}</h3>
-        </div>
-      </div>
+      <ActionsNav title={serviceName} />
       <div className=" md:flex md:justify-center ">
         <div className="md:w-[1000px]">
           <ul>

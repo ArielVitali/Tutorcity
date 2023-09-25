@@ -69,9 +69,11 @@ const index = () => {
             <h3 className="md:text-5xl">Bienvenida Ana</h3>
           </div>
           <div className="w-full my-4 flex justify-center md:w-fit">
-            <button className="btn btn-sm  md:btn-md bg-red-400">
-              New Service
-            </button>
+            <Link to="/NewService">
+              <button className="btn btn-sm  md:btn-md bg-red-400">
+                New Service
+              </button>
+            </Link>
           </div>
         </div>
         <div>
