@@ -1,4 +1,4 @@
-import ServiceContainer from "../Home/ServiceContainer.jsx";
+import ServiceContainer from "../../components/Containers/ServiceContainer.jsx";
 import { publishedServicesMock, unpublishedServicesMock } from "./services.jsx";
 
 const HomeContent = () => {

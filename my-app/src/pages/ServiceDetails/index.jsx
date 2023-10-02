@@ -19,7 +19,7 @@ const index = () => {
   ));
 
   return (
-    <div className="p-4  md:container md:mx-auto content-start justify-center h-screen w-screen ">
+    <div>
       <DetailsContainer
         name={name}
         admin={admin}

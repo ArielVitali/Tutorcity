@@ -11,9 +11,19 @@ const index = () => {
   const state = location.state || {};
   const serviceName = state.serviceName || "Pending Comments";
 
+  const buttons = [
+    {
+      element: (
+        <button className="btn glass" onClick={() => navigate(-1)}>
+          <PiArrowCircleLeftDuotone className="text-3xl" />
+        </button>
+      ),
+    },
+  ];
+
   return (
     <div>
-      <ActionsNav title={serviceName} />
+      <ActionsNav title={serviceName} items={buttons} />
       <div className=" md:flex md:justify-center ">
         <div className="md:w-[1000px]">
           <ul>

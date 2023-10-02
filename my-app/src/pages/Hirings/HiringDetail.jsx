@@ -1,14 +1,61 @@
+import DropdownSelector from "../../components/Dropdown/DropdownSelector.jsx";
+import { useState } from "react";
+
 const HiringDetail = ({ props }) => {
+  const [status, setStatus] = useState(props.status); // Initialize status with the prop value
+
+  const handleStatusChange = (newStatus) => {
+    setStatus(newStatus);
+    // You can perform any other actions here when the status changes.
+  };
+
+  const options = [
+    {
+      src: <option value="Accepted">Accepted</option>,
+    },
+    {
+      src: (
+        <option className="bg-grey-200" value="Finalized">
+          Finalized
+        </option>
+      ),
+    },
+    {
+      src: (
+        <option className="bg-grey-200" value="Canceled">
+          Canceled
+        </option>
+      ),
+    },
+    {
+      src: (
+        <option className="bg-grey-200" value="Pending">
+          Pending
+        </option>
+      ),
+    },
+  ];
+
+  const optionStyles = {
+    Accepted: "bg-green-200",
+    Finalized: "bg-blue-200",
+    Canceled: "bg-red-200",
+    Pending: "bg-yellow-200",
+  };
+
   return (
     <div className="p-4 my-2 w-full  md:w-full bg-red-200 rounded-md">
       <div className="w-full my-2">
-        <div className="w-full flex justify-center">
+        <div className="w-full flex flex-wrap justify-center items-center">
           <h5>{props.title}</h5>
         </div>
-        <div className="w-full flex justify-center">
-          <span class="bg-blue-100 text-blue-800 text-xs font-medium  mr-2 p-1.5 m-2  rounded dark:bg-blue-900 dark:text-blue-300">
-            Status
-          </span>
+        <div className="flex justify-center">
+          <DropdownSelector
+            optionStyles={optionStyles}
+            options={options}
+            status={status}
+            onStatusChange={handleStatusChange}
+          />
         </div>
       </div>
 

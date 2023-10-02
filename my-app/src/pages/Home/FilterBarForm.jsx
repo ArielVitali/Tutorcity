@@ -2,6 +2,7 @@ import FormInput from "../../components/Form/formInput.jsx";
 import FormLabel from "../../components/Form/formLabel.jsx";
 import Button from "../../components/Button/Button.jsx";
 import Form from "../../components/Form/index.jsx";
+import Selector from "../../components/Form/formSelector.jsx";
 
 const FilterBarForm = () => {
   const content = [
@@ -11,12 +12,13 @@ const FilterBarForm = () => {
     >
       <div key={"category"} className="sm:px-4 md:w-full">
         <FormLabel text="Category" styles={"label justify-center"} />
-        <FormInput
-          type="text"
+        <Selector />
+        {/* <FormInput
+          type="password"
           name={"category"}
           styles={"input input-bordered w-full"}
           placeholder="Type here"
-        />
+        /> */}
       </div>
       <div key={"type"} className="sm:px-4 md:w-full">
         <FormLabel text="Type" styles={"label justify-center"} />
