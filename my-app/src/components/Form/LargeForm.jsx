@@ -23,7 +23,7 @@ const LargeForm = ({ title, description, fields }) => {
                       name={field.name}
                       id={field.id}
                       rows={4}
-                      className="block  textarea w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      className="block  textarea w-full rounded-md  p-1.5 text-gray-900 shadow-sm ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
                     ></textarea>
                   </div>
                 </div>
@@ -43,7 +43,7 @@ const LargeForm = ({ title, description, fields }) => {
                       name={field.name}
                       type={field.type}
                       autoComplete={field.autoComplete}
-                      className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      className="block w-full rounded-md  p-1.5 text-gray-900 shadow-sm  placeholder:text-gray-400  focus:ring-black sm:text-sm sm:leading-6"
                     />
                   </div>
                 </div>
@@ -63,7 +63,7 @@ const LargeForm = ({ title, description, fields }) => {
                       name={field.name}
                       id={field.id}
                       autoComplete={field.autoComplete}
-                      className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      className="block w-full rounded-md  p-1.5 text-gray-900 shadow-sm   placeholder:text-gray-400   sm:text-sm sm:leading-6"
                     />
                   </div>
                 </div>

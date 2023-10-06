@@ -8,7 +8,7 @@ const PendingComment = ({
   comment,
 }) => {
   return (
-    <div className="p-4 my-2 w-full  md:w-full bg-red-200 rounded-md">
+    <div className="p-4 my-2 w-full  md:w-full bg-gradient-to-r from-[#dde7c7] via-[#bfd8bd] to-[#98c9a3] shadow-2xl rounded-md">
       {hasServiceTitle && (
         <div className="w-full my-2 flex justify-center">
           <h5>{serviceTitle}</h5>
@@ -35,10 +35,10 @@ const PendingComment = ({
       </div>
       <div className="w-full my-2 sm:flex">
         <div className="my-4 w-full flex justify-center">
-          <button className="btn btn-success">Accept</button>
+          <button className="btn btn-success lg:btn-wide">Accept</button>
         </div>
         <div className="my-4 w-full flex justify-center">
-          <button className="btn btn-error">Reject</button>
+          <button className="btn btn-error lg:btn-wide">Reject</button>
         </div>
       </div>
     </div>

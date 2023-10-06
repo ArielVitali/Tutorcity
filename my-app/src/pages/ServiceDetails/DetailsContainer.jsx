@@ -136,7 +136,7 @@ const DetailsContainer = ({
   return (
     <div className="flex justify-center">
       {isLoggedIn ? (
-        <div className="w-full">
+        <div className="w-full lg:w-[1000px]">
           {!editMode ? (
             <ActionsNav title={name} items={NavButtonsEdit} />
           ) : (
@@ -243,7 +243,7 @@ const DetailsContainer = ({
                   Description
                 </dt>
                 {!editMode ? (
-                  <dd className="mt-1 text-sm leading-6 p-1.5 text-gray-700 sm:col-span-2 sm:mt-0 md:flex md:justify-center md:w-full md:text-xl">
+                  <dd className="lg:text-center mt-1 text-sm leading-6 p-1.5 text-gray-700 sm:col-span-2 sm:mt-0 md:flex md:justify-center md:w-full md:text-xl">
                     {description}
                   </dd>
                 ) : (
@@ -261,7 +261,7 @@ const DetailsContainer = ({
           </div>
         </div>
       ) : (
-        <div className="w-full">
+        <div className="w-full lg:w-[1000px]">
           <ActionsNav title={name} items={UserNavButtons} />
           <div className="mt-6 border-t border-gray-100 px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
             <dl className="divide-y divide-gray-200">
@@ -309,7 +309,7 @@ const DetailsContainer = ({
                 <dt className="text-sm font-medium leading-6 text-gray-900 md:flex md:justify-center md:w-full md:text-xl">
                   Description
                 </dt>
-                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 md:flex md:justify-center md:w-full md:text-xl">
+                <dd className="lg:text-center mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 md:flex md:justify-center md:w-full md:text-xl">
                   {description}
                 </dd>
               </div>

@@ -13,11 +13,11 @@ const index = () => {
         id="sidebar"
         className={` ${
           open ? "w-72" : "w-20"
-        } hidden lg:block bg-green-200 h-screen p-5  pt-8 relative duration-300 `}
+        } hidden lg:block bg-[#303030] h-screen p-5  pt-8 relative duration-300 `}
       >
         <PiArrowRightDuotone
           src="./src/assets/control.png"
-          className={`absolute text-3xl cursor-pointer -right-3 top-9 w-7 bg-red-200 
+          className={`absolute text-3xl cursor-pointer -right-3 top-9 w-7 bg-white 
              border-2 rounded-full  ${!open && "rotate-180"}`}
           onClick={() => setOpen(!open)}
         />
@@ -26,7 +26,7 @@ const index = () => {
             open ? "justify-center duration-500" : ""
           }`}
         >
-          <div className="cursor-pointer duration-500 flex rounded-md p-1 bg-white">
+          <div className="cursor-pointer duration-500 flex rounded-md p-1 text-white">
             <PiGraduationCapDuotone
               id="logo"
               className="text-3xl cursor-pointer duration-500  "
@@ -47,14 +47,16 @@ const index = () => {
             <Link key={index} to={Menu.to}>
               <li
                 key={index}
-                className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white bg-white  text-sm items-center gap-x-4 
-                ${Menu.gap ? "mt-9" : "mt-2"} ${
+                className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white  bg-white opacity-70 text-sm items-center gap-x-4 
+                ${Menu.gap ? "mt-9 duration-100" : "mt-2 duration-100"} ${
                   index === 0 && "bg-light-white"
                 } `}
               >
                 {Menu.src}
                 <span
-                  className={`${!open && "hidden"} origin-left duration-200`}
+                  className={`${
+                    !open && "hidden duration-100"
+                  } origin-left duration-200`}
                 >
                   {Menu.title}
                 </span>
@@ -70,7 +72,7 @@ const index = () => {
           </div>
           <div className="w-full my-4 flex justify-center md:w-fit">
             <Link to="/NewService">
-              <button className="btn btn-sm  md:btn-md bg-red-400">
+              <button className="btn btn-sm  md:btn-md btn-neutral shadow-xl">
                 New Service
               </button>
             </Link>

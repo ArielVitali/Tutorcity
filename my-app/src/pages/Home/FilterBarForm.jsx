@@ -99,7 +99,7 @@ const FilterBarForm = () => {
     </div>,
   ];
 
-  const styles = "mx-auto w-full z-0";
+  const styles = "mx-auto w-full z-0 ";
 
   return <Form content={content} styles={styles} />;
 };

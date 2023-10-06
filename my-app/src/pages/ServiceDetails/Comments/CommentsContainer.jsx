@@ -19,12 +19,14 @@ const CommentsContainer = ({ comments, serviceName }) => {
   return (
     <div>
       {isLoggedIn ? (
-        <section className="bg-white flex justify-center">
+        <section className=" flex justify-center">
           <div className="max-w-screen-xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
             <div className="grid grid-cols-1 md:flex justify-center ">
-              <h4 className=" text-center text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:w-full">
-                Read trusted reviews from our customers
-              </h4>
+              <div className="md:w-full">
+                <h2 className="flex items-center justify-center h-full text-center font-bold tracking-tight text-gray-900  md:w-full">
+                  Read trusted reviews from our customers
+                </h2>
+              </div>
               <div className="w-full flex justify-center md:w-fit">
                 <Link to="/CommentsInbox" state={{ serviceName }}>
                   <button className="btn btn-circle m-4 ">
@@ -33,25 +35,27 @@ const CommentsContainer = ({ comments, serviceName }) => {
                 </Link>
               </div>
             </div>
-            <div className="mt-8 [column-fill:_balance] sm:columns-2 sm:gap-6 lg:columns-3 lg:gap-8">
+            <div className="lg:w-[1000px] drop-shadow-lg mt-8 [column-fill:_balance] sm:columns-2 sm:gap-6 lg:columns-3 lg:gap-8">
               {comments}
             </div>
           </div>
         </section>
       ) : (
-        <section className="bg-white flex justify-center">
+        <section className="flex justify-center">
           <div className="max-w-screen-xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
             <div className="grid grid-cols-1 md:flex justify-center ">
-              <h4 className=" text-center text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl md:w-full">
-                Read trusted reviews from our customers
-              </h4>
+              <div className="md:w-full">
+                <h2 className="flex items-center justify-center h-full text-center font-bold tracking-tight text-gray-900  md:w-full">
+                  Read trusted reviews from our customers
+                </h2>
+              </div>
               <div className="w-full flex justify-center md:w-fit">
                 <button className="btn btn-circle m-4 " onClick={openModal}>
                   <PiPlusCircleDuotone className="text-3xl" />
                 </button>
               </div>
             </div>
-            <div className="mt-8 [column-fill:_balance] sm:columns-2 sm:gap-6 lg:columns-3 lg:gap-8">
+            <div className="lg:w-[1000px] drop-shadow-lg mt-8 [column-fill:_balance] sm:columns-2 sm:gap-6 lg:columns-3 lg:gap-8">
               {comments}
             </div>
           </div>

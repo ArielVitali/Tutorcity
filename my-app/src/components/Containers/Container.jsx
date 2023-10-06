@@ -1,13 +1,13 @@
 import React from "react";
 
-const Container = ({ component }) => {
+const Container = ({ component, bgColor }) => {
   const isArray = Array.isArray(component);
-
+  console.log("color", bgColor);
   return (
     <div
-      className={`grid grid-cols-1 w-full p-4 my-4 bg-[#EDF2F4] rounded-lg ${
-        isArray ? "md:flex-col" : ""
-      }`}
+      className={`grid grid-cols-1 w-full p-4 my-4 rounded-lg ${
+        bgColor ? bgColor : "bg-[#EDF2F4]"
+      } ${isArray ? "md:flex-col" : ""}}`}
     >
       {isArray
         ? component.map((Component, index) => (

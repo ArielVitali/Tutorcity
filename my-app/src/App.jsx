@@ -12,9 +12,13 @@ import { Menus } from "./components/NavBar/SideMenu.jsx";
 import CommentsInbox from "./pages/PendingComments/index.jsx";
 import HiringsHome from "./pages/Hirings/index.jsx";
 import NewService from "./pages/NewService/index.jsx";
-import { WipeProvider } from "./context/WipeContextProvider/WipeContext.jsx";
+import { useEffect } from "react";
 
 function App() {
+  useEffect(() => {
+    // Scroll to the top of the page when the component is mounted
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <AuthProvider>
       <BrowserRouter>

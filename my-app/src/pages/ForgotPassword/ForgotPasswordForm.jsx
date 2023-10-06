@@ -11,7 +11,7 @@ const ForgotPasswordForm = () => {
         type="email"
         name="email"
         required={true}
-        styles="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+        styles="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-black shadow-sm rounded-lg"
       />
     </div>,
 
@@ -19,7 +19,7 @@ const ForgotPasswordForm = () => {
       key={"reset"}
       type="submit"
       styles={
-        "w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
+        "w-full px-4 py-2 text-black   bg-[#5dd39e] border border-black hover:bg-[#1f2421] hover:text-white  rounded-lg duration-200"
       }
       text={"Reset"}
     />,

@@ -44,12 +44,12 @@ const HiringDetail = ({ props }) => {
   };
 
   return (
-    <div className="p-4 my-2 w-full  md:w-full bg-red-200 rounded-md">
+    <div className="p-4 my-2 w-full  md:w-full bg-[#98c9a3] rounded-md">
       <div className="w-full my-2">
         <div className="w-full flex flex-wrap justify-center items-center">
-          <h5>{props.title}</h5>
+          <h5 className="text-center py-2">{props.title}</h5>
         </div>
-        <div className="flex justify-center">
+        <div className="flex justify-center ">
           <DropdownSelector
             optionStyles={optionStyles}
             options={options}

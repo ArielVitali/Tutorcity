@@ -2,6 +2,7 @@ import ActionsNav from "../../components/ActionsNav/index.jsx";
 import LargeForm from "../../components/Form/LargeForm.jsx";
 import { useNavigate } from "react-router-dom";
 import { PiArrowCircleLeftDuotone } from "react-icons/pi";
+import { motion } from "framer-motion";
 
 const index = () => {
   const fields = [
@@ -62,22 +63,35 @@ const index = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex justify-center">
-      <div className="w-full">
-        <ActionsNav title="Hire Service" items={buttons} />
-        <div className="md:flex justify-center ">
-          <div className="mt-6 border-t border-gray-100  md:w-[1000px]  px-4 py-12 sm:px-6 lg:px-8 ">
-            <LargeForm
-              title={"Personal Information"}
-              description={
-                "Provide your personal information for getting in touch."
-              }
-              fields={fields}
-            />
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      whileFocus="visible"
+      viewport={{ once: true, amount: 0.5 }}
+      transition={{ duration: 0.5 }}
+      variants={{
+        hidden: { opacity: 0, y: -50 },
+        visible: { opacity: 1, y: 0 },
+      }}
+    >
+      <div className="flex justify-center">
+        <div className="w-full">
+          <ActionsNav title="Hire Service" items={buttons} />
+
+          <div className="md:flex justify-center ">
+            <div className="mt-6 border-t border-gray-100  md:w-[1000px]  px-4 py-12 sm:px-6 lg:px-8 ">
+              <LargeForm
+                title={"Personal Information"}
+                description={
+                  "Provide your personal information for getting in touch."
+                }
+                fields={fields}
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

@@ -10,9 +10,14 @@ const ServiceContainer = ({
   rating,
   description,
   isPublished,
+  bgColor,
 }) => {
   return (
-    <div className="grid grid-cols-1 p-4 my-2 gap-4 lg:flex md:flex-1 md:w-full  justify-between items-center bg-red-200 rounded-md">
+    <div
+      className={`border border-[#181f1c] grid grid-cols-1 p-4 my-2 gap-4 lg:flex md:flex-1 md:w-full  justify-between items-center ${
+        bgColor ? bgColor : "bg-[#ffffff]"
+      } rounded-md`}
+    >
       {/* ICON */}
       <div className="flex items-center justify-center md:w-full md:h-full">
         <div className="flex items-center justify-center">{icon}</div>
@@ -21,10 +26,10 @@ const ServiceContainer = ({
       {/* NAME */}
       <div className="grid grid-cols-1 md:w-full md:h-full container mx-auto">
         <div className="flex justify-center">
-          <h3 className="truncate">{name}</h3>
+          <h3 className="text-center truncate">{name}</h3>
         </div>
         <div className="flex justify-center">
-          <p className="flex justify-center">{admin}</p>
+          <p className="text-center flex justify-center">{admin}</p>
         </div>
       </div>
 

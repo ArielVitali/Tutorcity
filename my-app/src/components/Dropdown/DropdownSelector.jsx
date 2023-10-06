@@ -23,7 +23,7 @@ const DropdownSelector = ({
   return (
     <div>
       <select
-        className={`select select-ghost max-w-xs ${bgColor}`}
+        className={`select select-ghost max-w-xs ${bgColor} border border-black`}
         value={status}
         onChange={(e) => handleStatusChange(e.target.value)}
       >

@@ -11,7 +11,7 @@ const SignupForm = () => {
         type="text"
         name="firstName"
         required={true}
-        styles="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+        styles="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-black shadow-sm rounded-lg"
       />
     </div>,
     <div>
@@ -20,7 +20,7 @@ const SignupForm = () => {
         type="text"
         name="lastName"
         required={true}
-        styles="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+        styles="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-black shadow-sm rounded-lg"
       />
     </div>,
     <div>
@@ -29,7 +29,7 @@ const SignupForm = () => {
         type="email"
         name="email"
         required={true}
-        styles="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+        styles="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-black shadow-sm rounded-lg"
       />
     </div>,
     <div>
@@ -38,14 +38,14 @@ const SignupForm = () => {
         type="password"
         name="password"
         required={true}
-        styles="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+        styles="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-black shadow-sm rounded-lg"
       />
     </div>,
     <Button
       key={"signupButton"}
       type="submit"
       styles={
-        "w-full px-4 py-2 text-white font-medium bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-600 rounded-lg duration-150"
+        "w-full px-4 py-2 text-black   bg-[#5dd39e] border border-black hover:bg-[#1f2421] hover:text-white  rounded-lg duration-200"
       }
       text={"Sign Up"}
     />,
