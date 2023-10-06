@@ -1,72 +1,101 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { AiOutlineSearch } from "react-icons/ai";
+import { useWipe } from "../../context/WipeContextProvider/WipeContext";
 
-const Selector = () => {
-  const [countries, setCountries] = useState(null);
+const Selector = ({ field, onSelect, data }) => {
+  const { isWiped, unwipe } = useWipe();
+  const [options, setOptions] = useState(null);
   const [inputValue, setInputValue] = useState("");
   const [selected, setSelected] = useState("");
   const [open, setOpen] = useState(false);
+  const selectorRef = useRef(null);
 
   useEffect(() => {
-    fetch("https://restcountries.com/v2/all?fields=name")
-      .then((res) => res.json())
-      .then((data) => {
-        setCountries(data);
-      });
+    if (isWiped) {
+      setSelected("");
+      unwipe();
+    }
+  }, [isWiped, unwipe]);
+
+  useEffect(() => {
+    setOptions(data);
+  }, [data]);
+
+  // Add event listener to handle clicks outside of the selector
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (selectorRef.current && !selectorRef.current.contains(event.target)) {
+        setOpen(false);
+      }
+    }
+
+    // Attach the event listener
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      // Remove the event listener when the component unmounts
+      document.removeEventListener("click", handleClickOutside);
+    };
   }, []);
+
   return (
-    <div className="w-full font-medium ">
+    <div className="relative" ref={selectorRef}>
       <div
         onClick={() => setOpen(!open)}
         className={`bg-white w-full p-2 flex items-center justify-between rounded ${
           !selected && "text-gray-700"
         }`}
       >
-        {selected
-          ? selected?.length > 25
-            ? selected?.substring(0, 25) + "..."
-            : selected
-          : "Select Country"}
+        <div>
+          {selected
+            ? selected?.length > 25
+              ? selected?.substring(0, 25) + "..."
+              : selected
+            : `Select ${field}`}
+        </div>
+
         <BiChevronDown size={20} className={`${open && "rotate-180"}`} />
       </div>
+
       <ul
         className={`bg-white mt-2 overflow-y-auto ${
-          open ? "max-h-60" : "max-h-0"
+          open ? "max-h-60 z-10 absolute " : "max-h-0"
         } `}
       >
-        <div className="flex items-center px-2 sticky top-0 bg-white">
+        <div className="flex items-center px-2 sticky top-0 bg-white w-full">
           <AiOutlineSearch size={18} className="text-gray-700" />
           <input
             type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value.toLowerCase())}
-            placeholder="Enter country name"
+            placeholder={`Enter ${field}`}
             className="placeholder:text-gray-700 p-2 outline-none"
           />
         </div>
-        {countries?.map((country) => (
+        {options?.map((option) => (
           <li
-            key={country?.name}
-            className={`p-2 text-sm hover:bg-sky-600 hover:text-white
+            key={option?.name}
+            className={`p-2 text-sm w-full hover:bg-sky-600 hover:text-white
             ${
-              country?.name?.toLowerCase() === selected?.toLowerCase() &&
+              option?.name?.toLowerCase() === selected?.toLowerCase() &&
               "bg-sky-600 text-white"
             }
             ${
-              country?.name?.toLowerCase().startsWith(inputValue)
+              option?.name?.toLowerCase().startsWith(inputValue)
                 ? "block"
                 : "hidden"
             }`}
             onClick={() => {
-              if (country?.name?.toLowerCase() !== selected.toLowerCase()) {
-                setSelected(country?.name);
+              if (option?.name?.toLowerCase() !== selected.toLowerCase()) {
+                setSelected(option?.name);
                 setOpen(false);
                 setInputValue("");
+                onSelect(option?.name);
               }
             }}
           >
-            {country?.name}
+            {option?.name}
           </li>
         ))}
       </ul>

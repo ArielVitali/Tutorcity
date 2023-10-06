@@ -12,6 +12,7 @@ import { Menus } from "./components/NavBar/SideMenu.jsx";
 import CommentsInbox from "./pages/PendingComments/index.jsx";
 import HiringsHome from "./pages/Hirings/index.jsx";
 import NewService from "./pages/NewService/index.jsx";
+import { WipeProvider } from "./context/WipeContextProvider/WipeContext.jsx";
 
 function App() {
   return (

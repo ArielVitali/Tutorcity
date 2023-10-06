@@ -15,12 +15,7 @@ const ServiceContainer = ({
     <div className="grid grid-cols-1 p-4 my-2 gap-4 lg:flex md:flex-1 md:w-full  justify-between items-center bg-red-200 rounded-md">
       {/* ICON */}
       <div className="flex items-center justify-center md:w-full md:h-full">
-        <button
-          data-tip={name}
-          className="lg:btn md:tooltip flex items-center justify-center md:w-fill"
-        >
-          {icon}
-        </button>
+        <div className="flex items-center justify-center">{icon}</div>
       </div>
 
       {/* NAME */}

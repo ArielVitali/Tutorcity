@@ -53,3 +53,28 @@ export const servicesMock = [
     isPublished: false,
   },
 ];
+
+export const categoriesMock = [
+  { name: "Music" },
+  { name: "Baby Sitting" },
+  { name: "Content Making" },
+  { name: "Chemistry" },
+  { name: "Math" },
+  { name: "Physics" },
+  { name: "Biology" },
+  { name: "English" },
+];
+
+export const typeMock = [
+  { name: "Private" },
+  { name: "Group" },
+  { name: "Public" },
+];
+
+export const frequencyMock = [
+  { name: "Daily" },
+  { name: "Weekly" },
+  { name: "Monthly" },
+];
+
+export const ratingMock = [{ name: "ascendent" }, { name: "descendent" }];
