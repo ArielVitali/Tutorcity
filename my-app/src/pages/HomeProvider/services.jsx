@@ -20,7 +20,7 @@ export const publishedServicesMock = [
   {
     //this is a mock object, it will be replaced by the data from the database
     icon: <PiGuitarDuotone className="text-3xl " />,
-    name: "Clase de Musica (guitarra y piano)",
+    name: "Clase de Baile",
     admin: "Juan Perez",
     duration: "2:30 HS",
     frequency: "Weekly",

@@ -42,14 +42,15 @@ const HomeHero = () => {
           <div className="w-full">
             <h1 className="text-5xl font-bold">TutorCity</h1>
             <p className="py-6">
-              Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-              excepturi exercitationem quasi. In deleniti eaque aut repudiandae
-              et a id nisi.
+              Welcome to TutorCity, where academic success meets personalized
+              learning. Our platform connects you with expert tutors across a
+              wide range of subjects, empowering you to unlock your full
+              potential.
             </p>
 
             <Link smooth={true} duration={1000} to="services">
               <button className="btn bg-[#73e2a7] hover:bg-[#1c7c54]">
-                Get Started
+                Know more
               </button>
             </Link>
           </div>

@@ -6,7 +6,7 @@ const Container = ({ component, bgColor }) => {
   return (
     <div
       className={`grid grid-cols-1 w-full p-4 my-4 rounded-lg ${
-        bgColor ? bgColor : "bg-[#EDF2F4]"
+        bgColor ? bgColor : "bg-[#e1e8ea]"
       } ${isArray ? "md:flex-col" : ""}}`}
     >
       {isArray

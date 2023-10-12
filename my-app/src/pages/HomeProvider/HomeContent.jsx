@@ -18,9 +18,7 @@ const HomeContent = () => {
               rating={service.rating}
               description={service.description}
               isPublished={true}
-              bgColor={
-                "bg-gradient-to-r from-[#dde7c7] via-[#bfd8bd] to-[#98c9a3] shadow-2xl"
-              }
+              bgColor={"bg-[#96e6b3] shadow-2xl"}
             />
           </li>
         ))}
@@ -39,9 +37,7 @@ const HomeContent = () => {
               rating={service.rating}
               description={service.description}
               isPublished={false}
-              bgColor={
-                "bg-gradient-to-r from-[#dde7c7] via-[#bfd8bd] to-[#98c9a3] shadow-2xl"
-              }
+              bgColor={"bg-[#96e6b3] shadow-2xl"}
             />
           </li>
         ))}

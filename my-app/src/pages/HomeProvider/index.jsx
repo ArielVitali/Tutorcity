@@ -13,11 +13,11 @@ const index = () => {
         id="sidebar"
         className={` ${
           open ? "w-72" : "w-20"
-        } hidden lg:block bg-[#303030] h-screen p-5  pt-8 relative duration-300 `}
+        } hidden lg:block bg-[#c0cfd4] h-screen p-5  pt-8 relative duration-300 `}
       >
         <PiArrowRightDuotone
           src="./src/assets/control.png"
-          className={`absolute text-3xl cursor-pointer -right-3 top-9 w-7 bg-white 
+          className={`absolute text-4xl cursor-pointer -right-3 top-9 w-7 bg-white text-black
              border-2 rounded-full  ${!open && "rotate-180"}`}
           onClick={() => setOpen(!open)}
         />
@@ -26,7 +26,7 @@ const index = () => {
             open ? "justify-center duration-500" : ""
           }`}
         >
-          <div className="cursor-pointer duration-500 flex rounded-md p-1 text-white">
+          <div className="cursor-pointer duration-500 flex rounded-md p-1 text-black">
             <PiGraduationCapDuotone
               id="logo"
               className="text-3xl cursor-pointer duration-500  "
@@ -34,7 +34,7 @@ const index = () => {
           </div>
 
           <h1
-            className={`text-white origin-left font-medium text-xl duration-200 ${
+            className={`text-black origin-left font-medium text-xl duration-200 ${
               !open && "scale-0"
             }`}
           >
@@ -47,7 +47,7 @@ const index = () => {
             <Link key={index} to={Menu.to}>
               <li
                 key={index}
-                className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white  bg-white opacity-70 text-sm items-center gap-x-4 
+                className={`flex  rounded-md p-2 cursor-pointer hover:bg-green-200   text-sm items-center gap-x-4 
                 ${Menu.gap ? "mt-9 duration-100" : "mt-2 duration-100"} ${
                   index === 0 && "bg-light-white"
                 } `}
@@ -72,7 +72,7 @@ const index = () => {
           </div>
           <div className="w-full my-4 flex justify-center md:w-fit">
             <Link to="/NewService">
-              <button className="btn btn-sm  md:btn-md btn-neutral shadow-xl">
+              <button className="btn btn-sm  md:btn-md bg-black text-white hover:bg-[#2dc653] hover:border-2 hover:border-black hover:text-black font-bold shadow-xl">
                 New Service
               </button>
             </Link>
