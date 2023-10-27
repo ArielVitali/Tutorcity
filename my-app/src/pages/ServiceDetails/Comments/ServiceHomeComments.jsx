@@ -1,16 +1,14 @@
 import React from "react";
+import { PiAlienDuotone } from "react-icons/pi";
 
-const ServiceHomeComments = ({ profile, comment, name }) => {
+const ServiceHomeComments = ({ comment, name }) => {
   return (
-    <div className="mb-8 sm:break-inside-avoid">
+    <div className="px-4 mb-8 break-inside-avoid">
       <blockquote className="rounded-lg bg-gray-50 p-6 shadow-sm sm:p-8">
         <div className="flex items-center gap-4">
-          <img
-            alt="Man"
-            src="https://images.unsplash.com/photo-1595152772835-219674b2a8a6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80"
-            className="h-14 w-14 rounded-full object-cover"
-          />
-
+          <div className="rounded-full ">
+            <PiAlienDuotone className="w-10 h-10 text-green-500" />
+          </div>
           <div>
             <div className="flex justify-center gap-0.5 text-green-500">
               <svg
@@ -44,7 +42,9 @@ const ServiceHomeComments = ({ profile, comment, name }) => {
           </div>
         </div>
 
-        <p className="mt-4 text-gray-700">{comment}</p>
+        <div>
+          <p className="mt-4 text-gray-700 overflow-hidden">{comment}</p>
+        </div>
       </blockquote>
     </div>
   );

@@ -1,25 +1,38 @@
-import FormInput from "../../components/Form/formInput.jsx";
 import FormLabel from "../../components/Form/formLabel.jsx";
 import Button from "../../components/Button/Button.jsx";
 import Form from "../../components/Form/index.jsx";
 import Selector from "../../components/Form/formSelector.jsx";
 import { useState, useEffect } from "react";
 import { useWipe } from "../../context/WipeContextProvider/WipeContext.jsx";
-import {
-  categoriesMock,
-  typeMock,
-  frequencyMock,
-  ratingMock,
-} from "../../pages/Home/services.jsx";
 
-const FilterBarForm = () => {
+const FilterBarForm = ({ updateSelectedOptions }) => {
   const { wipe } = useWipe();
+  const [categories, setCategories] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState({
     category: "",
     type: "",
     frequency: "",
     rating: "",
   });
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/services");
+      const data = await response.json();
+      const filterdData = data.map((service) => {
+        return { name: service.category };
+      });
+      setCategories(filterdData);
+      console.log(filterdData);
+      console.log(categories);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
 
   const handleOptionChange = (field, value) => {
     setSelectedOptions((prevState) => ({
@@ -38,15 +51,8 @@ const FilterBarForm = () => {
 
   useEffect(() => {
     // Trigger form submission whenever selectedOptions change
-    handleSubmit(selectedOptions);
+    updateSelectedOptions(selectedOptions);
   }, [selectedOptions]);
-
-  const handleSubmit = (e) => {
-    //e.preventDefault();
-    // Trigger form submission with selectedOptions
-    // You can make an API call or perform any desired action here.
-    console.log("Form Submitted with Options:", selectedOptions);
-  };
 
   const content = [
     <ul
@@ -58,7 +64,7 @@ const FilterBarForm = () => {
         <Selector
           field={"category"}
           onSelect={(value) => handleOptionChange("category", value)}
-          data={categoriesMock}
+          data={categories}
         />
       </div>
       <div key={"type"} className="sm:px-4 md:w-full">
@@ -66,7 +72,7 @@ const FilterBarForm = () => {
         <Selector
           field={"type"}
           onSelect={(value) => handleOptionChange("type", value)}
-          data={typeMock}
+          data={[{ name: "Private" }, { name: "Group" }, { name: "Public" }]}
         />
       </div>
       <div key={"frequency"} className="sm:px-4 md:w-full">
@@ -74,7 +80,7 @@ const FilterBarForm = () => {
         <Selector
           field={"frequency"}
           onSelect={(value) => handleOptionChange("frequency", value)}
-          data={frequencyMock}
+          data={[{ name: "Daily" }, { name: "Weekly" }, { name: "Monthly" }]}
         />
       </div>
       <div key={"rating"} className="sm:px-4 md:w-full">
@@ -82,7 +88,7 @@ const FilterBarForm = () => {
         <Selector
           field={"rating"}
           onSelect={(value) => handleOptionChange("rating", value)}
-          data={ratingMock}
+          data={[{ name: "Ascendent" }, { name: "Descendent" }]}
         />
       </div>
     </ul>,

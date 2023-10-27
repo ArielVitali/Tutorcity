@@ -1,5 +1,44 @@
 import { PiXDuotone } from "react-icons/pi";
+import { PiMaskHappyDuotone } from "react-icons/pi";
+import { useState } from "react";
+
 const AddComment = ({ closeModal, serviceName }) => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    comment: "",
+    rating: 1, // Default rating
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSend = () => {
+    // Make a POST request with the form data
+    fetch("http://localhost:8080/comments", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        // Handle the response data as needed
+        console.log("Comment added:", data);
+        // Close the modal or perform other actions
+        closeModal();
+      })
+      .catch((error) => {
+        console.error("Error adding comment:", error);
+      });
+  };
+
   return (
     <dialog open className="modal modal-bottom sm:modal-middle ">
       <div className="modal-box bg-[#96e6b3]">
@@ -30,6 +69,9 @@ const AddComment = ({ closeModal, serviceName }) => {
                     <input
                       type="text"
                       id="contact-form-name"
+                      name="name"
+                      value={formData.name} // Bind the value to the state
+                      onChange={handleChange}
                       className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
                     />
                   </div>
@@ -45,6 +87,9 @@ const AddComment = ({ closeModal, serviceName }) => {
                     <input
                       type="text"
                       id="contact-form-email"
+                      name="email"
+                      value={formData.email} // Bind the value to the state
+                      onChange={handleChange}
                       className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
                     />
                   </div>
@@ -60,8 +105,10 @@ const AddComment = ({ closeModal, serviceName }) => {
                   <textarea
                     className="flex-1 w-full px-4 py-2 text-base text-gray-700 placeholder-gray-400 bg-white border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
                     id="comment"
-                    placeholder="Enter your comment"
                     name="comment"
+                    value={formData.comment} // Bind the value to the state
+                    onChange={handleChange}
+                    placeholder="Enter your comment"
                     rows="5"
                     cols="40"
                   ></textarea>
@@ -107,9 +154,9 @@ const AddComment = ({ closeModal, serviceName }) => {
           </form>
           <div className="w-full text-right my-4">
             <button
+              onClick={handleSend}
               type="submit"
               className="btn py-2 px-4 text-white  bg-[#181d27] w-full hover:bg-[#058c42]   rounded-lg "
-              onClick={closeModal}
             >
               Send
             </button>

@@ -1,4 +1,3 @@
-import React from "react";
 import Educator from "../../assets/img/educator/Educator.jsx";
 import { motion } from "framer-motion";
 import { Link } from "react-scroll";

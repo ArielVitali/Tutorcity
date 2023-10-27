@@ -1,8 +1,6 @@
-import React from "react";
+const Container = ({ components, bgColor }) => {
+  const isArray = Array.isArray(components);
 
-const Container = ({ component, bgColor }) => {
-  const isArray = Array.isArray(component);
-  console.log("color", bgColor);
   return (
     <div
       className={`grid grid-cols-1 w-full p-4 my-4 rounded-lg ${
@@ -10,12 +8,12 @@ const Container = ({ component, bgColor }) => {
       } ${isArray ? "md:flex-col" : ""}}`}
     >
       {isArray
-        ? component.map((Component, index) => (
+        ? components.map((component, index) => (
             <div key={index} className="md:w-full md:mb-4">
-              {React.cloneElement(Component)}
+              {component}
             </div>
           ))
-        : component()}
+        : components}
     </div>
   );
 };
