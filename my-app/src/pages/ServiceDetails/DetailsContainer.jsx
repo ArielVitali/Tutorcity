@@ -2,11 +2,12 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContextProvider/AuthContext.jsx";
 import { PiNotePencilDuotone, PiArrowCircleLeftDuotone } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ActionsNav from "../../components/ActionsNav/index.jsx";
 import DropdownSelector from "../../components/Dropdown/DropdownSelector.jsx";
 
 const DetailsContainer = ({
+  id,
   name,
   admin,
   duration,
@@ -18,7 +19,6 @@ const DetailsContainer = ({
   const navigate = useNavigate();
   const { isLoggedIn } = useAuth();
 
-  // Step 1: Create state variables for edit mode and edited values
   const [editMode, setEditMode] = useState(false);
   const [editedValues, setEditedValues] = useState({
     name,
@@ -27,13 +27,26 @@ const DetailsContainer = ({
     frequency,
     rating,
     description,
+    isPublished,
   });
-
   const [status, setStatus] = useState(isPublished); // Initialize status with the prop value
 
-  const handleStatusChange = (newStatus) => {
-    setStatus(newStatus);
-    // You can perform any other actions here when the status changes.
+  const handleStatusChange = async (newStatus) => {
+    try {
+      await fetch(`http://localhost:8080/services/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...editedValues,
+          isPublished: newStatus === "true",
+        }),
+      });
+      setStatus(newStatus);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const options = [
@@ -65,11 +78,19 @@ const DetailsContainer = ({
   };
 
   // Step 5: Handle submission of edited values
-  const handleSubmit = () => {
-    console.log("HOLAAAAA LLEGUE ACA DENUEVO");
-    // You can perform actions to save the edited values here
-    // For simplicity, we'll just exit edit mode
-    setEditMode(false);
+  const handleSubmit = async () => {
+    try {
+      await fetch(`http://localhost:8080/services/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(editedValues),
+      });
+      setEditMode(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const NavButtonsEdit = [
@@ -124,7 +145,7 @@ const DetailsContainer = ({
     },
     {
       element: (
-        <Link to={"/hireService"}>
+        <Link to={"/hireService"} state={{ serviceId: id }}>
           <button className="btn btn-sm btn-outline md:btn md:btn-outline">
             Hire it!
           </button>
@@ -138,9 +159,12 @@ const DetailsContainer = ({
       {isLoggedIn ? (
         <div className="w-full lg:w-[1000px]">
           {!editMode ? (
-            <ActionsNav title={name} items={NavButtonsEdit} />
+            <ActionsNav title={editedValues.name} items={NavButtonsEdit} />
           ) : (
-            <ActionsNav title={name} items={NavButtonsSaveChanges} />
+            <ActionsNav
+              title={editedValues.name}
+              items={NavButtonsSaveChanges}
+            />
           )}
 
           <div className="mt-6 border-t border-gray-100 px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
@@ -149,12 +173,9 @@ const DetailsContainer = ({
                 <dt className="text-sm font-medium leading-6 text-gray-900 md:flex md:justify-center md:w-full md:text-xl">
                   Service
                 </dt>
-                {/* <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 md:flex md:justify-center md:w-full md:text-xl">
-                  {name}
-                </dd> */}
                 {!editMode ? (
                   <dd className="mt-1 text-sm leading-6 p-1.5 text-gray-700 sm:col-span-2 sm:mt-0 md:flex md:justify-center md:w-full md:text-xl">
-                    {name}
+                    {editedValues.name}
                   </dd>
                 ) : (
                   <input
@@ -172,7 +193,7 @@ const DetailsContainer = ({
                 </dt>
                 {!editMode ? (
                   <dd className="mt-1 text-sm leading-6 p-1.5 text-gray-700 sm:col-span-2 sm:mt-0 md:flex md:justify-center md:w-full md:text-xl">
-                    {admin}
+                    {editedValues.admin}
                   </dd>
                 ) : (
                   <input
@@ -190,7 +211,7 @@ const DetailsContainer = ({
                 </dt>
                 {!editMode ? (
                   <dd className="mt-1 text-sm leading-6 p-1.5 text-gray-700 sm:col-span-2 sm:mt-0 md:flex md:justify-center md:w-full md:text-xl">
-                    {duration}
+                    {editedValues.duration}
                   </dd>
                 ) : (
                   <input
@@ -208,7 +229,7 @@ const DetailsContainer = ({
                 </dt>
                 {!editMode ? (
                   <dd className="mt-1 text-sm leading-6 p-1.5 text-gray-700 sm:col-span-2 sm:mt-0 md:flex md:justify-center md:w-full md:text-xl">
-                    {frequency}
+                    {editedValues.frequency}
                   </dd>
                 ) : (
                   <input
@@ -226,7 +247,7 @@ const DetailsContainer = ({
                 </dt>
                 {!editMode ? (
                   <dd className="mt-1 text-sm leading-6 p-1.5 text-gray-700 sm:col-span-2 sm:mt-0 md:flex md:justify-center md:w-full md:text-xl">
-                    {rating}
+                    {editedValues.rating}
                   </dd>
                 ) : (
                   <input
@@ -244,7 +265,7 @@ const DetailsContainer = ({
                 </dt>
                 {!editMode ? (
                   <dd className="lg:text-center mt-1 text-sm leading-6 p-1.5 text-gray-700 sm:col-span-2 sm:mt-0 md:flex md:justify-center md:w-full md:text-xl">
-                    {description}
+                    {editedValues.description}
                   </dd>
                 ) : (
                   <textarea

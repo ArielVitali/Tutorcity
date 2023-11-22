@@ -8,13 +8,23 @@ import { useEffect, useState } from "react";
 const index = () => {
   const [comments, setComments] = useState(null);
   let { state } = useLocation();
-  const { name, admin, duration, frequency, rating, description, isPublished } =
-    state;
+  const {
+    id,
+    name,
+    admin,
+    duration,
+    frequency,
+    rating,
+    description,
+    isPublished,
+  } = state;
 
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const response = await fetch("http://localhost:8080/comments");
+        const response = await fetch(
+          `http://localhost:8080/comments?service=${id}&status=Accepted`
+        );
         const data = await response.json();
         setComments(data);
       } catch (error) {
@@ -32,8 +42,6 @@ const index = () => {
       clearInterval(fetchCommentsInterval);
     };
   }, []);
-
-  // console.log(comments);
 
   const commentsComponent = comments
     ? comments.map((comment, index) => (
@@ -60,6 +68,7 @@ const index = () => {
       >
         <div className="lg:flex justify-center ">
           <DetailsContainer
+            id={id}
             name={name}
             admin={admin}
             duration={duration}
@@ -73,7 +82,11 @@ const index = () => {
 
       {comments ? (
         <div>
-          <CommentsContainer comments={commentsComponent} serviceName={name} />
+          <CommentsContainer
+            comments={commentsComponent}
+            serviceId={id}
+            serviceName={name}
+          />
         </div>
       ) : (
         <div className="flex justify-center my-4">

@@ -4,7 +4,7 @@ import { PiBellDuotone, PiPlusCircleDuotone } from "react-icons/pi";
 import { useAuth } from "../../../context/AuthContextProvider/AuthContext.jsx";
 import { Link } from "react-router-dom";
 
-const CommentsContainer = ({ comments, serviceName, setComments }) => {
+const CommentsContainer = ({ comments, serviceId, serviceName }) => {
   const { isLoggedIn } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -28,7 +28,7 @@ const CommentsContainer = ({ comments, serviceName, setComments }) => {
                 </h2>
               </div>
               <div className="w-full flex justify-center md:w-fit">
-                <Link to="/CommentsInbox" state={{ serviceName }}>
+                <Link to="/CommentsInbox" state={{ serviceId, serviceName }}>
                   <button className="btn btn-circle m-4 ">
                     <PiBellDuotone className="text-3xl" />
                   </button>
@@ -63,7 +63,11 @@ const CommentsContainer = ({ comments, serviceName, setComments }) => {
       )}
 
       {isModalOpen && (
-        <AddComment closeModal={closeModal} serviceName={serviceName} />
+        <AddComment
+          closeModal={closeModal}
+          serviceName={serviceName}
+          serviceId={serviceId}
+        />
       )}
     </div>
   );

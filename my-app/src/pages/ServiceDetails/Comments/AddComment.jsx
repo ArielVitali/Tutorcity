@@ -2,20 +2,33 @@ import { PiXDuotone } from "react-icons/pi";
 import { PiMaskHappyDuotone } from "react-icons/pi";
 import { useState } from "react";
 
-const AddComment = ({ closeModal, serviceName }) => {
+const AddComment = ({ closeModal, serviceName, serviceId }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     comment: "",
     rating: 1, // Default rating
+    status: "Pending",
+    service: serviceId,
+    serviceName,
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+
+    if (name === "rating") {
+      // Handle rating input separately
+      setFormData({
+        ...formData,
+        [name]: parseInt(value, 10), // Convert to integer
+      });
+    } else {
+      // Handle other inputs
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
 
   const handleSend = () => {
@@ -121,32 +134,17 @@ const AddComment = ({ closeModal, serviceName }) => {
                     Rating
                   </label>
                   <div className="rating">
-                    <input
-                      type="radio"
-                      name="rating-1"
-                      className="mask mask-star-2  "
-                      checked
-                    />
-                    <input
-                      type="radio"
-                      name="rating-1"
-                      className="mask mask-star-2 "
-                    />
-                    <input
-                      type="radio"
-                      name="rating-1"
-                      className="mask mask-star-2 "
-                    />
-                    <input
-                      type="radio"
-                      name="rating-1"
-                      className="mask mask-star-2 "
-                    />
-                    <input
-                      type="radio"
-                      name="rating-1"
-                      className="mask mask-star-2 "
-                    />
+                    {[1, 2, 3, 4, 5].map((ratingValue) => (
+                      <input
+                        key={ratingValue}
+                        type="radio"
+                        name="rating"
+                        value={ratingValue}
+                        className="mask mask-star-2"
+                        checked={formData.rating === ratingValue}
+                        onChange={handleChange}
+                      />
+                    ))}
                   </div>
                 </div>
               </div>

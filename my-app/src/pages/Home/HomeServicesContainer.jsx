@@ -62,6 +62,7 @@ const HomeServicesContainer = () => {
     ? services.map((service, index) => (
         <ServiceContainer
           key={index}
+          id={service.id}
           icon={service.icon}
           name={service.name}
           admin={service.admin}

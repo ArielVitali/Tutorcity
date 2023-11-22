@@ -2,7 +2,7 @@ import HiringDetail from "./HiringDetail";
 import { useState } from "react";
 import { HiArrowUp, HiArrowDown } from "react-icons/hi";
 
-const List = ({ Data, status, number }) => {
+const List = ({ hirings, status, number }) => {
   const [show, setShow] = useState(false);
   const handleClick = () => {
     setShow((prev) => !prev);
@@ -23,7 +23,7 @@ const List = ({ Data, status, number }) => {
               {show ? <HiArrowUp /> : <HiArrowDown />}
             </button>
           </div>
-          {show && Data.map((element) => <HiringDetail props={element} />)}
+          {show && hirings.map((element) => <HiringDetail props={element} />)}
         </div>
       </ul>
     </div>

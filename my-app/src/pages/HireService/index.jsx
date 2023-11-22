@@ -3,35 +3,72 @@ import LargeForm from "../../components/Form/LargeForm.jsx";
 import { useNavigate } from "react-router-dom";
 import { PiArrowCircleLeftDuotone } from "react-icons/pi";
 import { motion } from "framer-motion";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const index = () => {
+  let { state } = useLocation();
+  const { serviceId } = state;
+  const [formData, setFormData] = useState({
+    serviceId,
+    name: "",
+    category: "",
+    duration: "",
+    frequency: "",
+    price: "",
+    description: "",
+    status: "Pending",
+  });
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await fetch("http://localhost:8080/hirings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        navigate(-1);
+      } else {
+        console.error("Error submitting the form");
+      }
+    } catch (error) {
+      console.error("Error submitting the form:", error);
+    }
+  };
+
   const fields = [
     {
       label: "First name",
       type: "text",
-      name: "first-name",
-      id: "first-name",
+      name: "name",
+      id: "name",
       autoComplete: "given-name",
     },
     {
       label: "Last name",
       type: "text",
-      name: "last-name",
-      id: "last-name",
+      name: "lastName",
+      id: "lastName",
       autoComplete: "family-name",
     },
     {
       label: "Phone number",
       type: "text",
-      name: "phone-number",
-      id: "phone-number",
+      name: "phoneNumber",
+      id: "phoneNumber",
       autoComplete: "family-name",
     },
     {
       label: "Meeting Time",
       type: "text",
-      name: "meeting-time",
-      id: "meeting-time",
+      name: "meetingTime",
+      id: "meetingTime",
       autoComplete: "family-name",
     },
     {
@@ -86,6 +123,9 @@ const index = () => {
                   "Provide your personal information for getting in touch."
                 }
                 fields={fields}
+                onSubmit={handleSubmit}
+                formData={formData}
+                setFormData={setFormData}
               />
             </div>
           </div>

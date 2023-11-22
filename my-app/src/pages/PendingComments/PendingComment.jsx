@@ -1,19 +1,43 @@
 import React from "react";
 
-const PendingComment = ({
-  serviceTitle,
-  hasServiceTitle,
-  name,
-  email,
-  comment,
-}) => {
+const PendingComment = ({ serviceTitle, name, email, comment, id }) => {
+  const handleAccept = () => {
+    fetch(`https://localhost:8080/comments/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ status: "Accepted" }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Comment accepted:", data);
+        // Perform any additional actions if needed
+      })
+      .catch((error) => {
+        console.error("Error accepting comment:", error);
+      });
+  };
+
+  const handleReject = () => {
+    fetch(`https://localhost:8080/comments/${id}`, {
+      method: "DELETE",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Comment accepted:", data);
+        // Perform any additional actions if needed
+      })
+      .catch((error) => {
+        console.error("Error accepting comment:", error);
+      });
+  };
+
   return (
     <div className="p-4 my-2 w-full  md:w-full bg-gradient-to-r from-[#dde7c7] via-[#bfd8bd] to-[#98c9a3] shadow-2xl rounded-md">
-      {hasServiceTitle && (
-        <div className="w-full my-2 flex justify-center">
-          <h5>{serviceTitle}</h5>
-        </div>
-      )}
+      <div className="w-full my-2 flex justify-center">
+        <h5>{serviceTitle}</h5>
+      </div>
 
       <div className="w-full my-2 sm:flex">
         <div className="flex w-full justify-between">
@@ -35,10 +59,17 @@ const PendingComment = ({
       </div>
       <div className="w-full my-2 sm:flex">
         <div className="my-4 w-full flex justify-center">
-          <button className="btn btn-success lg:btn-wide">Accept</button>
+          <button
+            onClick={handleAccept}
+            className="btn btn-success lg:btn-wide"
+          >
+            Accept
+          </button>
         </div>
         <div className="my-4 w-full flex justify-center">
-          <button className="btn btn-error lg:btn-wide">Reject</button>
+          <button onClick={handleReject} className="btn btn-error lg:btn-wide">
+            Reject
+          </button>
         </div>
       </div>
     </div>

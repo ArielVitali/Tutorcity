@@ -3,22 +3,57 @@ import LargeForm from "../../components/Form/LargeForm.jsx";
 import { PiArrowCircleLeftDuotone } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 const index = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    category: "",
+    duration: "",
+    frequency: "",
+    price: "",
+    description: "",
+  });
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await fetch("http://localhost:8080/services", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        // Step 5: Update the component state based on the form submission result
+        // You can handle success, e.g., redirect to another page
+        navigate(-1); // Redirect to the previous page
+      } else {
+        // Handle error, show error message, etc.
+        console.error("Error submitting the form");
+      }
+    } catch (error) {
+      console.error("Error submitting the form:", error);
+    }
+  };
+
   const navigate = useNavigate();
   const fields = [
     {
       label: "Service Name",
       type: "text",
-      name: "service-name",
-      id: "service-name",
+      name: "name",
+      id: "name",
       autoComplete: "given-name",
     },
     {
       label: "Service Category",
       type: "text",
-      name: "service-category",
-      id: "service-category",
+      name: "category",
+      id: "category",
       autoComplete: "family-name",
     },
     {
@@ -83,6 +118,9 @@ const index = () => {
                 "Provide service information for uploading to the platform."
               }
               fields={fields}
+              onSubmit={handleSubmit}
+              formData={formData}
+              setFormData={setFormData}
             />
           </div>
         </div>

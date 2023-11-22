@@ -1,16 +1,16 @@
 import { PiArrowCircleLeftDuotone } from "react-icons/pi";
 import PendingComment from "./PendingComment.jsx";
 import { useLocation, useNavigate } from "react-router-dom";
-import { commentsMock } from "./services.jsx";
-import { serviceCommentsMock } from "./services.jsx";
 import ActionsNav from "../../components/ActionsNav/index.jsx";
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
 const index = () => {
+  const [pendingComments, setPendingComments] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
   const state = location.state || {};
-  const serviceName = state.serviceName || "Pending Comments";
+  const { serviceId, serviceName } = state;
 
   const buttons = [
     {
@@ -21,6 +21,28 @@ const index = () => {
       ),
     },
   ];
+
+  useEffect(() => {
+    fetchPendingComments();
+  }, []);
+
+  const fetchPendingComments = async () => {
+    try {
+      let response = null;
+      if (serviceId) {
+        response = await fetch(
+          `http://localhost:8080/comments?status=Pending&service=${serviceId}`
+        );
+      } else {
+        response = await fetch("http://localhost:8080/comments?status=Pending");
+      }
+
+      const data = await response.json();
+      setPendingComments(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <motion.div
@@ -35,35 +57,22 @@ const index = () => {
       }}
     >
       <div>
-        <ActionsNav title={serviceName} items={buttons} />
+        <ActionsNav title={"Pending Comments"} items={buttons} />
         <div className=" md:flex md:justify-center ">
           <div className="md:w-[1000px]">
             <ul>
-              {serviceName === "Pending Comments"
-                ? commentsMock.map((comment, index) => (
-                    <li key={index} className="p-4">
-                      <PendingComment
-                        key={index}
-                        serviceTitle={comment.serviceTitle}
-                        hasServiceTitle={comment.hasServiceTitle}
-                        name={comment.name}
-                        email={comment.email}
-                        comment={comment.comment}
-                      />
-                    </li>
-                  ))
-                : serviceCommentsMock.map((comment, index) => (
-                    <li key={index}>
-                      <PendingComment
-                        key={index}
-                        serviceTitle={comment.serviceTitle}
-                        hasServiceTitle={comment.hasServiceTitle}
-                        name={comment.name}
-                        email={comment.email}
-                        comment={comment.comment}
-                      />
-                    </li>
-                  ))}
+              {pendingComments.map((comment, index) => (
+                <li key={index} className="p-4">
+                  <PendingComment
+                    key={index}
+                    serviceTitle={serviceName}
+                    name={comment.name}
+                    email={comment.email}
+                    comment={comment.comment}
+                    id={comment.id}
+                  />
+                </li>
+              ))}
             </ul>
           </div>
         </div>

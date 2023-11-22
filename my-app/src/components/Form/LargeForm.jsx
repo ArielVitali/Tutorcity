@@ -1,6 +1,21 @@
-const LargeForm = ({ title, description, fields }) => {
+const LargeForm = ({
+  title,
+  description,
+  fields,
+  onSubmit,
+  formData,
+  setFormData,
+}) => {
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
   return (
-    <form action="">
+    <form onSubmit={onSubmit}>
       <div className="border-b border-gray-900/10 pb-12">
         <h2 className="text-base font-semibold leading-7 text-gray-900">
           {title}
@@ -23,6 +38,9 @@ const LargeForm = ({ title, description, fields }) => {
                       name={field.name}
                       id={field.id}
                       rows={4}
+                      // Add the value and onChange attributes here
+                      value={formData[field.name]}
+                      onChange={handleInputChange}
                       className="block  textarea w-full rounded-md  p-1.5 text-gray-900 shadow-sm ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
                     ></textarea>
                   </div>
@@ -43,6 +61,9 @@ const LargeForm = ({ title, description, fields }) => {
                       name={field.name}
                       type={field.type}
                       autoComplete={field.autoComplete}
+                      // Add the value and onChange attributes here
+                      value={formData[field.name]}
+                      onChange={handleInputChange}
                       className="block w-full rounded-md  p-1.5 text-gray-900 shadow-sm  placeholder:text-gray-400  focus:ring-black sm:text-sm sm:leading-6"
                     />
                   </div>
@@ -63,6 +84,9 @@ const LargeForm = ({ title, description, fields }) => {
                       name={field.name}
                       id={field.id}
                       autoComplete={field.autoComplete}
+                      // Add the value and onChange attributes here
+                      value={formData[field.name]}
+                      onChange={handleInputChange}
                       className="block w-full rounded-md  p-1.5 text-gray-900 shadow-sm   placeholder:text-gray-400   sm:text-sm sm:leading-6"
                     />
                   </div>

@@ -4,9 +4,21 @@ import { useState } from "react";
 const HiringDetail = ({ props }) => {
   const [status, setStatus] = useState(props.status); // Initialize status with the prop value
 
-  const handleStatusChange = (newStatus) => {
-    setStatus(newStatus);
-    // You can perform any other actions here when the status changes.
+  const handleStatusChange = async (newStatus) => {
+    try {
+      await fetch(`http://localhost:8080/hirings/${props.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          status: newStatus,
+        }),
+      });
+      setStatus(newStatus);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const options = [

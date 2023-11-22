@@ -1,5 +1,4 @@
 import ServiceContainer from "../../components/Containers/ServiceContainer.jsx";
-import { publishedServicesMock, unpublishedServicesMock } from "./services.jsx";
 import { useState, useEffect } from "react";
 
 const HomeContent = () => {
@@ -33,6 +32,7 @@ const HomeContent = () => {
         <li key={index}>
           <ServiceContainer
             key={index}
+            id={service.id}
             icon={service.icon}
             name={service.name}
             admin={service.admin}
@@ -52,6 +52,7 @@ const HomeContent = () => {
         <li key={index}>
           <ServiceContainer
             key={index}
+            id={service.id}
             icon={service.icon}
             name={service.name}
             admin={service.admin}

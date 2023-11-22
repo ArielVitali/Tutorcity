@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 const ServiceContainer = ({
   icon,
+  id,
   name,
   admin,
   duration,
@@ -56,6 +57,7 @@ const ServiceContainer = ({
         <Link
           to="/ServiceDetails"
           state={{
+            id,
             name,
             admin,
             duration,
