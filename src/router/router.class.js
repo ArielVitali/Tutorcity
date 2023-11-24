@@ -71,13 +71,11 @@ class RouterClass {
         return next();
       }
 
+      //FALTA
+
       if (!req.session.user) {
         return res.status(200).redirect("/login");
       }
-
-      //   if (req.session.user.role !== "ADMIN") {
-      //     return next();
-      //   }
 
       next();
     };

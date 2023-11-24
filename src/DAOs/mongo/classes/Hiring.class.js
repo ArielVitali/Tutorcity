@@ -3,27 +3,26 @@ import hiringModel from "../models/Hiring.models.js";
 class HiringDAO {
   constructor() {}
 
-  async createHiring(data) {
+  async createHiring(serviceId, data) {
     try {
-      const response = await hiringModel.create(data);
+      const response = await hiringModel.create(serviceId, data);
       return response;
     } catch (error) {
       throw error;
     }
   }
 
-  async getHirings() {
+  async getHiringsByUserId(id) {
     try {
-      const response = await hiringModel.find();
-      return response;
+      const response = await hiringModel.find({ id });
     } catch (error) {
       throw error;
     }
   }
 
-  async getHiringById(id) {
+  async getHiringByServiceId(serviceId) {
     try {
-      const response = await hiringModel.findOne(id);
+      const response = await hiringModel.find({ serviceId });
       return response;
     } catch (error) {
       throw error;

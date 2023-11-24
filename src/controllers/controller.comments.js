@@ -24,15 +24,17 @@ class CommentRouter extends RouterClass {
       } catch (error) {}
     });
 
-    this.patch("/:commentId", ["PRIVATE"], async (req, res) => {
+    this.patch("/:id", ["PRIVATE"], async (req, res) => {
       try {
-        const response = updateComment(req.params.commentId, req.body);
+        const response = updateComment(req.params.id, req.body);
+        return response;
       } catch (error) {}
     });
 
-    this.delete("/:commentId", ["PRIVATE"], async (req, res) => {
+    this.delete("/:id", ["PRIVATE"], async (req, res) => {
       try {
-        const response = removeComment(req.params.commentId);
+        const response = removeComment(req.params.id);
+        return response;
       } catch (error) {}
     });
   }

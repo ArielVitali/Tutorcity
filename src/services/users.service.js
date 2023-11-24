@@ -1,17 +1,16 @@
 import UserDAO from "../DAOs/mongo/classes/classes.js";
 
-export const getUsers = async () => {
+export const getUserById = async (serviceId) => {
   try {
-    const response = await UserDAO.getUsers();
-    return response;
+    return await UserDAO.getUserById(serviceId);
   } catch (error) {
     throw error;
   }
 };
 
-export const getUserById = async (serviceId) => {
+export const getUserByEmail = async (email) => {
   try {
-    return await UserDAO.getUserById(serviceId);
+    return await UserDAO.getUserByEmail(email);
   } catch (error) {
     throw error;
   }
@@ -28,14 +27,6 @@ export const createUser = async (serviceInfo) => {
 export const updateUser = async (id, updateInfo) => {
   try {
     return await UserDAO.updateUser(id, updateInfo);
-  } catch (error) {
-    throw error;
-  }
-};
-
-export const removeUser = async (id) => {
-  try {
-    return await UserDAO.deleteUser(id);
   } catch (error) {
     throw error;
   }

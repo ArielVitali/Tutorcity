@@ -1,25 +1,24 @@
 import HiringDAO from "../DAOs/mongo/classes/Hiring.class.js";
 
-export const getHirings = async () => {
+export const getHiringByServiceId = async (serviceId) => {
   try {
-    const response = await HiringDAO.getHirings();
-    return response;
+    return await HiringDAO.getHiringByServiceId(serviceId);
   } catch (error) {
     throw error;
   }
 };
 
-export const getHiringById = async (serviceId) => {
+export const getHiringsByUserId = async (userId) => {
   try {
-    return await HiringDAO.getHiringById(serviceId);
+    return await HiringDAO.getHiringsByUserId(userId);
   } catch (error) {
     throw error;
   }
 };
 
-export const createHiring = async (serviceInfo) => {
+export const createHiring = async (serviceId, serviceInfo) => {
   try {
-    return await HiringDAO.createHiring(serviceInfo);
+    return await HiringDAO.createHiring(serviceId, serviceInfo);
   } catch (error) {
     throw error;
   }

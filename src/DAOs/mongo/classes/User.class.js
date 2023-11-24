@@ -12,15 +12,6 @@ class UserDAO {
     }
   }
 
-  async getUsers() {
-    try {
-      const response = await userModel.find();
-      return response;
-    } catch (error) {
-      throw error;
-    }
-  }
-
   async getUserById(id) {
     try {
       const response = await userModel.findById(id);
@@ -30,18 +21,18 @@ class UserDAO {
     }
   }
 
-  async updateUser(id, data) {
+  async getUserByEmail(email) {
     try {
-      const response = userModel.updateOne({ _id: id }, { $set: data });
+      const response = await userModel.findOne({ email });
       return response;
     } catch (error) {
-      throw error;
+      return error;
     }
   }
 
-  async deleteUser(id) {
+  async updateUser(id, data) {
     try {
-      const response = userModel.deleteOne(id);
+      const response = userModel.updateOne({ _id: id }, { $set: data });
       return response;
     } catch (error) {
       throw error;
