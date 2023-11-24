@@ -1,4 +1,4 @@
-import HiringDAO from "../DAOs/mongo/clasess/Hiring.class.js";
+import HiringDAO from "../DAOs/mongo/classes/Hiring.class.js";
 
 export const getHirings = async () => {
   try {

@@ -1,4 +1,4 @@
-import CommentDAO from "../DAOs/mongo/clasess/Comment.class.js";
+import CommentDAO from "../DAOs/mongo/classes/Comment.class.js";
 
 export const getCommentsByServiceId = async (serviceId) => {
   try {
@@ -17,7 +17,7 @@ export const getCommentById = async (id) => {
   }
 };
 
-export const createNewService = async (serviceId, commentInfo) => {
+export const createNewComment = async (serviceId, commentInfo) => {
   try {
     return await CommentDAO.createComment(serviceId, commentInfo);
   } catch (error) {

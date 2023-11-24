@@ -9,8 +9,7 @@ const serviceSchema = new mongoose.Schema({
     required: true,
   },
   category: {
-    type: mongoose.Schema.ObjectId,
-    ref: "categories",
+    type: String,
     required: true,
   },
   name: {

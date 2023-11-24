@@ -1,4 +1,4 @@
-import CategoryDAO from "../DAOs/mongo/clasess/Category.class.js";
+import CategoryDAO from "../DAOs/mongo/classes/Category.class.js";
 
 export const getCategories = async () => {
   try {

@@ -1,4 +1,4 @@
-import ServiceDAO from "../DAOs/mongo/clasess/Service.class.js";
+import ServiceDAO from "../DAOs/mongo/classes/Service.class.js";
 
 export const getServices = async () => {
   try {
