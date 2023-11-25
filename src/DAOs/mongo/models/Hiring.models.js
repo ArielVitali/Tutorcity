@@ -26,20 +26,20 @@ const hiringSchema = new mongoose.Schema({
     required: true,
   },
   email: {
-    type: Stirng,
+    type: String,
     required: true,
   },
   meeting_time: {
-    type: Stirng,
+    type: String,
     enum: ["morning", "afternoon", "evening"],
     required: true,
   },
   description: {
-    type: Stirng,
+    type: String,
     required: true,
   },
   status: {
-    type: Stirng,
+    type: String,
     enum: ["Pending", "Accepted", "Canceled", "Finalized"],
     required: true,
     default: "Pending",

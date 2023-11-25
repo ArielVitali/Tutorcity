@@ -1,28 +1,18 @@
-import MongoStore from "connect-mongo";
 import mongoose from "mongoose";
-import { dbConfig } from "./db.config";
-const { dbConnectURI, dbSessionName } = dbConfig;
+import { dbConfig } from "./db.config.js";
 
-const configMongo = (app) => {
-  app.use(
-    session({
-      store: MongoStore.create({
-        mongoUrl: dbSessionName,
-        mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
-      }),
-      secret: "secreto",
-      resave: false,
-      saveUninitialized: false,
-    })
-  );
+const { dbUser, dbPassword, dbHost, dbName } = dbConfig;
 
-  mongoose.set("strictQuery", false);
-  mongoose.connect(dbConnectURI, (error) => {
-    if (error) {
-      console.log(`Cannot connect to db. error ${error}`);
-    }
-    console.log("db conected");
-  });
+const dbConnectURI = `mongodb+srv://${dbUser}:${dbPassword}@${dbHost}/${dbName}`;
+
+const mongoDBconnect = async () => {
+  try {
+    mongoose.set("strictQuery", false);
+    mongoose.connect(dbConnectURI);
+    console.log("db connected!");
+  } catch (error) {
+    console.log(`Error al conectar ${error}`);
+  }
 };
 
-export default configMongo;
+export default mongoDBconnect;

@@ -8,9 +8,9 @@ import {
   getUserById,
 } from "../services/users.service.js";
 import { isValidPasswordMethod } from "../Utils/bcrypt/cryptPassword.js";
-import { config } from "./config";
+import { appConfig } from "../config/index.js";
 
-const { jwt_secret } = config;
+const { jwt_secret } = appConfig;
 const JWTStrategy = jwt.Strategy;
 const ExtractJWT = jwt.ExtractJwt;
 const LocalStrategy = local.Strategy;

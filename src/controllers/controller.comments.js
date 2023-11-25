@@ -1,4 +1,4 @@
-import RouterClass from "../router/router.class";
+import RouterClass from "../router/router.class.js";
 import {
   getCommentsByServiceId,
   createNewComment,
@@ -24,7 +24,7 @@ class CommentRouter extends RouterClass {
       } catch (error) {}
     });
 
-    this.patch("/:id", ["PRIVATE"], async (req, res) => {
+    this.put("/:id", ["PRIVATE"], async (req, res) => {
       try {
         const response = updateComment(req.params.id, req.body);
         return response;

@@ -38,7 +38,7 @@ class ServiceRouter extends RouterClass {
       } catch (error) {}
     });
 
-    this.patch("/:id", ["PRIVATE"], async (req, res) => {
+    this.put("/:id", ["PRIVATE"], async (req, res) => {
       try {
         const response = await updateService(req.params.id, req.body);
         return response;

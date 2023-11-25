@@ -1,11 +1,11 @@
-import RouterClass from "../router/router.class";
+import RouterClass from "../router/router.class.js";
 import {
   createHiring,
   getHiringByServiceId,
   getHiringsByUserId,
   removeHiring,
   updateHiring,
-} from "../services/hirings.service";
+} from "../services/hirings.service.js";
 
 //NO ES UNA BUENA PRACTICA MANDAR TODO EL REQ.BODY, SE DEBERIA DESESTRUCTURAR.
 
@@ -36,7 +36,7 @@ class HiringRouter extends RouterClass {
       }
     });
 
-    this.patch("/:id", ["PRIVATE"], async (req, res) => {
+    this.put("/:id", ["PRIVATE"], async (req, res) => {
       try {
         const response = await updateHiring(req.params.id, req.body);
         return response;

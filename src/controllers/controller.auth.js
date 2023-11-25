@@ -1,7 +1,8 @@
 import passport from "passport";
-import { config } from "./config";
+import RouterClass from "../router/router.class.js";
+import { appConfig } from "../config/index.js";
 
-const { jwt_secret } = config;
+const { jwt_secret } = appConfig;
 
 class AuthRouter extends RouterClass {
   init() {

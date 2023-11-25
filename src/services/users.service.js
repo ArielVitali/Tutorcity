@@ -1,4 +1,4 @@
-import UserDAO from "../DAOs/mongo/classes/classes.js";
+import UserDAO from "../DAOs/mongo/classes/User.class.js";
 
 export const getUserById = async (serviceId) => {
   try {
