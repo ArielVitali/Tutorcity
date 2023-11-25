@@ -71,13 +71,22 @@ class RouterClass {
         return next();
       }
 
-      //FALTA
+      return async (req, res, next) => {
+        passport.authenticate("jwt", (err, user, info) => {
+          if (err) return next(err);
 
-      if (!req.session.user) {
-        return res.status(200).redirect("/login");
-      }
+          if (!user) {
+            return res.status(401).send({
+              error: info.messages
+                ? info.messages
+                : "An error ocurred on the validation",
+            });
+          }
 
-      next();
+          req.user = user;
+          next();
+        });
+      };
     };
   };
 }
