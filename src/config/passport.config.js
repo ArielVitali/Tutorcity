@@ -7,7 +7,6 @@ import {
   getUserByEmail,
   getUserById,
 } from "../services/users.service.js";
-import { isValidPasswordMethod } from "../Utils/bcrypt/cryptPassword.js";
 
 const JWTStrategy = jwt.Strategy;
 const ExtractJWT = jwt.ExtractJwt;
@@ -39,9 +38,13 @@ const initializePassport = () => {
         try {
           const user = await getUserByEmail(username);
 
+          //   if(!first_name || !last_name || !email || !age){
+          //     userError(userInfo);
+          //   }
+
           if (user) {
             console.log("User already exists.");
-            return done(null, false);
+            return null, false;
           }
 
           const newUser = await createUser(req.body, password);
@@ -67,20 +70,18 @@ const initializePassport = () => {
     new LocalStrategy(
       { usernameField: "email" },
       async (username, password, done) => {
-        try {
-          const user = await getUserByEmail(username);
+        const user = await getUserByEmail(username);
 
-          if (!user) {
-            console.log("User does not exist.");
-            return done(null, false);
-          }
+        if (!user) {
+          console.log("User does not exist.");
+          return done(null, false);
+        }
 
-          if (!isValidPasswordMethod(password, user)) {
-            return done(null, false);
-          }
+        // if (!cryptPassword.isValidPasswordMethod(password, user)) {
+        //     return done(null, false);
+        //   }
 
-          return done(null, user);
-        } catch (error) {}
+        return done(null, user);
       }
     )
   );
