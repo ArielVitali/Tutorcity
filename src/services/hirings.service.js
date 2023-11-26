@@ -1,8 +1,9 @@
 import HiringDAO from "../DAOs/mongo/classes/Hiring.class.js";
+import { getServiceById } from "./services.service.js";
 
-export const getHiringByServiceId = async (serviceId) => {
+export const getHiringsByServiceId = async (serviceId) => {
   try {
-    return await HiringDAO.getHiringByServiceId(serviceId);
+    return await HiringDAO.getHiringsByServiceId(serviceId);
   } catch (error) {
     throw error;
   }
@@ -16,9 +17,33 @@ export const getHiringsByUserId = async (userId) => {
   }
 };
 
-export const createHiring = async (serviceId, serviceInfo) => {
+export const createHiring = async (serviceId, hiringInfo) => {
   try {
-    return await HiringDAO.createHiring(serviceId, serviceInfo);
+    const {
+      first_name,
+      last_name,
+      phone_number,
+      email,
+      meeting_time,
+      description,
+    } = hiringInfo;
+
+    const service = await getServiceById(serviceId);
+    if (!service) {
+      throw new Error("Service not found");
+    }
+
+    const newHiringInfo = {
+      service: serviceId,
+      user: service.user,
+      first_name,
+      last_name,
+      phone_number,
+      email,
+      meeting_time,
+      description,
+    };
+    return await HiringDAO.createHiring(newHiringInfo);
   } catch (error) {
     throw error;
   }
@@ -26,7 +51,8 @@ export const createHiring = async (serviceId, serviceInfo) => {
 
 export const updateHiring = async (id, updateInfo) => {
   try {
-    return await HiringDAO.updateHiring(id, updateInfo);
+    const { status } = updateInfo;
+    return await HiringDAO.updateHiring(id, { status });
   } catch (error) {
     throw error;
   }

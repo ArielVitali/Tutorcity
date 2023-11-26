@@ -1,7 +1,7 @@
 import RouterClass from "../router/router.class.js";
 import {
   createHiring,
-  getHiringByServiceId,
+  getHiringsByServiceId,
   getHiringsByUserId,
   removeHiring,
   updateHiring,
@@ -11,43 +11,50 @@ import {
 
 class HiringRouter extends RouterClass {
   init() {
-    this.post("/:serviceId", ["PUBLIC"], async (req, res) => {
+    this.get("/user", ["PRIVATE"], async (req, res) => {
       try {
-        const response = await createHiring(req.params.serviceId, req.body);
-        return response;
-      } catch (error) {}
+        const response = await getHiringsByUserId(req.params.userId);
+        res.sendSuccess(response);
+      } catch (error) {
+        res.sendServerError(`something went wrong ${error}`);
+      }
     });
 
     this.get("/:serviceId", ["PRIVATE"], async (req, res) => {
       try {
-        const response = await getHiringByServiceId(req.params.serviceId);
-        return response;
+        const response = await getHiringsByServiceId(req.params.serviceId);
+        console.log(response);
+        res.sendSuccess(response);
       } catch (error) {
-        throw error;
+        res.sendServerError(`something went wrong ${error}`);
       }
     });
 
-    this.get("/:userId", ["PRIVATE"], async (req, res) => {
+    this.post("/:serviceId", ["PUBLIC"], async (req, res) => {
       try {
-        const response = await getHiringsByUserId(req.params.userId);
-        return response;
+        const response = await createHiring(req.params.serviceId, req.body);
+        res.sendSuccess(response);
       } catch (error) {
-        throw error;
+        res.sendServerError(`something went wrong ${error}`);
       }
     });
 
-    this.put("/:id", ["PRIVATE"], async (req, res) => {
+    this.patch("/:id", ["PRIVATE"], async (req, res) => {
       try {
         const response = await updateHiring(req.params.id, req.body);
-        return response;
-      } catch (error) {}
+        res.sendSuccess(response);
+      } catch (error) {
+        res.sendServerError(`something went wrong ${error}`);
+      }
     });
 
     this.delete("/:id", ["PRIVATE"], async (req, res) => {
       try {
         const response = removeHiring(req.params.id);
-        return response;
-      } catch (error) {}
+        res.sendSuccess(response);
+      } catch (error) {
+        res.sendServerError(`something went wrong ${error}`);
+      }
     });
   }
 }

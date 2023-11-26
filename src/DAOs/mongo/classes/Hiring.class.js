@@ -3,9 +3,9 @@ import hiringModel from "../models/Hiring.models.js";
 class HiringDAO {
   constructor() {}
 
-  async createHiring(serviceId, data) {
+  async createHiring(data) {
     try {
-      const response = await hiringModel.create(serviceId, data);
+      const response = await hiringModel.create(data);
       return response;
     } catch (error) {
       throw error;
@@ -15,14 +15,15 @@ class HiringDAO {
   async getHiringsByUserId(id) {
     try {
       const response = await hiringModel.find({ id });
+      return response;
     } catch (error) {
       throw error;
     }
   }
 
-  async getHiringByServiceId(serviceId) {
+  async getHiringsByServiceId(service) {
     try {
-      const response = await hiringModel.find({ serviceId });
+      const response = await hiringModel.find({ service });
       return response;
     } catch (error) {
       throw error;
