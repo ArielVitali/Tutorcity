@@ -20,6 +20,7 @@ const commentSchema = new mongoose.Schema({
     type: String,
     required: true,
     maxLength: [150, "The service description exceeds the max chars."],
+    trim: true,
   },
   status: {
     type: String,

@@ -1,23 +1,46 @@
 import passport from "passport";
 import RouterClass from "../router/router.class.js";
-import { getUserById } from "../services/users.service.js";
+import {
+  getUserById,
+  updateUser,
+  getPublicUserProfile,
+  updatedUserProfileImg,
+} from "../services/users.service.js";
 
 class UsersRouter extends RouterClass {
   init() {
-    this.get("/:id", ["PRIVATE"], async (req, res) => {
+    this.get("/", ["PRIVATE"], async (req, res) => {
       try {
-        const response = await getUserById(req.params.id);
-        return response;
-      } catch (error) {}
+        const user = await getUserById(req.user.id);
+        if (!user) {
+          return res.status(404).json({ message: "User not found." });
+        }
+        res.sendSuccess(response);
+      } catch (error) {
+        res.sendServerError(error);
+      }
+    });
+
+    this.get("/:id", ["PUBLIC"], async (req, res) => {
+      try {
+        const user = await getUserById(req.user.id);
+        if (!user) {
+          return res.status(404).json({ message: "User not found." });
+        }
+        const publicUserData = getPublicUserProfile(user);
+        res.sendSuccess(publicUserData);
+      } catch (error) {
+        res.sendServerError(error);
+      }
     });
 
     this.post(
       "/",
       ["PUBLIC"],
-      passport.authenticate("register", { failureRedirect: "/auth/failLogin" }),
+      passport.authenticate("register", { session: false }),
       async (req, res) => {
         try {
-          res.send({ message: "Usuario registrado" });
+          res.json({ token: req.user.token });
         } catch (error) {
           if (error.code === 11000)
             return res.status(400).json({ error: "User already exists" });
@@ -26,8 +49,22 @@ class UsersRouter extends RouterClass {
       }
     );
 
-    this.get("/failRegister", ["PUBLIC"], (req, res) => {
-      res.send({ error: "Signup failed" });
+    this.patch("/:id", ["PRIVATE"], async (req, res) => {
+      try {
+        const response = await updateUser(req.params.id, req.body);
+        res.sendSuccess(response);
+      } catch (error) {
+        res.sendServerError(error);
+      }
+    });
+
+    this.patch("/profileImg", ["PRIVATE"], async (req, res) => {
+      try {
+        const response = await updatedUserProfileImg(req.user.id, req.body);
+        res.sendSuccess(response);
+      } catch (error) {
+        res.sendServerError(error);
+      }
     });
   }
 }

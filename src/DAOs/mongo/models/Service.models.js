@@ -16,6 +16,7 @@ const serviceSchema = new mongoose.Schema({
     type: String,
     maxLength: [45, "The service name exceeds the max chars."],
     required: true,
+    trim: true,
   },
   duration: {
     type: Number,
@@ -37,6 +38,7 @@ const serviceSchema = new mongoose.Schema({
     type: String,
     maxLength: [150, "The service description exceeds the max chars."],
     required: true,
+    trim: true,
   },
   price: {
     type: Number,
@@ -46,6 +48,7 @@ const serviceSchema = new mongoose.Schema({
   isPublished: {
     type: Boolean,
     required: true,
+    default: false,
   },
   ratedTimes: {
     type: Number,

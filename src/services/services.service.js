@@ -1,4 +1,5 @@
 import ServiceDAO from "../DAOs/mongo/classes/Service.class.js";
+import mongoose from "mongoose";
 
 export const getServices = async () => {
   try {
@@ -13,6 +14,7 @@ export const getServicesByUserId = async (userId) => {
   try {
     return await ServiceDAO.getServiceByUserId(userId);
   } catch (error) {
+    console.log(error);
     throw error;
   }
 };
@@ -25,9 +27,37 @@ export const getServiceById = async (serviceId) => {
   }
 };
 
-export const createNewService = async (serviceInfo) => {
+export const createNewService = async (userId, serviceInfo) => {
   try {
-    return await ServiceDAO.createService(serviceInfo);
+    const {
+      category,
+      name,
+      duration,
+      type,
+      frequency,
+      description,
+      price,
+      isPublished,
+      ratedTimes,
+      ratingTotalPoints,
+      ratingAverage,
+    } = serviceInfo;
+    const newServiceInfo = {
+      user: userId,
+      category,
+      name,
+      duration,
+      type,
+      frequency,
+      description,
+      price,
+      isPublished,
+      ratedTimes,
+      ratingTotalPoints,
+      ratingAverage,
+    };
+    console.log(newServiceInfo.user);
+    return await ServiceDAO.createService(newServiceInfo);
   } catch (error) {
     throw error;
   }
@@ -35,7 +65,35 @@ export const createNewService = async (serviceInfo) => {
 
 export const updateService = async (id, updateInfo) => {
   try {
-    return await ServiceDAO.updateService(id, updateInfo);
+    const {
+      user,
+      category,
+      name,
+      duration,
+      type,
+      frequency,
+      description,
+      price,
+      isPublished,
+      ratedTimes,
+      ratingTotalPoints,
+      ratingAverage,
+    } = updateInfo;
+    const newServiceInfo = {
+      user,
+      category,
+      name,
+      duration,
+      type,
+      frequency,
+      description,
+      price,
+      isPublished,
+      ratedTimes,
+      ratingTotalPoints,
+      ratingAverage,
+    };
+    return await ServiceDAO.updateService(id, newServiceInfo);
   } catch (error) {
     throw error;
   }

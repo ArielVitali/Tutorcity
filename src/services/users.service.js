@@ -18,7 +18,18 @@ export const getUserByEmail = async (email) => {
 
 export const createUser = async (serviceInfo) => {
   try {
-    return await UserDAO.createUser(serviceInfo);
+    const { first_name, last_name, email, password, phone_number } =
+      serviceInfo;
+    const newUserInfo = {
+      first_name,
+      last_name,
+      email,
+      password,
+      phone_number,
+      degree: "",
+      experience: "",
+    };
+    return await UserDAO.createUser(newUserInfo);
   } catch (error) {
     throw error;
   }
@@ -26,8 +37,37 @@ export const createUser = async (serviceInfo) => {
 
 export const updateUser = async (id, updateInfo) => {
   try {
-    return await UserDAO.updateUser(id, updateInfo);
+    const {
+      first_name,
+      last_name,
+      email,
+      password,
+      phone_number,
+      degree,
+      experience,
+    } = updateInfo;
+    const updatedUserInfo = {
+      first_name,
+      last_name,
+      email,
+      password,
+      phone_number,
+      degree,
+      experience,
+    };
+    return await UserDAO.updateUser(id, updatedUserInfo);
   } catch (error) {
     throw error;
   }
 };
+
+export const getPublicUserProfile = async (user) => {
+  try {
+    const { first_name, last_name, degree, experience, profile_img_url } = user;
+    return { first_name, last_name, degree, experience, profile_img_url };
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updatedUserProfileImg = async (id, updateInfo) => {};

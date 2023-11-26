@@ -1,29 +1,24 @@
 import passport from "passport";
 import RouterClass from "../router/router.class.js";
-import { appConfig } from "../config/index.js";
-
-const { jwt_secret } = appConfig;
 
 class AuthRouter extends RouterClass {
   init() {
     this.post(
       "/",
       ["PUBLIC"],
-      passport.authenticate("login", { failureRedirect: "/auth/failLogin" }),
+      passport.authenticate("login", { session: false }),
       async (req, res) => {
         try {
           if (!req.user) {
             return res.status(400).json({ error: "Credenciales invalidas" });
           }
-
-          // Generate a JWT token
-          const token = jwt.sign(
-            { id: req.user.id, email: req.user.email },
-            `${jwt_secret}`
-          );
-
-          res.json({ user: req.user, token });
-        } catch (error) {}
+          // res.cookie("token", req.user.token, {
+          //   httpOnly: true,
+          // });
+          res.json({ token: req.user.token });
+        } catch (error) {
+          res.sendServerError(`something went wrong ${error}`);
+        }
       }
     );
 
@@ -43,14 +38,6 @@ class AuthRouter extends RouterClass {
         const emailSend = await correo.sendNotification(email, mensaje);
         console.log(emailSend);
         res.json({ emailSend });
-      } catch (error) {
-        res.sendServerError(`something went wrong ${error}`);
-      }
-    });
-
-    this.get("/failLogin", ["PUBLIC"], (req, res) => {
-      try {
-        res.json({ error: "Login failed" });
       } catch (error) {
         res.sendServerError(`something went wrong ${error}`);
       }

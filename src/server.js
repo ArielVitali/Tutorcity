@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser("Codi0goS3creto"));
+app.use(cookieParser());
 await mongoDBconnect(app);
 passportConfig(app);
 router(app);

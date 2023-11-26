@@ -1,14 +1,13 @@
 import passport from "passport";
 import local from "passport-local";
 import jwt from "passport-jwt";
-import { cookieExtractor } from "../Utils/cookieExtractor.js";
 import {
   createUser,
   getUserByEmail,
   getUserById,
 } from "../services/users.service.js";
-import { isValidPasswordMethod } from "../Utils/bcrypt/cryptPassword.js";
 import { appConfig } from "../config/index.js";
+import { generateToken } from "../Utils/token/tokenManager.js";
 
 const { jwt_secret } = appConfig;
 const JWTStrategy = jwt.Strategy;
@@ -20,8 +19,8 @@ const initializePassport = () => {
     "jwt",
     new JWTStrategy(
       {
-        jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
-        secretOrKey: `${jwt_secret}`,
+        jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+        secretOrKey: jwt_secret,
       },
       async (jwt_payload, done) => {
         try {
@@ -47,7 +46,10 @@ const initializePassport = () => {
           }
 
           const newUser = await createUser(req.body, password);
-          return done(null, newUser);
+
+          const token = generateToken({ id: newUser.id, email: newUser.email });
+
+          return done(null, { user: newUser, token });
         } catch (error) {
           return done(error);
         }
@@ -77,11 +79,13 @@ const initializePassport = () => {
             return done(null, false);
           }
 
-          if (!isValidPasswordMethod(password, user)) {
+          if (!(await user.isValidPassword(password))) {
             return done(null, false);
           }
 
-          return done(null, user);
+          const token = generateToken({ id: user.id, email: user.email });
+
+          return done(null, { token });
         } catch (error) {}
       }
     )

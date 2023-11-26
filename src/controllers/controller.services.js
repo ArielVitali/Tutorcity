@@ -13,43 +13,55 @@ class ServiceRouter extends RouterClass {
     this.get("/", ["PUBLIC"], async (req, res) => {
       try {
         const response = await getServices();
-        return response;
-      } catch (error) {}
+        res.sendSuccess(response);
+      } catch (error) {
+        res.sendServerError(`something went wrong ${error}`);
+      }
+    });
+
+    this.get("/user", ["PRIVATE"], async (req, res) => {
+      try {
+        const response = await getServicesByUserId(req.user.id);
+        res.sendSuccess(response);
+      } catch (error) {
+        res.sendServerError(`something went wrong ${error}`);
+      }
     });
 
     this.get("/:id", ["PUBLIC"], async (req, res) => {
       try {
-        const response = getServiceById(req.params.id);
-        return response;
-      } catch (error) {}
-    });
-
-    this.get("/:userId", ["PRIVATE"], async (req, res) => {
-      try {
-        const response = getServicesByUserId(req.params.userId);
-        return response;
-      } catch (error) {}
+        const response = await getServiceById(req.params.id);
+        res.sendSuccess(response);
+      } catch (error) {
+        res.sendServerError(`something went wrong ${error}`);
+      }
     });
 
     this.post("/", ["PRIVATE"], async (req, res) => {
       try {
-        const response = await createNewService(req.body);
-        return response;
-      } catch (error) {}
+        const response = await createNewService(req.user.id, req.body);
+        res.sendSuccess(response);
+      } catch (error) {
+        res.sendServerError(`something went wrong ${error}`);
+      }
     });
 
-    this.put("/:id", ["PRIVATE"], async (req, res) => {
+    this.patch("/:id", ["PRIVATE"], async (req, res) => {
       try {
         const response = await updateService(req.params.id, req.body);
-        return response;
-      } catch (error) {}
+        res.sendSuccess(response);
+      } catch (error) {
+        res.sendServerError(`something went wrong ${error}`);
+      }
     });
 
     this.delete("/:id", ["PRIVATE"], async (req, res) => {
       try {
         const response = await removeService(req.params.id);
-        return response;
-      } catch (error) {}
+        res.sendSuccess(response);
+      } catch (error) {
+        res.sendServerError(`something went wrong ${error}`);
+      }
     });
   }
 }

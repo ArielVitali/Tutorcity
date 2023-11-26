@@ -30,9 +30,9 @@ class ServiceDAO {
     }
   }
 
-  async getServiceByUserId(id) {
+  async getServiceByUserId(user) {
     try {
-      const response = await serviceModel.find({ id });
+      const response = await serviceModel.find({ user });
       return response;
     } catch (error) {
       throw error;
@@ -41,7 +41,10 @@ class ServiceDAO {
 
   async updateService(id, data) {
     try {
-      const response = serviceModel.updateOne({ _id: id }, { $set: data });
+      const response = await serviceModel.updateOne(
+        { _id: id },
+        { $set: data }
+      );
       return response;
     } catch (error) {
       throw error;
@@ -50,7 +53,8 @@ class ServiceDAO {
 
   async deleteService(id) {
     try {
-      const response = serviceModel.deleteOne(id);
+      console.log("antes de borrarrr", id);
+      const response = await serviceModel.deleteOne({ _id: id });
       return response;
     } catch (error) {
       throw error;

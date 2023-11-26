@@ -1,4 +1,5 @@
 import { Router } from "express";
+import passport from "passport";
 
 class RouterClass {
   constructor() {
@@ -39,6 +40,15 @@ class RouterClass {
     );
   }
 
+  patch(path, policies, ...callbacks) {
+    this.router.patch(
+      path,
+      this.handlePolicies(policies),
+      this.generateCustomResponses,
+      this.applyCallbacks(callbacks)
+    );
+  }
+
   delete(path, policies, ...callbacks) {
     this.router.delete(
       path,
@@ -71,22 +81,17 @@ class RouterClass {
         return next();
       }
 
-      return async (req, res, next) => {
-        passport.authenticate("jwt", (err, user, info) => {
-          if (err) return next(err);
-
-          if (!user) {
-            return res.status(401).send({
-              error: info.messages
-                ? info.messages
-                : "An error ocurred on the validation",
-            });
+      console.log("policies");
+      if (policies[0] === "PRIVATE") {
+        passport.authenticate("jwt", { session: false }, (error, user) => {
+          if (error || !user) {
+            return res.status(401).send({ error: "Unauthorized" });
           }
 
           req.user = user;
           next();
-        });
-      };
+        })(req, res, next);
+      }
     };
   };
 }
