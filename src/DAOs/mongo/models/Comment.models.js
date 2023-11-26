@@ -18,14 +18,13 @@ const commentSchema = new mongoose.Schema({
   },
   comment: {
     type: String,
-    required: true,
     maxLength: [150, "The service description exceeds the max chars."],
     trim: true,
   },
   status: {
     type: String,
     enum: ["Pending", "Accepted"],
-    required: true,
+    default: "Pending",
   },
   rating: {
     type: Number,

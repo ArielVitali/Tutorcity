@@ -9,6 +9,15 @@ export const getCommentsByServiceId = async (serviceId) => {
   }
 };
 
+export const getALLCommentsByServiceId = async (serviceId) => {
+  try {
+    const response = await CommentDAO.getALLCommentsByServiceId(serviceId);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getCommentById = async (id) => {
   try {
     return await CommentDAO.getCommentById(id);
@@ -19,7 +28,15 @@ export const getCommentById = async (id) => {
 
 export const createNewComment = async (serviceId, commentInfo) => {
   try {
-    return await CommentDAO.createComment(serviceId, commentInfo);
+    const { first_name, last_name, comment, rating } = commentInfo;
+    const newCommentInfo = {
+      service: serviceId,
+      first_name,
+      last_name,
+      comment,
+      rating,
+    };
+    return await CommentDAO.createComment(newCommentInfo);
   } catch (error) {
     throw error;
   }
@@ -27,7 +44,8 @@ export const createNewComment = async (serviceId, commentInfo) => {
 
 export const updateComment = async (id, updateInfo) => {
   try {
-    return await CommentDAO.updateComment(id, updateInfo);
+    const { status } = updateInfo;
+    return await CommentDAO.updateComment(id, { status });
   } catch (error) {
     throw error;
   }

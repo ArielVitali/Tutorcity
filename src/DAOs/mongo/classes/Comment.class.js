@@ -3,18 +3,28 @@ import commentModel from "../models/Comment.models.js";
 class CommentDAO {
   constructor() {}
 
-  async createComment(serviceId, data) {
+  async createComment(data) {
     try {
-      const response = await commentModel.create({ serviceId, data });
+      const response = await commentModel.create(data);
       return response;
     } catch (error) {
       throw error;
     }
   }
 
-  async getCommentsByServiceId(serviceId) {
+  async getCommentsByServiceId(service) {
     try {
-      const response = await commentModel.find({ serviceId });
+      const status = "Accepted";
+      const response = await commentModel.find({ service, status });
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getALLCommentsByServiceId(service) {
+    try {
+      const response = await commentModel.find({ service });
       return response;
     } catch (error) {
       throw error;
@@ -32,7 +42,10 @@ class CommentDAO {
 
   async updateComment(id, data) {
     try {
-      const response = commentModel.updateOne({ _id: id }, { $set: data });
+      const response = await commentModel.updateOne(
+        { _id: id },
+        { $set: data }
+      );
       return response;
     } catch (error) {
       throw error;
@@ -41,7 +54,7 @@ class CommentDAO {
 
   async deleteComment(id) {
     try {
-      const response = commentModel.deleteOne(id);
+      const response = await commentModel.deleteOne({ _id: id });
       return response;
     } catch (error) {
       throw error;

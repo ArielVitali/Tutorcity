@@ -1,6 +1,7 @@
 import RouterClass from "../router/router.class.js";
 import {
   getCommentsByServiceId,
+  getALLCommentsByServiceId,
   createNewComment,
   updateComment,
   removeComment,
@@ -10,32 +11,47 @@ class CommentRouter extends RouterClass {
   init() {
     this.get("/:serviceId", ["PUBLIC"], async (req, res) => {
       try {
-        const response = getCommentsByServiceId(req.params.serviceId);
-        return response;
+        const response = await getCommentsByServiceId(req.params.serviceId);
+        res.sendSuccess(response);
       } catch (error) {
-        //
+        res.sendServerError(`something went wrong ${error}`);
+      }
+    });
+
+    this.get("/:serviceId/all", ["PRIVATE"], async (req, res) => {
+      try {
+        const response = await getALLCommentsByServiceId(req.params.serviceId);
+        res.sendSuccess(response);
+      } catch (error) {
+        res.sendServerError(`something went wrong ${error}`);
       }
     });
 
     this.post("/:serviceId", ["PUBLIC"], async (req, res) => {
       try {
-        const response = createNewComment(req.params.serviceId, req.body);
-        return response;
-      } catch (error) {}
+        const response = await createNewComment(req.params.serviceId, req.body);
+        res.sendSuccess(response);
+      } catch (error) {
+        res.sendServerError(`something went wrong ${error}`);
+      }
     });
 
-    this.put("/:id", ["PRIVATE"], async (req, res) => {
+    this.patch("/:id", ["PRIVATE"], async (req, res) => {
       try {
-        const response = updateComment(req.params.id, req.body);
-        return response;
-      } catch (error) {}
+        const response = await updateComment(req.params.id, req.body);
+        res.sendSuccess(response);
+      } catch (error) {
+        res.sendServerError(`something went wrong ${error}`);
+      }
     });
 
     this.delete("/:id", ["PRIVATE"], async (req, res) => {
       try {
-        const response = removeComment(req.params.id);
-        return response;
-      } catch (error) {}
+        const response = await removeComment(req.params.id);
+        res.sendSuccess(response);
+      } catch (error) {
+        res.sendServerError(`something went wrong ${error}`);
+      }
     });
   }
 }
