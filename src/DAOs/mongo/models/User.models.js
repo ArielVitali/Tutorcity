@@ -58,6 +58,22 @@ userSchema.pre("save", async function (next) {
   }
 });
 
+userSchema.methods.updateWithHashedPassword = async function (updateData) {
+  try {
+    const { password } = updateData;
+
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      updateData.password = await bcrypt.hash(password, salt);
+    }
+
+    return await this.updateOne(updateData);
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error during update with hashed password.");
+  }
+};
+
 userSchema.methods.isValidPassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };

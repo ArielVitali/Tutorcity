@@ -55,7 +55,15 @@ export const updateUser = async (id, updateInfo) => {
       degree,
       experience,
     };
-    return await UserDAO.updateUser(id, updatedUserInfo);
+
+    const user = await UserDAO.getUserById(id);
+    if (!user) return "User not found";
+
+    if (password) {
+      return await user.updateWithHashedPassword(updatedUserInfo);
+    } else {
+      return await UserDAO.updateUser(id, updatedUserInfo);
+    }
   } catch (error) {
     throw error;
   }
