@@ -7,6 +7,10 @@ import {
   updatedUserProfileImg,
 } from "../services/users.service.js";
 
+import multer from "multer";
+
+const upload = multer({ storage: multer.memoryStorage() });
+
 class UsersRouter extends RouterClass {
   init() {
     this.get("/", ["PRIVATE"], async (req, res) => {
@@ -49,18 +53,27 @@ class UsersRouter extends RouterClass {
       }
     );
 
+    this.patch(
+      "/profileImg",
+      ["PRIVATE"],
+      upload.single("file"),
+      async (req, res) => {
+        try {
+          const response = await updatedUserProfileImg(
+            req.user.id,
+            req.file.buffer
+          );
+          console.log(response);
+          res.sendSuccess(response);
+        } catch (error) {
+          res.sendServerError(error);
+        }
+      }
+    );
+
     this.patch("/:id", ["PRIVATE"], async (req, res) => {
       try {
         const response = await updateUser(req.params.id, req.body);
-        res.sendSuccess(response);
-      } catch (error) {
-        res.sendServerError(error);
-      }
-    });
-
-    this.patch("/profileImg", ["PRIVATE"], async (req, res) => {
-      try {
-        const response = await updatedUserProfileImg(req.user.id, req.body);
         res.sendSuccess(response);
       } catch (error) {
         res.sendServerError(error);

@@ -3,12 +3,14 @@ import ServiceRouter from "../controllers/controller.services.js";
 import HiringRouter from "../controllers/controller.hirings.js";
 import CommentRouter from "../controllers/controller.comments.js";
 import AuthRouter from "../controllers/controller.auth.js";
+import UploadsRouter from "../controllers/controller.uploads.js";
 
 const usersRouter = new UsersRouter();
 const serviceRouter = new ServiceRouter();
 const hiringRouter = new HiringRouter();
 const commentRouter = new CommentRouter();
 const authRouter = new AuthRouter();
+const uploadsRouter = new UploadsRouter();
 
 const router = (app) => {
   app.use("/users", usersRouter.getRouter());
@@ -16,6 +18,7 @@ const router = (app) => {
   app.use("/hirings", hiringRouter.getRouter());
   app.use("/comments", commentRouter.getRouter());
   app.use("/auth", authRouter.getRouter());
+  app.use("/uploads", uploadsRouter.getRouter());
 };
 
 export default router;

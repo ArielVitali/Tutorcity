@@ -1,4 +1,5 @@
 import UserDAO from "../DAOs/mongo/classes/User.class.js";
+import { uploadImage } from "./fileUpload.service.js";
 
 export const getUserById = async (serviceId) => {
   try {
@@ -45,6 +46,7 @@ export const updateUser = async (id, updateInfo) => {
       phone_number,
       degree,
       experience,
+      profile_img_url,
     } = updateInfo;
     const updatedUserInfo = {
       first_name,
@@ -54,6 +56,7 @@ export const updateUser = async (id, updateInfo) => {
       phone_number,
       degree,
       experience,
+      profile_img_url,
     };
 
     const user = await UserDAO.getUserById(id);
@@ -78,4 +81,14 @@ export const getPublicUserProfile = async (user) => {
   }
 };
 
-export const updatedUserProfileImg = async (id, updateInfo) => {};
+export const updatedUserProfileImg = async (id, file) => {
+  try {
+    console.log("entreeee a updatedUserProfileImg");
+    const imgURL = await uploadImage(file);
+    console.log(imgURL);
+    const updatedUserInfo = { profile_img_url: imgURL };
+    return await updateUser(id, updatedUserInfo);
+  } catch (error) {
+    throw error;
+  }
+};
