@@ -1,16 +1,13 @@
-import { emailConfig } from "../config/emailConfig/email.config.js";
 import { transport } from "../Utils/email/email.utils.js";
-
-const { emailUser } = emailConfig;
 
 class NodemailerAdapter {
   constructor() {}
 
-  async sendEmail(email, subject, text, html) {
+  async sendEmail(recieverEmail, senderEmail, subject, text, html) {
     try {
       const mailOptions = {
-        from: emailUser,
-        to: email,
+        from: senderEmail,
+        to: recieverEmail,
         subject: subject,
         text: text,
         html: html,

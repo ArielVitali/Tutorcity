@@ -46,19 +46,6 @@ class AuthRouter extends RouterClass {
         res.sendServerError(error);
       }
     });
-
-    this.get("/logout", ["PUBLIC"], (req, res) => {
-      try {
-        req.session.destroy((err) => {
-          if (err) {
-            res.json({ msg: err });
-          }
-          res.redirect("/login");
-        });
-      } catch (error) {
-        res.sendServerError(`something went wrong ${error}`);
-      }
-    });
   }
 }
 

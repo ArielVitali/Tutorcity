@@ -1,5 +1,7 @@
 import HiringDAO from "../DAOs/mongo/classes/Hiring.class.js";
 import { getServiceById } from "./services.service.js";
+import { sendHiringEmail } from "./mailing.service.js";
+import { getUserById } from "./users.service.js";
 
 export const getHiringsByServiceId = async (serviceId) => {
   try {
@@ -43,7 +45,14 @@ export const createHiring = async (serviceId, hiringInfo) => {
       meeting_time,
       description,
     };
-    return await HiringDAO.createHiring(newHiringInfo);
+
+    const newHiring = await HiringDAO.createHiring(newHiringInfo);
+
+    const user = await getUserById(service.user);
+
+    await sendHiringEmail(newHiringInfo, service, user);
+
+    return newHiring;
   } catch (error) {
     throw error;
   }
