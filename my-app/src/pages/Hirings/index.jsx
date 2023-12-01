@@ -1,10 +1,11 @@
 import ActionsNav from "../../components/ActionsNav/index.jsx";
 import List from "./List";
-
 import { useNavigate } from "react-router-dom";
 import { PiArrowCircleLeftDuotone } from "react-icons/pi";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { useFetch } from "../../hooks/useFetch.js";
+import { getHiringsByProvider } from "../../api/apiDataSource.js";
 
 const index = () => {
   const [acceptedHirings, setAcceptedHirings] = useState([]);
@@ -13,6 +14,17 @@ const index = () => {
   const [pendingHirings, setPendingHirings] = useState([]);
 
   const navigate = useNavigate();
+
+  const { data, loading } = useFetch(getHiringsByProvider);
+
+  useEffect(() => {
+    if (!loading && data) {
+      setAcceptedHirings(data.filter((item) => item.status === "Accepted"));
+      setCanceledHirings(data.filter((item) => item.status === "Canceled"));
+      setFinalizedHirings(data.filter((item) => item.status === "Finalized"));
+      setPendingHirings(data.filter((item) => item.status === "Pending"));
+    }
+  }, [data, loading]);
 
   const buttons = [
     {
@@ -23,23 +35,6 @@ const index = () => {
       ),
     },
   ];
-
-  useEffect(() => {
-    fetchHirings();
-  }, []);
-
-  const fetchHirings = async () => {
-    try {
-      const response = await fetch("http://localhost:8080/hirings");
-      const data = await response.json();
-      setAcceptedHirings(data.filter((item) => item.status === "Accepted"));
-      setCanceledHirings(data.filter((item) => item.status === "Canceled"));
-      setFinalizedHirings(data.filter((item) => item.status === "Finalized"));
-      setPendingHirings(data.filter((item) => item.status === "Pending"));
-    } catch (error) {
-      console.error("Error fetching hirings:", error);
-    }
-  };
 
   return (
     <div>

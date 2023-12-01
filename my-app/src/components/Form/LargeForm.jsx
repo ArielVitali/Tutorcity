@@ -64,8 +64,37 @@ const LargeForm = ({
                       // Add the value and onChange attributes here
                       value={formData[field.name]}
                       onChange={handleInputChange}
-                      className="block w-full rounded-md  p-1.5 text-gray-900 shadow-sm  placeholder:text-gray-400  focus:ring-black sm:text-sm sm:leading-6"
+                      className="block w-full rounded-md  p-1.5 text-gray-900 shadow-sm  ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
                     />
+                  </div>
+                </div>
+              );
+            } else if (field.type === "select") {
+              return (
+                <div key={field.name} className="sm:col-span-3">
+                  <label
+                    htmlFor={field.id}
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    {field.label}
+                  </label>
+                  <div className="mt-2">
+                    <select
+                      id={field.id}
+                      name={field.name}
+                      value={formData[field.name]}
+                      onChange={handleInputChange}
+                      className="block w-full rounded-md p-1.5 text-gray-900 shadow-sm ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                    >
+                      <option value="" disabled>
+                        Select {field.label}
+                      </option>
+                      {field.options.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
               );
@@ -87,7 +116,7 @@ const LargeForm = ({
                       // Add the value and onChange attributes here
                       value={formData[field.name]}
                       onChange={handleInputChange}
-                      className="block w-full rounded-md  p-1.5 text-gray-900 shadow-sm   placeholder:text-gray-400   sm:text-sm sm:leading-6"
+                      className="block w-full rounded-md  p-1.5 text-gray-900 shadow-sm   ring-gray-300 placeholder:text-gray-400  sm:text-sm sm:leading-6"
                     />
                   </div>
                 </div>

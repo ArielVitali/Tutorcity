@@ -1,77 +1,49 @@
 import ServiceContainer from "../../components/Containers/ServiceContainer.jsx";
 import { useState, useEffect } from "react";
+import { useFetch } from "../../hooks/useFetch.js";
+import { getServicesByUser } from "../../api/apiDataSource";
 
 const HomeContent = () => {
   const [publishedServices, setPublishedServices] = useState([]);
   const [unpublishedServices, setUnpublishedServices] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { data, loading } = useFetch(getServicesByUser);
 
   useEffect(() => {
-    const fetchServices = async () => {
-      try {
-        const response = await fetch("http://localhost:8080/services");
-        const data = await response.json();
+    if (!loading && data) {
+      const publishedServices = data.filter((service) => service.isPublished);
+      const unpublishedServices = data.filter(
+        (service) => !service.isPublished
+      );
+      setPublishedServices(publishedServices);
+      setUnpublishedServices(unpublishedServices);
+    }
+  }, [data, loading]);
 
-        const publishedServices = data.filter((service) => service.isPublished);
-        const unpublishedServices = data.filter(
-          (service) => !service.isPublished
-        );
+  const publishedComponents = publishedServices.map((service, index) => (
+    <li key={index}>
+      <ServiceContainer
+        key={index}
+        service={service}
+        bgColor={"bg-[#96e6b3] shadow-2xl"}
+      />
+    </li>
+  ));
 
-        setPublishedServices(publishedServices);
-        setUnpublishedServices(unpublishedServices);
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Error fetching services:", error);
-      }
-    };
-    fetchServices();
-  }, []);
-
-  const publishedComponents = publishedServices
-    ? publishedServices.map((service, index) => (
-        <li key={index}>
-          <ServiceContainer
-            key={index}
-            id={service.id}
-            icon={service.icon}
-            name={service.name}
-            admin={service.admin}
-            duration={service.duration}
-            frequency={service.frequency}
-            rating={service.rating}
-            description={service.description}
-            isPublished={true}
-            bgColor={"bg-[#96e6b3] shadow-2xl"}
-          />
-        </li>
-      ))
-    : null;
-
-  const unpublishedComponents = unpublishedServices
-    ? unpublishedServices.map((service, index) => (
-        <li key={index}>
-          <ServiceContainer
-            key={index}
-            id={service.id}
-            icon={service.icon}
-            name={service.name}
-            admin={service.admin}
-            duration={service.duration}
-            frequency={service.frequency}
-            rating={service.rating}
-            description={service.description}
-            isPublished={false}
-            bgColor={"bg-[#96e6b3] shadow-2xl"}
-          />
-        </li>
-      ))
-    : null;
+  const unpublishedComponents = unpublishedServices.map((service, index) => (
+    <li key={index}>
+      <ServiceContainer
+        key={index}
+        service={service}
+        bgColor={"bg-[#96e6b3] shadow-2xl"}
+      />
+    </li>
+  ));
 
   return (
     <div>
       <ul className="my-4">
         <h5 className="md:text-3xl font-semibold">Published</h5>
-        {isLoading ? (
+        {loading && !publishedComponents.length ? (
           <div className="flex justify-center my-4">
             <span className="loading loading-spinner loading-lg text-center"></span>
           </div>
@@ -81,7 +53,7 @@ const HomeContent = () => {
       </ul>
       <ul className="my-4">
         <h5 className="md:text-3xl font-semibold">Unpublished</h5>
-        {isLoading ? (
+        {loading && !unpublishedComponents.length ? (
           <div className="flex justify-center my-4">
             <span className="loading loading-spinner loading-lg text-center"></span>
           </div>

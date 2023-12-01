@@ -4,6 +4,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import ActionsNav from "../../components/ActionsNav/index.jsx";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { useFetch } from "../../hooks/useFetch.js";
+import { getPendingComments } from "../../api/apiDataSource";
 
 const index = () => {
   const [pendingComments, setPendingComments] = useState([]);
@@ -11,6 +13,14 @@ const index = () => {
   const location = useLocation();
   const state = location.state || {};
   const { serviceId, serviceName } = state;
+
+  const { data, loading } = useFetch(getPendingComments(serviceId));
+
+  useEffect(() => {
+    if (!loading && data) {
+      setPendingComments(data);
+    }
+  }, [data, loading]);
 
   const buttons = [
     {
@@ -21,28 +31,6 @@ const index = () => {
       ),
     },
   ];
-
-  useEffect(() => {
-    fetchPendingComments();
-  }, []);
-
-  const fetchPendingComments = async () => {
-    try {
-      let response = null;
-      if (serviceId) {
-        response = await fetch(
-          `http://localhost:8080/comments?status=Pending&service=${serviceId}`
-        );
-      } else {
-        response = await fetch("http://localhost:8080/comments?status=Pending");
-      }
-
-      const data = await response.json();
-      setPendingComments(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   return (
     <motion.div

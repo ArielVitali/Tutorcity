@@ -1,29 +1,24 @@
 import { PiXDuotone } from "react-icons/pi";
-import { PiMaskHappyDuotone } from "react-icons/pi";
 import { useState } from "react";
+import { createComment } from "../../../api/apiDataSource";
 
 const AddComment = ({ closeModal, serviceName, serviceId }) => {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
+    first_name: "",
+    last_name: "",
     comment: "",
-    rating: 1, // Default rating
-    status: "Pending",
-    service: serviceId,
-    serviceName,
+    rating: 1,
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
     if (name === "rating") {
-      // Handle rating input separately
       setFormData({
         ...formData,
-        [name]: parseInt(value, 10), // Convert to integer
+        [name]: parseInt(value, 10),
       });
     } else {
-      // Handle other inputs
       setFormData({
         ...formData,
         [name]: value,
@@ -31,25 +26,15 @@ const AddComment = ({ closeModal, serviceName, serviceId }) => {
     }
   };
 
-  const handleSend = () => {
-    // Make a POST request with the form data
-    fetch("http://localhost:8080/comments", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        // Handle the response data as needed
-        console.log("Comment added:", data);
-        // Close the modal or perform other actions
-        closeModal();
-      })
-      .catch((error) => {
-        console.error("Error adding comment:", error);
-      });
+  const handleSend = async () => {
+    try {
+      const response = await createComment(serviceId, formData);
+      console.log(response);
+    } catch (error) {
+      console.error("Error submitting the form:", error);
+    } finally {
+      closeModal();
+    }
   };
 
   return (
@@ -81,9 +66,9 @@ const AddComment = ({ closeModal, serviceName, serviceId }) => {
                   <div className=" relative ">
                     <input
                       type="text"
-                      id="contact-form-name"
-                      name="name"
-                      value={formData.name} // Bind the value to the state
+                      id="contact-form-first-name"
+                      name="first_name"
+                      value={formData.first_name}
                       onChange={handleChange}
                       className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
                     />
@@ -94,14 +79,14 @@ const AddComment = ({ closeModal, serviceName, serviceId }) => {
                     htmlFor="contact-form-name"
                     className=" w-full flex py-2"
                   >
-                    Email
+                    Last name
                   </label>
                   <div className=" relative ">
                     <input
                       type="text"
-                      id="contact-form-email"
-                      name="email"
-                      value={formData.email} // Bind the value to the state
+                      id="contact-form-lat-name"
+                      name="last_name"
+                      value={formData.last_name} // Bind the value to the state
                       onChange={handleChange}
                       className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
                     />

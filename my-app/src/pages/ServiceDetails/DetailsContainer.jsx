@@ -1,52 +1,61 @@
 import { Link } from "react-router-dom";
-import { useAuth } from "../../context/AuthContextProvider/AuthContext.jsx";
+import { useContext } from "react";
+import { UserContext } from "../../context/UserContext/UserContext.jsx";
 import { PiNotePencilDuotone, PiArrowCircleLeftDuotone } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ActionsNav from "../../components/ActionsNav/index.jsx";
 import DropdownSelector from "../../components/Dropdown/DropdownSelector.jsx";
+import { updateService } from "../../api/apiDataSource";
+import { useFetch } from "../../hooks/useFetch.js";
 
-const DetailsContainer = ({
-  id,
-  name,
-  admin,
-  duration,
-  frequency,
-  rating,
-  description,
-  isPublished,
-}) => {
+const DetailsContainer = ({ service }) => {
+  const { session } = useContext(UserContext);
   const navigate = useNavigate();
-  const { isLoggedIn } = useAuth();
-
   const [editMode, setEditMode] = useState(false);
   const [editedValues, setEditedValues] = useState({
-    name,
-    admin,
-    duration,
-    frequency,
-    rating,
-    description,
-    isPublished,
+    name: service.name,
+    admin: `${service.user.first_name + service.user.last_name}`,
+    duration: service.duration,
+    frequency: service.frequency,
+    rating: service.ratingAverage,
+    description: service.description,
+    isPublished: service.isPublished,
   });
-  const [status, setStatus] = useState(isPublished); // Initialize status with the prop value
+  const [status, setStatus] = useState(service.isPublished);
+
+  console.log(service);
 
   const handleStatusChange = async (newStatus) => {
     try {
-      await fetch(`http://localhost:8080/services/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...editedValues,
-          isPublished: newStatus === "true",
-        }),
-      });
+      useFetch(
+        updateService(service.id, { isPublished: newStatus === "true" })
+      );
       setStatus(newStatus);
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditedValues({
+      ...editedValues,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async () => {
+    try {
+      useFetch(updateService(service.id, editedValues));
+      setEditMode(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const toggleEditMode = () => {
+    setEditMode(!editMode);
   };
 
   const options = [
@@ -61,36 +70,6 @@ const DetailsContainer = ({
   const optionStyles = {
     true: "bg-blue-200",
     false: "bg-purple-200",
-  };
-
-  // Step 2: Function to toggle edit mode
-  const toggleEditMode = () => {
-    setEditMode(!editMode);
-  };
-
-  // Step 4: Handle changes to the edited values
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setEditedValues({
-      ...editedValues,
-      [name]: value,
-    });
-  };
-
-  // Step 5: Handle submission of edited values
-  const handleSubmit = async () => {
-    try {
-      await fetch(`http://localhost:8080/services/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(editedValues),
-      });
-      setEditMode(false);
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   const NavButtonsEdit = [
@@ -145,7 +124,7 @@ const DetailsContainer = ({
     },
     {
       element: (
-        <Link to={"/hireService"} state={{ serviceId: id }}>
+        <Link to={"/hireService"} state={{ serviceId: service._id }}>
           <button className="btn btn-sm btn-outline md:btn md:btn-outline">
             Hire it!
           </button>
@@ -156,7 +135,7 @@ const DetailsContainer = ({
 
   return (
     <div className="flex justify-center">
-      {isLoggedIn ? (
+      {session ? (
         <div className="w-full lg:w-[1000px]">
           {!editMode ? (
             <ActionsNav title={editedValues.name} items={NavButtonsEdit} />
@@ -168,7 +147,7 @@ const DetailsContainer = ({
           )}
 
           <div className="mt-6 border-t border-gray-100 px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-            <dl className="divide-y divide-gray-200">
+            <dl className="bg-green-200 rounded-2xl lg:p-8 divide-y divide-gray-400 shadow-md">
               <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 md:flex md:justify-center ">
                 <dt className="text-sm font-medium leading-6 text-gray-900 md:flex md:justify-center md:w-full md:text-xl">
                   Service
@@ -283,15 +262,15 @@ const DetailsContainer = ({
         </div>
       ) : (
         <div className="w-full lg:w-[1000px]">
-          <ActionsNav title={name} items={UserNavButtons} />
+          <ActionsNav title={service.name} items={UserNavButtons} />
           <div className="mt-6 border-t border-gray-100 px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
-            <dl className="divide-y divide-gray-200">
+            <dl className="bg-green-200 rounded-2xl lg:p-8 divide-y divide-gray-400 shadow-md">
               <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 md:flex md:justify-center ">
                 <dt className="text-sm font-medium leading-6 text-gray-900 md:flex md:justify-center md:w-full md:text-xl">
                   Service
                 </dt>
                 <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 md:flex md:justify-center md:w-full md:text-xl">
-                  {name}
+                  {service.name}
                 </dd>
               </div>
               <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 md:flex md:justify-center ">
@@ -299,7 +278,7 @@ const DetailsContainer = ({
                   Provider
                 </dt>
                 <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 md:flex md:justify-center md:w-full md:text-xl">
-                  {admin}
+                  {service.user.first_name} {service.user.last_name}
                 </dd>
               </div>
               <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 md:flex md:justify-center ">
@@ -307,7 +286,7 @@ const DetailsContainer = ({
                   Duration
                 </dt>
                 <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 md:flex md:justify-center md:w-full md:text-xl">
-                  {duration}
+                  {service.duration}
                 </dd>
               </div>
               <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 md:flex md:justify-center ">
@@ -315,7 +294,7 @@ const DetailsContainer = ({
                   Frequency
                 </dt>
                 <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 md:flex md:justify-center md:w-full md:text-xl">
-                  {frequency}
+                  {service.frequency}
                 </dd>
               </div>
               <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 md:flex md:justify-center ">
@@ -323,15 +302,15 @@ const DetailsContainer = ({
                   Rating
                 </dt>
                 <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 md:flex md:justify-center md:w-full md:text-xl">
-                  {rating}
+                  {service.ratingAverage}
                 </dd>
               </div>
               <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 md:flex md:justify-center ">
                 <dt className="text-sm font-medium leading-6 text-gray-900 md:flex md:justify-center md:w-full md:text-xl">
                   Description
                 </dt>
-                <dd className="lg:text-center mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 md:flex md:justify-center md:w-full md:text-xl">
-                  {description}
+                <dd className="break-words lg:text-center mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 md:flex md:justify-center md:w-full md:text-xl">
+                  {service.description}
                 </dd>
               </div>
             </dl>

@@ -4,6 +4,7 @@ import Form from "../../components/Form/index.jsx";
 import Selector from "../../components/Form/formSelector.jsx";
 import { useState, useEffect } from "react";
 import { useWipe } from "../../context/WipeContextProvider/WipeContext.jsx";
+import { getCategories } from "../../api/apiDataSource.js";
 
 const FilterBarForm = ({ updateSelectedOptions }) => {
   const { wipe } = useWipe();
@@ -16,23 +17,16 @@ const FilterBarForm = ({ updateSelectedOptions }) => {
   });
 
   useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const categoriesData = await getCategories();
+        setCategories(categoriesData);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
     fetchCategories();
   }, []);
-
-  const fetchCategories = async () => {
-    try {
-      const response = await fetch("http://localhost:8080/services");
-      const data = await response.json();
-      const filterdData = data.map((service) => {
-        return { name: service.category };
-      });
-      setCategories(filterdData);
-      console.log(filterdData);
-      console.log(categories);
-    } catch (error) {
-      console.error("Error fetching categories:", error);
-    }
-  };
 
   const handleOptionChange = (field, value) => {
     setSelectedOptions((prevState) => ({

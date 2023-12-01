@@ -1,20 +1,14 @@
 import DropdownSelector from "../../components/Dropdown/DropdownSelector.jsx";
 import { useState } from "react";
+import { useFetch } from "../../hooks/useFetch.js";
+import { updateHiring } from "../../api/apiDataSource";
 
 const HiringDetail = ({ props }) => {
-  const [status, setStatus] = useState(props.status); // Initialize status with the prop value
+  const [status, setStatus] = useState(props.status);
 
   const handleStatusChange = async (newStatus) => {
     try {
-      await fetch(`http://localhost:8080/hirings/${props.id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          status: newStatus,
-        }),
-      });
+      useFetch(updateHiring(props.id, { status: newStatus }));
       setStatus(newStatus);
     } catch (error) {
       console.log(error);

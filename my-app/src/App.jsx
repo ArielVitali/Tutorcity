@@ -7,36 +7,40 @@ import ForgotPassword from "./pages/ForgotPassword/index.jsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HireServiceForm from "./pages/HireService/index.jsx";
 import ProviderHome from "./pages/HomeProvider/index.jsx";
-import { AuthProvider } from "./context/AuthContextProvider/AuthContext.jsx";
+import { UserProvider } from "./context/UserContext/UserContext.jsx";
 import { Menus } from "./components/NavBar/SideMenu.jsx";
 import CommentsInbox from "./pages/PendingComments/index.jsx";
 import HiringsHome from "./pages/Hirings/index.jsx";
 import NewService from "./pages/NewService/index.jsx";
-import { useEffect } from "react";
+
+import { PrivateUserRoutes } from "./utils/Routes/PrivateUserRoutes.jsx";
+// import Profile from "./pages/Profile/index.jsx";
 
 function App() {
-  useEffect(() => {
-    // Scroll to the top of the page when the component is mounted
-    window.scrollTo(0, 0);
-  }, []);
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <NavBar menus={Menus} />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/ServiceDetails" element={<ServiceDetails />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/forgotPassword" element={<ForgotPassword />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/hireService" element={<HireServiceForm />} />
+    <UserProvider>
+      <NavBar menus={Menus} />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/service-details" element={<ServiceDetails />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/reset-password" element={<ForgotPassword />} />
+        {/* <Route
+            path="/request-reset-password"
+            element={<RequestForgotPassword />}
+          /> */}
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/hireService" element={<HireServiceForm />} />
+        <Route element={<PrivateUserRoutes />}>
+          {/* <Route path="/profile" element={<Profile />} /> */}
           <Route path="/ProviderHome" element={<ProviderHome />} />
+          <Route path="/new-service" element={<NewService />} />
+          <Route path="/service-admin-details" element={<ServiceDetails />} />
           <Route path="/CommentsInbox" element={<CommentsInbox />} />
           <Route path="/Hirings" element={<HiringsHome />} />
-          <Route path="/NewService" element={<NewService />} />
-        </Routes>
-      </BrowserRouter>
-    </AuthProvider>
+        </Route>
+      </Routes>
+    </UserProvider>
   );
 }
 

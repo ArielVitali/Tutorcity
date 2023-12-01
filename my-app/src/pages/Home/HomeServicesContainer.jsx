@@ -4,6 +4,8 @@ import ServiceContainer from "../../components/Containers/ServiceContainer.jsx";
 import { WipeProvider } from "../../context/WipeContextProvider/WipeContext.jsx";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useFetch } from "../../hooks/useFetch.js";
+import { getServices } from "../../api/apiDataSource";
 
 const HomeServicesContainer = () => {
   const [services, setServices] = useState(null);
@@ -21,59 +23,27 @@ const HomeServicesContainer = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const filters = {};
-        for (const key in selectedOptions) {
-          if (selectedOptions[key] !== "") {
-            filters[key] = selectedOptions[key];
-          }
-        }
-
-        const baseUrl = "http://localhost:8080/services";
-
-        // Create a URLSearchParams object to handle query parameters
-        const params = new URLSearchParams();
-        for (const key in filters) {
-          params.append(key, filters[key]);
-        }
-
-        // Combine the base URL with the query parameters
-        const url = `${baseUrl}?${params.toString()}`;
-
-        const response = await fetch(url);
-        const data = await response.json();
-        setServices(data);
+        console.log("selectedOptions", selectedOptions);
+        const servicesData = await getServices(selectedOptions);
+        setServices(servicesData);
       } catch (error) {
         console.error("Error fetching services:", error);
       }
     };
 
     fetchServices();
-
-    // Set up an interval to fetch services every 60 seconds (adjust as needed)
-    const fetchServicesInterval = setInterval(fetchServices, 5000);
-
-    // Clean up the interval when the component unmounts
-    return () => {
-      clearInterval(fetchServicesInterval);
-    };
   }, [selectedOptions]);
 
   const servicesComponents = services
-    ? services.map((service, index) => (
-        <ServiceContainer
-          key={index}
-          id={service.id}
-          icon={service.icon}
-          name={service.name}
-          admin={service.admin}
-          duration={service.duration}
-          frequency={service.frequency}
-          rating={service.rating}
-          description={service.description}
-          isPublished={service.isPublished}
-          bgColor={"bg-[#96e6b3]"}
-        />
-      ))
+    ? services.map((service, index) => {
+        return (
+          <ServiceContainer
+            key={index}
+            service={service}
+            bgColor={"bg-[#96e6b3]"}
+          />
+        );
+      })
     : null;
 
   return (

@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
-import { useAuth } from "../../context/AuthContextProvider/AuthContext.jsx";
+import { useContext } from "react";
+import { UserContext } from "../../context/UserContext/UserContext.jsx";
 
 const NavBar = ({ menus }) => {
-  // State to track user's login status
-  const { isLoggedIn, logout } = useAuth();
+  const { session, logout } = useContext(UserContext);
 
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
-        {isLoggedIn && (
+        {session && (
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost lg:hidden">
               <svg
@@ -51,7 +51,7 @@ const NavBar = ({ menus }) => {
       </div>
 
       <div className="navbar-end">
-        {isLoggedIn ? (
+        {session ? (
           <div id="profile" className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">

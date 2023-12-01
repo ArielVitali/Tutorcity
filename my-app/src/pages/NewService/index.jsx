@@ -4,6 +4,8 @@ import { PiArrowCircleLeftDuotone } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { useFetch } from "../../hooks/useFetch.js";
+import { createService } from "../../api/apiDataSource";
 
 const index = () => {
   const [formData, setFormData] = useState({
@@ -19,20 +21,11 @@ const index = () => {
     event.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:8080/services", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const { data } = useFetch(createService(formData));
 
-      if (response.ok) {
-        // Step 5: Update the component state based on the form submission result
-        // You can handle success, e.g., redirect to another page
+      if (data) {
         navigate(-1); // Redirect to the previous page
       } else {
-        // Handle error, show error message, etc.
         console.error("Error submitting the form");
       }
     } catch (error) {
@@ -45,42 +38,49 @@ const index = () => {
     {
       label: "Service Name",
       type: "text",
-      name: "name",
+      name: "name", //name
       id: "name",
       autoComplete: "given-name",
     },
     {
       label: "Service Category",
       type: "text",
-      name: "category",
+      name: "category", //category
       id: "category",
       autoComplete: "family-name",
     },
     {
       label: "Duration",
       type: "text",
-      name: "duration",
+      name: "duration", //duration
       id: "duration",
       autoComplete: "family-name",
     },
     {
       label: "Frequency",
       type: "text",
-      name: "frequency",
+      name: "frequency", //frequency
       id: "frequency",
       autoComplete: "family-name",
     },
     {
       label: "Price",
       type: "text",
-      name: "price",
+      name: "price", //price
       id: "price",
+      autoComplete: "family-name",
+    },
+    {
+      label: "Type",
+      type: "text",
+      name: "type", //image
+      id: "type",
       autoComplete: "family-name",
     },
     {
       label: "Description",
       type: "textarea",
-      name: "description",
+      name: "description", //description
       id: "description",
       autoComplete: "family-name",
     },

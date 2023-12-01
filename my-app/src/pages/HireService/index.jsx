@@ -5,34 +5,27 @@ import { PiArrowCircleLeftDuotone } from "react-icons/pi";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
+import { createHiring } from "../../api/apiDataSource.js";
 
 const index = () => {
   let { state } = useLocation();
   const { serviceId } = state;
   const [formData, setFormData] = useState({
-    serviceId,
-    name: "",
-    category: "",
-    duration: "",
-    frequency: "",
-    price: "",
+    first_name: "",
+    last_name: "",
+    phone_number: "",
+    meeting_time: "",
+    email: "",
     description: "",
-    status: "Pending",
   });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:8080/hirings", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
+      const response = await createHiring(serviceId, formData);
+      console.log(response);
+      if (response.status === 200) {
         navigate(-1);
       } else {
         console.error("Error submitting the form");
@@ -46,30 +39,35 @@ const index = () => {
     {
       label: "First name",
       type: "text",
-      name: "name",
+      name: "first_name",
       id: "name",
       autoComplete: "given-name",
     },
     {
       label: "Last name",
       type: "text",
-      name: "lastName",
+      name: "last_name",
       id: "lastName",
       autoComplete: "family-name",
     },
     {
       label: "Phone number",
       type: "text",
-      name: "phoneNumber",
+      name: "phone_number",
       id: "phoneNumber",
       autoComplete: "family-name",
     },
     {
       label: "Meeting Time",
-      type: "text",
-      name: "meetingTime",
+      type: "select",
+      name: "meeting_time",
       id: "meetingTime",
       autoComplete: "family-name",
+      options: [
+        { label: "Morning", value: "morning" },
+        { label: "Afternoon", value: "afternoon" },
+        { label: "Evening", value: "evening" },
+      ],
     },
     {
       label: "Email",

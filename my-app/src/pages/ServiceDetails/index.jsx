@@ -4,52 +4,32 @@ import { useLocation } from "react-router-dom";
 import ServiceHomeComments from "./Comments/ServiceHomeComments.jsx";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { useFetch } from "../../hooks/useFetch.js";
+import {
+  getCommentsByService,
+  // getPublicUserData,
+} from "../../api/apiDataSource";
 
 const index = () => {
   const [comments, setComments] = useState(null);
   let { state } = useLocation();
-  const {
-    id,
-    name,
-    admin,
-    duration,
-    frequency,
-    rating,
-    description,
-    isPublished,
-  } = state;
+  const { service } = state;
 
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:8080/comments?service=${id}&status=Accepted`
-        );
-        const data = await response.json();
-        setComments(data);
+        const commentData = await getCommentsByService(service._id);
+        setComments(commentData);
       } catch (error) {
-        console.error("Error fetching comments:", error);
+        console.error("Error fetching user info:", error);
       }
     };
-
     fetchComments();
-
-    // Set up an interval to fetch comments every 60 seconds (adjust as needed)
-    const fetchCommentsInterval = setInterval(fetchComments, 5000);
-
-    // Clean up the interval when the component unmounts
-    return () => {
-      clearInterval(fetchCommentsInterval);
-    };
-  }, []);
+  }, [service._id]);
 
   const commentsComponent = comments
     ? comments.map((comment, index) => (
-        <ServiceHomeComments
-          key={index}
-          comment={comment.comment}
-          name={comment.name}
-        />
+        <ServiceHomeComments key={index} comment={comment} />
       ))
     : null;
 
@@ -67,16 +47,7 @@ const index = () => {
         }}
       >
         <div className="lg:flex justify-center ">
-          <DetailsContainer
-            id={id}
-            name={name}
-            admin={admin}
-            duration={duration}
-            frequency={frequency}
-            rating={rating}
-            description={description}
-            isPublished={isPublished}
-          />
+          <DetailsContainer service={service} />
         </div>
       </motion.div>
 
@@ -84,8 +55,8 @@ const index = () => {
         <div>
           <CommentsContainer
             comments={commentsComponent}
-            serviceId={id}
-            serviceName={name}
+            serviceId={service._id}
+            serviceName={service.name}
           />
         </div>
       ) : (
