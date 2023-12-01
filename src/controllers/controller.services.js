@@ -12,7 +12,7 @@ class ServiceRouter extends RouterClass {
   init() {
     this.get("/", ["PUBLIC"], async (req, res) => {
       try {
-        const response = await getServices();
+        const response = await getServices(req.query);
         res.sendSuccess(response);
       } catch (error) {
         res.sendServerError(`something went wrong ${error}`);

@@ -9,10 +9,13 @@ export const getCommentsByServiceId = async (serviceId) => {
   }
 };
 
-export const getALLCommentsByServiceId = async (serviceId) => {
+export const getPendingCommentsByServiceId = async (serviceId) => {
   try {
-    const response = await CommentDAO.getALLCommentsByServiceId(serviceId);
-    return response;
+    if (serviceId === undefined) {
+      return await CommentDAO.getPendingComments();
+    } else {
+      return await CommentDAO.getPendingCommentsByServiceId(serviceId);
+    }
   } catch (error) {
     throw error;
   }

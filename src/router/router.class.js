@@ -77,6 +77,7 @@ class RouterClass {
 
   handlePolicies = (policies) => {
     return async (req, res, next) => {
+      console.log("ENTREEE LOGIN");
       if (policies[0] === "PUBLIC") {
         return next();
       }

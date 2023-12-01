@@ -38,6 +38,7 @@ const initializePassport = () => {
       { passReqToCallback: true, usernameField: "email" },
       async (req, username, password, done) => {
         try {
+          console.log("req.body");
           const user = await getUserByEmail(username);
 
           if (user) {
@@ -72,6 +73,7 @@ const initializePassport = () => {
       { usernameField: "email" },
       async (username, password, done) => {
         try {
+          console.log(user, "user");
           const user = await getUserByEmail(username);
 
           if (!user) {

@@ -16,6 +16,7 @@ class AuthRouter extends RouterClass {
             return res.status(400).json({ error: "Credenciales invalidas" });
           }
           //el bro retorna el token y el user
+          console.log(req.user);
           res.json({ token: req.user.token });
         } catch (error) {
           res.sendServerError(`something went wrong ${error}`);
@@ -43,6 +44,14 @@ class AuthRouter extends RouterClass {
         res.sendSuccess(response);
       } catch (error) {
         console.log("error");
+        res.sendServerError(error);
+      }
+    });
+
+    this.post("/validate-token", ["PRIVATE"], async (req, res) => {
+      try {
+        res.sendSuccess({ valid: true });
+      } catch (error) {
         res.sendServerError(error);
       }
     });

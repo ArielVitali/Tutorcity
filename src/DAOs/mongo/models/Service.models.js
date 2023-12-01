@@ -9,7 +9,8 @@ const serviceSchema = new mongoose.Schema({
     required: true,
   },
   category: {
-    type: String,
+    type: mongoose.Schema.ObjectId,
+    ref: "categories",
     required: true,
   },
   name: {
@@ -31,7 +32,7 @@ const serviceSchema = new mongoose.Schema({
   },
   frequency: {
     type: String,
-    enum: ["One time", "weekly", "monthly"],
+    enum: ["One time", "Weekly", "Monthly"],
     required: true,
   },
   description: {

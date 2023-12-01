@@ -7,8 +7,6 @@ import {
   updateHiring,
 } from "../services/hirings.service.js";
 
-//NO ES UNA BUENA PRACTICA MANDAR TODO EL REQ.BODY, SE DEBERIA DESESTRUCTURAR.
-
 class HiringRouter extends RouterClass {
   init() {
     this.get("/user", ["PRIVATE"], async (req, res) => {

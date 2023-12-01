@@ -1,7 +1,7 @@
 import RouterClass from "../router/router.class.js";
 import {
   getCommentsByServiceId,
-  getALLCommentsByServiceId,
+  getPendingCommentsByServiceId,
   createNewComment,
   updateComment,
   removeComment,
@@ -18,9 +18,11 @@ class CommentRouter extends RouterClass {
       }
     });
 
-    this.get("/:serviceId/all", ["PRIVATE"], async (req, res) => {
+    this.get("/pendingComments/:serviceId", ["PRIVATE"], async (req, res) => {
       try {
-        const response = await getALLCommentsByServiceId(req.params.serviceId);
+        const response = await getPendingCommentsByServiceId(
+          req.params.serviceId
+        );
         res.sendSuccess(response);
       } catch (error) {
         res.sendServerError(`something went wrong ${error}`);

@@ -1,9 +1,38 @@
 import ServiceDAO from "../DAOs/mongo/classes/Service.class.js";
 import mongoose from "mongoose";
+import { getCategoryByName } from "./categories.service.js";
 
-export const getServices = async () => {
+export const getServices = async (queries) => {
   try {
-    const response = await ServiceDAO.getServices();
+    const { category, type, frequency, rating } = queries;
+    const queryConditions = {};
+    let sortOptions = 1;
+
+    if (category !== undefined && category !== "") {
+      queryConditions.category = category;
+    }
+
+    if (type !== undefined && type !== "") {
+      queryConditions.type = type;
+    }
+
+    if (frequency !== undefined && frequency !== "") {
+      queryConditions.frequency = frequency;
+    }
+
+    if (rating !== undefined && rating !== "") {
+      sortOptions = rating.toLowerCase() === "descendent" ? 1 : -1;
+    }
+
+    const hasConditions = Object.keys(queryConditions).length > 0;
+
+    const query = hasConditions ? { $and: [queryConditions] } : {};
+
+    const response = await ServiceDAO.getServices(
+      query,
+      sortOptions,
+      hasConditions
+    );
     return response;
   } catch (error) {
     throw error;
@@ -42,9 +71,19 @@ export const createNewService = async (userId, serviceInfo) => {
       ratingTotalPoints,
       ratingAverage,
     } = serviceInfo;
+
+    if (category) {
+      const categoryFound = await getCategoryByName(category);
+      if (categoryFound.length === 0) {
+        throw new Error("Category not found");
+      }
+    } else {
+      throw new Error("Category is required");
+    }
+
     const newServiceInfo = {
       user: userId,
-      category,
+      category: categoryFound[0]._id,
       name,
       duration,
       type,
@@ -56,7 +95,7 @@ export const createNewService = async (userId, serviceInfo) => {
       ratingTotalPoints,
       ratingAverage,
     };
-    console.log(newServiceInfo.user);
+
     return await ServiceDAO.createService(newServiceInfo);
   } catch (error) {
     throw error;

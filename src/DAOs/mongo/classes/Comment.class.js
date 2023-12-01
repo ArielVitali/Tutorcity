@@ -22,9 +22,18 @@ class CommentDAO {
     }
   }
 
-  async getALLCommentsByServiceId(service) {
+  async getPendingCommentsByServiceId(service) {
     try {
-      const response = await commentModel.find({ service });
+      const response = await commentModel.find({ service, status: "Pending" });
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getPendingComments() {
+    try {
+      const response = await commentModel.find({ status: "Pending" });
       return response;
     } catch (error) {
       throw error;

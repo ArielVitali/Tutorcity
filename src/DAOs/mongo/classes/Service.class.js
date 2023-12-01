@@ -12,10 +12,19 @@ class ServiceDAO {
     }
   }
 
-  async getServices() {
+  async getServices(query, sortOptions, hasConditions) {
     try {
-      const response = await serviceModel.find();
-      return response;
+      if (!hasConditions) {
+        const response = await serviceModel.find().populate("user");
+        return response;
+      } else {
+        const response = await serviceModel
+          .find(query)
+          .populate("user")
+          .sort({ ratingAverage: sortOptions });
+
+        return response;
+      }
     } catch (error) {
       throw error;
     }
