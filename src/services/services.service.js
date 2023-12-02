@@ -1,6 +1,9 @@
 import ServiceDAO from "../DAOs/mongo/classes/Service.class.js";
-import mongoose from "mongoose";
-import { getCategoryByName } from "./categories.service.js";
+import {
+  getCategoryByName,
+  createCategory,
+  updateCategory,
+} from "./categories.service.js";
 
 export const getServices = async (queries) => {
   try {
@@ -59,6 +62,7 @@ export const getServiceById = async (serviceId) => {
 export const createNewService = async (userId, serviceInfo) => {
   try {
     const {
+      _id,
       category,
       name,
       duration,
@@ -72,18 +76,8 @@ export const createNewService = async (userId, serviceInfo) => {
       ratingAverage,
     } = serviceInfo;
 
-    if (category) {
-      const categoryFound = await getCategoryByName(category);
-      if (categoryFound.length === 0) {
-        throw new Error("Category not found");
-      }
-    } else {
-      throw new Error("Category is required");
-    }
-
     const newServiceInfo = {
       user: userId,
-      category: categoryFound[0]._id,
       name,
       duration,
       type,
@@ -96,7 +90,28 @@ export const createNewService = async (userId, serviceInfo) => {
       ratingAverage,
     };
 
-    return await ServiceDAO.createService(newServiceInfo);
+    const categoryFound = await getCategoryByName(category);
+
+    if (category !== undefined && category !== "") {
+      if (categoryFound.length === 0) {
+        const newCategory = await createCategory({
+          name: category,
+        });
+        newServiceInfo.category = newCategory._id;
+      } else {
+        newServiceInfo.category = categoryFound[0]._id;
+      }
+    } else {
+      throw new Error("Category is required");
+    }
+
+    const response = await ServiceDAO.createService(newServiceInfo);
+
+    await updateCategory(newServiceInfo.category, {
+      service: response._id,
+    });
+
+    return response;
   } catch (error) {
     throw error;
   }

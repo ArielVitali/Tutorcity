@@ -12,9 +12,9 @@ class HiringDAO {
     }
   }
 
-  async getHiringsByUserId(id) {
+  async getHiringsByUserId(user) {
     try {
-      const response = await hiringModel.find({ id });
+      const response = await hiringModel.find({ user }).populate("service");
       return response;
     } catch (error) {
       throw error;

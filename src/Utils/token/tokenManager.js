@@ -10,7 +10,7 @@ export const generateToken = (payload) => {
       jwt_secret,
       { expiresIn }
     );
-    return token;
+    return { token, expiresIn };
   } catch (error) {
     throw error;
   }

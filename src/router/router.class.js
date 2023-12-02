@@ -77,7 +77,6 @@ class RouterClass {
 
   handlePolicies = (policies) => {
     return async (req, res, next) => {
-      console.log("ENTREEE LOGIN");
       if (policies[0] === "PUBLIC") {
         return next();
       }
@@ -85,6 +84,8 @@ class RouterClass {
       if (policies[0] === "PRIVATE") {
         passport.authenticate("jwt", { session: false }, (error, user) => {
           if (error || !user) {
+            console.log("error", error);
+            console.log("user", user);
             return res.status(401).send({ error: "Unauthorized" });
           }
 

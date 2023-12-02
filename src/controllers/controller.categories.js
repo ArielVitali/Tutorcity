@@ -17,18 +17,18 @@ class CategoryRouter extends RouterClass {
       }
     });
 
-    this.get("/", ["PUBLIC"], async (req, res) => {
+    this.get("/id/:id", ["PUBLIC"], async (req, res) => {
       try {
-        const response = await getCategories();
+        const response = await getCategoryById(req.params.id);
         res.sendSuccess(response);
       } catch (error) {
         res.sendServerError(`something went wrong ${error}`);
       }
     });
 
-    this.get("/:id", ["PUBLIC"], async (req, res) => {
+    this.get("/", ["PUBLIC"], async (req, res) => {
       try {
-        const response = await getCategoryById(req.params.id);
+        const response = await getCategories();
         res.sendSuccess(response);
       } catch (error) {
         res.sendServerError(`something went wrong ${error}`);

@@ -23,6 +23,17 @@ class CommentRouter extends RouterClass {
         const response = await getPendingCommentsByServiceId(
           req.params.serviceId
         );
+        console.log(response);
+        res.sendSuccess(response);
+      } catch (error) {
+        res.sendServerError(`something went wrong ${error}`);
+      }
+    });
+
+    this.get("/pendingComments/user", ["PRIVATE"], async (req, res) => {
+      try {
+        const response = await getPendingCommentsByUser(req.user.id);
+        console.log(response);
         res.sendSuccess(response);
       } catch (error) {
         res.sendServerError(`something went wrong ${error}`);

@@ -24,6 +24,7 @@ const initializePassport = () => {
       },
       async (jwt_payload, done) => {
         try {
+          console.log("jwt_payload", jwt_payload);
           return done(null, jwt_payload);
         } catch (error) {
           return done(error);
@@ -48,9 +49,26 @@ const initializePassport = () => {
 
           const newUser = await createUser(req.body, password);
 
-          const token = generateToken({ id: newUser.id, email: newUser.email });
+          const { token, expiresIn } = generateToken({ id: newUser._id });
 
-          return done(null, { user: newUser, token });
+          const repsonse = {
+            user: {
+              id: newUser._id,
+              first_name: newUser.first_name,
+              last_name: newUser.last_name,
+              email: newUser.email,
+              phone_number: newUser.phone_number,
+              degree: newUser.degree,
+              experience: newUser.experience,
+              profileImgUrl: newUser.profile_img_url,
+            },
+            jwt: {
+              token,
+              expiresIn,
+            },
+          };
+
+          return done(null, repsonse);
         } catch (error) {
           return done(error);
         }
@@ -73,7 +91,6 @@ const initializePassport = () => {
       { usernameField: "email" },
       async (username, password, done) => {
         try {
-          console.log(user, "user");
           const user = await getUserByEmail(username);
 
           if (!user) {
@@ -85,10 +102,29 @@ const initializePassport = () => {
             return done(null, false);
           }
 
-          const token = generateToken({ id: user.id, email: user.email });
+          const { token, expiresIn } = generateToken({ id: user._id });
 
-          return done(null, { token });
-        } catch (error) {}
+          const repsonse = {
+            user: {
+              id: user._id,
+              first_name: user.first_name,
+              last_name: user.last_name,
+              email: user.email,
+              phone_number: user.phone_number,
+              degree: user.degree,
+              experience: user.experience,
+              profileImgUrl: user.profile_img_url,
+            },
+            jwt: {
+              token,
+              expiresIn,
+            },
+          };
+
+          return done(null, repsonse);
+        } catch (error) {
+          return done(error);
+        }
       }
     )
   );

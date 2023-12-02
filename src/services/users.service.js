@@ -87,7 +87,8 @@ export const updatedUserProfileImg = async (id, file) => {
     const imgURL = await uploadImage(file);
     console.log(imgURL);
     const updatedUserInfo = { profile_img_url: imgURL };
-    return await updateUser(id, updatedUserInfo);
+    await updateUser(id, updatedUserInfo);
+    return imgURL;
   } catch (error) {
     throw error;
   }

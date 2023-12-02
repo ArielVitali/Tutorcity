@@ -33,7 +33,10 @@ class CommentDAO {
 
   async getPendingComments() {
     try {
-      const response = await commentModel.find({ status: "Pending" });
+      console.log("response en dao");
+      const response = await commentModel
+        .find({ status: "Pending" })
+        .populate("service");
       return response;
     } catch (error) {
       throw error;
@@ -64,6 +67,18 @@ class CommentDAO {
   async deleteComment(id) {
     try {
       const response = await commentModel.deleteOne({ _id: id });
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getPendingCommentsByUser(userId) {
+    try {
+      const response = await commentModel.find({
+        user: userId,
+        status: "Pending",
+      });
       return response;
     } catch (error) {
       throw error;

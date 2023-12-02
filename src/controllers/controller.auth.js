@@ -15,9 +15,7 @@ class AuthRouter extends RouterClass {
           if (!req.user) {
             return res.status(400).json({ error: "Credenciales invalidas" });
           }
-          //el bro retorna el token y el user
-          console.log(req.user);
-          res.json({ token: req.user.token });
+          res.json(req.user);
         } catch (error) {
           res.sendServerError(`something went wrong ${error}`);
         }

@@ -18,6 +18,7 @@ export const getCategoryById = async (id) => {
 
 export const getCategoryByName = async (name) => {
   try {
+    console.log(name, " in categories.service.js");
     return await CategoriesDAO.getCategoryByName(name);
   } catch (error) {
     throw error;
@@ -31,6 +32,19 @@ export const createCategory = async (categoryInfo) => {
       name,
     };
     return await CategoriesDAO.createCategory(newCategoryInfo);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateCategory = async (id, updateInfo) => {
+  try {
+    const { name, service } = updateInfo;
+    const newCategoryInfo = {
+      name,
+      service,
+    };
+    return await CategoriesDAO.updateCategory(id, newCategoryInfo);
   } catch (error) {
     throw error;
   }

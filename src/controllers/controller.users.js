@@ -44,7 +44,7 @@ class UsersRouter extends RouterClass {
       passport.authenticate("register", { session: false }),
       async (req, res) => {
         try {
-          res.json({ token: req.user.token });
+          res.json(req.user);
         } catch (error) {
           if (error.code === 11000)
             return res.status(400).json({ error: "User already exists" });
