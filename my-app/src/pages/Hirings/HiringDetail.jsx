@@ -3,13 +3,14 @@ import { useState } from "react";
 import { useFetch } from "../../hooks/useFetch.js";
 import { updateHiring } from "../../api/apiDataSource";
 
-const HiringDetail = ({ props }) => {
-  const [status, setStatus] = useState(props.status);
+const HiringDetail = ({ hiring, onStatusChange, hirings }) => {
+  const [status, setStatus] = useState(hiring.status);
 
   const handleStatusChange = async (newStatus) => {
     try {
-      useFetch(updateHiring(props.id, { status: newStatus }));
+      await updateHiring(hiring._id, { status: newStatus });
       setStatus(newStatus);
+      onStatusChange(hiring._id, newStatus, hirings);
     } catch (error) {
       console.log(error);
     }
@@ -53,7 +54,7 @@ const HiringDetail = ({ props }) => {
     <div className="p-4 my-2 w-full  md:w-full bg-[#98c9a3] rounded-md">
       <div className="w-full my-2">
         <div className="w-full flex flex-wrap justify-center items-center">
-          <h5 className="text-center py-2">{props.title}</h5>
+          <h5 className="text-center py-2">{hiring.service.name}</h5>
         </div>
         <div className="flex justify-center ">
           <DropdownSelector
@@ -68,27 +69,27 @@ const HiringDetail = ({ props }) => {
       <div className="w-full my-2 sm:flex">
         <div className="w-full md:justify-between md:flex">
           <p className="md:mx-4 font-bold">Name</p>
-          <p className="md:mx-4">{props.name}</p>
+          <p className="md:mx-4">{hiring.first_name}</p>
         </div>
         <div className="w-full md:justify-between md:flex">
           <p className="md:mx-4 font-bold">Last name</p>
-          <p className="md:mx-4">{props.lastName}</p>
+          <p className="md:mx-4">{hiring.last_name}</p>
         </div>
       </div>
       <div className="w-full my-2 sm:flex">
         <div className="w-full md:justify-between md:flex">
           <p className="md:mx-4 font-bold">Phone number</p>
-          <p className="md:mx-4">{props.phoneNumber}</p>
+          <p className="md:mx-4">{hiring.phone_number}</p>
         </div>
         <div className="w-full md:justify-between md:flex">
           <p className="md:mx-4 font-bold">Meeting time</p>
-          <p className="md:mx-4">{props.meetingTime}hs</p>
+          <p className="md:mx-4">{hiring.meeting_time}hs</p>
         </div>
       </div>
       <div className="w-full my-2 sm:flex">
         <div className="w-full md:justify-between md:flex">
           <p className="md:mx-4 font-bold">Email</p>
-          <p className="md:mx-4">{props.email}</p>
+          <p className="md:mx-4">{hiring.email}</p>
         </div>
       </div>
       <div className="w-full my-2">
@@ -96,7 +97,7 @@ const HiringDetail = ({ props }) => {
           <p className="md:mx-4 font-bold">Description</p>
         </div>
         <div className="md:mx-4 bg-white rounded-md ">
-          <p className="p-4">{props.description}</p>
+          <p className="p-4">{hiring.description}</p>
         </div>
       </div>
     </div>

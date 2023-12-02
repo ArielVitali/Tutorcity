@@ -5,8 +5,8 @@ import { Navigate, Outlet } from "react-router-dom";
 export const PrivateUserRoutes = () => {
   const { session, loading } = useContext(UserContext);
 
-  loading ? (
-    <div>Loading...</div>
+  return loading ? (
+    <div className="bg-green-900">Loading...</div>
   ) : session ? (
     <Outlet />
   ) : (

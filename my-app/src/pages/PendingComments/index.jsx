@@ -4,8 +4,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import ActionsNav from "../../components/ActionsNav/index.jsx";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { useFetch } from "../../hooks/useFetch.js";
 import { getPendingComments } from "../../api/apiDataSource";
+import Spinner from "../../components/Spinner/index.jsx";
+import Empty from "../../components/empty/index.jsx";
 
 const index = () => {
   const [pendingComments, setPendingComments] = useState([]);
@@ -14,13 +15,29 @@ const index = () => {
   const state = location.state || {};
   const { serviceId, serviceName } = state;
 
-  const { data, loading } = useFetch(getPendingComments(serviceId));
-
   useEffect(() => {
-    if (!loading && data) {
-      setPendingComments(data);
-    }
-  }, [data, loading]);
+    const fetchComments = async () => {
+      try {
+        let commentData;
+        if (!serviceId) {
+          commentData = await getPendingComments("all");
+        } else {
+          commentData = await getPendingComments(serviceId);
+        }
+        console.log(commentData, "comment data");
+        setPendingComments(commentData);
+      } catch (error) {
+        console.error("Error fetching user info:", error);
+      }
+    };
+    fetchComments();
+  }, [serviceId]);
+
+  const removeComment = (commentId) => {
+    setPendingComments((prevComments) =>
+      prevComments.filter((comment) => comment._id !== commentId)
+    );
+  };
 
   const buttons = [
     {
@@ -31,6 +48,23 @@ const index = () => {
       ),
     },
   ];
+
+  let commentsComponent = !pendingComments ? (
+    <Spinner />
+  ) : pendingComments.length === 0 ? (
+    <Empty />
+  ) : (
+    pendingComments.map((comment, index) => (
+      <li key={index} className="p-4">
+        <PendingComment
+          key={index}
+          serviceTitle={serviceName}
+          comment={comment}
+          removeComment={removeComment}
+        />
+      </li>
+    ))
+  );
 
   return (
     <motion.div
@@ -46,22 +80,9 @@ const index = () => {
     >
       <div>
         <ActionsNav title={"Pending Comments"} items={buttons} />
-        <div className=" md:flex md:justify-center ">
+        <div className="align-center md:flex md:justify-center ">
           <div className="md:w-[1000px]">
-            <ul>
-              {pendingComments.map((comment, index) => (
-                <li key={index} className="p-4">
-                  <PendingComment
-                    key={index}
-                    serviceTitle={serviceName}
-                    name={comment.name}
-                    email={comment.email}
-                    comment={comment.comment}
-                    id={comment.id}
-                  />
-                </li>
-              ))}
-            </ul>
+            <ul>{commentsComponent}</ul>
           </div>
         </div>
       </div>

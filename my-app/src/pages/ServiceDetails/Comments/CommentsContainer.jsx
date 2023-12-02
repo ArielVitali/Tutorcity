@@ -36,7 +36,7 @@ const CommentsContainer = ({ comments, serviceId, serviceName }) => {
                 </Link>
               </div>
             </div>
-            <div className="lg:w-[1000px] drop-shadow-lg mt-8 [column-fill:_balance] sm:columns-2 sm:gap-6 lg:columns-3 lg:gap-8">
+            <div className="columns-1 sm:columns-2 sm:gap-6 lg:columns-1  lg:gap-8  lg:w-[1000px] drop-shadow-lg mt-8 ">
               {comments}
             </div>
           </div>

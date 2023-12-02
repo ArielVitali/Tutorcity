@@ -14,7 +14,7 @@ instance.interceptors.request.use(
     const jwt = JSON.parse(localStorage.getItem("jwt"));
     config.headers = {
       ...config.headers,
-      Authorization: jwt ? `Bearer ${jwt}` : "",
+      Authorization: jwt ? `Bearer ${jwt.token}` : "",
     };
     return config;
   },

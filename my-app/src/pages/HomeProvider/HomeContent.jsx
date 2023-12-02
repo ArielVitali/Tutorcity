@@ -1,43 +1,57 @@
 import ServiceContainer from "../../components/Containers/ServiceContainer.jsx";
 import { useState, useEffect } from "react";
-import { useFetch } from "../../hooks/useFetch.js";
+import Spinner from "../../components/Spinner/index.jsx";
 import { getServicesByUser } from "../../api/apiDataSource";
 
 const HomeContent = () => {
   const [publishedServices, setPublishedServices] = useState([]);
   const [unpublishedServices, setUnpublishedServices] = useState([]);
-  const { data, loading } = useFetch(getServicesByUser);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!loading && data) {
-      const publishedServices = data.filter((service) => service.isPublished);
-      const unpublishedServices = data.filter(
-        (service) => !service.isPublished
-      );
-      setPublishedServices(publishedServices);
-      setUnpublishedServices(unpublishedServices);
-    }
-  }, [data, loading]);
+    const fetchServices = async () => {
+      try {
+        const serviceData = await getServicesByUser();
+        const publishedServices = serviceData.filter(
+          (service) => service.isPublished
+        );
+        const unpublishedServices = serviceData.filter(
+          (service) => !service.isPublished
+        );
+        setPublishedServices(publishedServices);
+        setUnpublishedServices(unpublishedServices);
+      } catch (error) {
+        console.error("Error trying to get services:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchServices();
+  }, []);
 
-  const publishedComponents = publishedServices.map((service, index) => (
-    <li key={index}>
-      <ServiceContainer
-        key={index}
-        service={service}
-        bgColor={"bg-[#96e6b3] shadow-2xl"}
-      />
-    </li>
-  ));
+  const publishedComponents = loading
+    ? Spinner
+    : publishedServices.map((service, index) => (
+        <li key={index}>
+          <ServiceContainer
+            key={index}
+            service={service}
+            bgColor={"bg-[#96e6b3] shadow-2xl"}
+          />
+        </li>
+      ));
 
-  const unpublishedComponents = unpublishedServices.map((service, index) => (
-    <li key={index}>
-      <ServiceContainer
-        key={index}
-        service={service}
-        bgColor={"bg-[#96e6b3] shadow-2xl"}
-      />
-    </li>
-  ));
+  const unpublishedComponents = loading
+    ? Spinner
+    : unpublishedServices.map((service, index) => (
+        <li key={index}>
+          <ServiceContainer
+            key={index}
+            service={service}
+            bgColor={"bg-[#96e6b3] shadow-2xl"}
+          />
+        </li>
+      ));
 
   return (
     <div>

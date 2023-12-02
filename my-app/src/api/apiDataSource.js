@@ -3,7 +3,7 @@ import instance from "./config/config.axios.js";
 export const loginAPI = async (data) => {
   try {
     const response = await instance.post("/auth", data);
-    console.log(response, "response api final");
+    console.log(response, "response api");
     localStorage.setItem("jwt", JSON.stringify(response.data.jwt));
     localStorage.setItem("user", JSON.stringify(response.data.user));
     return response.data;
@@ -16,6 +16,7 @@ export const registerAPI = async (data) => {
   try {
     console.log(data, "data api");
     const response = await instance.post("/users", data);
+    console.log(response, "response api");
     localStorage.setItem("jwt", JSON.stringify(response.data.jwt));
     localStorage.setItem("user", JSON.stringify(response.data.user));
     return response.data;
@@ -36,7 +37,7 @@ export const verifyValidToken = async (token) => {
 export const getServicesByUser = async () => {
   try {
     const response = await instance.get("/services/user");
-    return response.data.services;
+    return response.data.payload;
   } catch (error) {
     throw error.response;
   }
@@ -65,7 +66,7 @@ export const getPendingComments = async (serviceId) => {
     const response = await instance.get(
       `/comments/pendingComments/${serviceId}`
     );
-    return response.data.comments;
+    return response.data.payload;
   } catch (error) {
     throw error.response;
   }
@@ -92,7 +93,8 @@ export const updateService = async (serviceId, data) => {
 export const getHiringsByProvider = async () => {
   try {
     const response = await instance.get("/hirings/user");
-    return response.data.hirings;
+    console.log(response.data.payload, "response from axios");
+    return response.data.payload;
   } catch (error) {
     throw error.response;
   }
@@ -118,7 +120,7 @@ export const createHiring = async (serviceId, data) => {
 
 export const updateUser = async (data) => {
   try {
-    const response = instance.patch("/users", data);
+    const response = await instance.patch("/users", data);
     localStorage.setItem("user", JSON.stringify(response.data.user));
     return response.data;
   } catch (error) {
@@ -135,7 +137,7 @@ export const uploadImage = async (file) => {
         "Content-Type": "multipart/form-data",
       },
     });
-    return response.data;
+    return response.data.payload;
   } catch (error) {
     throw error.response;
   }
@@ -162,6 +164,24 @@ export const getPublicUserData = async (userId) => {
 export const getCategories = async () => {
   try {
     const response = await instance.get("/categories");
+    return response.data.payload;
+  } catch (error) {
+    throw error.response;
+  }
+};
+
+export const updateComment = async (commentId, data) => {
+  try {
+    const response = await instance.patch(`/comments/${commentId}`, data);
+    return response.data.payload;
+  } catch (error) {
+    throw error.response;
+  }
+};
+
+export const deleteComment = async (commentId) => {
+  try {
+    const response = await instance.delete(`/comments/${commentId}`);
     return response.data.payload;
   } catch (error) {
     throw error.response;

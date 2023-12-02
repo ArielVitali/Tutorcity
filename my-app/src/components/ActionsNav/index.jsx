@@ -9,7 +9,7 @@ const index = ({ title, items }) => {
         ))}
       </div>
 
-      <div className="w-full flex justify-center">
+      <div className="mt-4 pt-4 w-full flex justify-center">
         <h3>{title}</h3>
       </div>
     </div>

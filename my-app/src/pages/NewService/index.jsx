@@ -4,26 +4,27 @@ import { PiArrowCircleLeftDuotone } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { useFetch } from "../../hooks/useFetch.js";
 import { createService } from "../../api/apiDataSource";
 
 const index = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: "",
     category: "",
+    name: "",
     duration: "",
+    type: "",
     frequency: "",
-    price: "",
     description: "",
+    price: "",
   });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      const { data } = useFetch(createService(formData));
-
-      if (data) {
+      const newServiceData = await createService(formData);
+      console.log(newServiceData, "new service data");
+      if (newServiceData) {
         navigate(-1); // Redirect to the previous page
       } else {
         console.error("Error submitting the form");
@@ -33,49 +34,60 @@ const index = () => {
     }
   };
 
-  const navigate = useNavigate();
   const fields = [
     {
       label: "Service Name",
       type: "text",
-      name: "name", //name
+      name: "name",
       id: "name",
       autoComplete: "given-name",
     },
     {
       label: "Service Category",
       type: "text",
-      name: "category", //category
+      name: "category",
       id: "category",
       autoComplete: "family-name",
     },
     {
       label: "Duration",
-      type: "text",
-      name: "duration", //duration
+      type: "number",
+      step: 0.5,
+      min: 0.5,
+      max: 4,
+      name: "duration",
       id: "duration",
       autoComplete: "family-name",
     },
     {
       label: "Frequency",
-      type: "text",
-      name: "frequency", //frequency
+      type: "select",
+      name: "frequency",
       id: "frequency",
       autoComplete: "family-name",
+      options: [
+        { label: "One time", value: "One time" },
+        { label: "Weekly", value: "Weekly" },
+        { label: "Monthly", value: "Monthly" },
+      ],
     },
     {
       label: "Price",
-      type: "text",
+      type: "number",
       name: "price", //price
       id: "price",
       autoComplete: "family-name",
     },
     {
       label: "Type",
-      type: "text",
-      name: "type", //image
+      type: "select",
+      name: "type",
       id: "type",
       autoComplete: "family-name",
+      options: [
+        { label: "Private", value: "Private" },
+        { label: "Group", value: "Group" },
+      ],
     },
     {
       label: "Description",

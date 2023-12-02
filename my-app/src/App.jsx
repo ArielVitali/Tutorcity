@@ -4,7 +4,7 @@ import Home from "./pages/Home/index.jsx";
 import Login from "./pages/Login/index.jsx";
 import SignUp from "./pages/Signup/index.jsx";
 import ForgotPassword from "./pages/ForgotPassword/index.jsx";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import HireServiceForm from "./pages/HireService/index.jsx";
 import ProviderHome from "./pages/HomeProvider/index.jsx";
 import { UserProvider } from "./context/UserContext/UserContext.jsx";
@@ -14,7 +14,7 @@ import HiringsHome from "./pages/Hirings/index.jsx";
 import NewService from "./pages/NewService/index.jsx";
 
 import { PrivateUserRoutes } from "./utils/Routes/PrivateUserRoutes.jsx";
-// import Profile from "./pages/Profile/index.jsx";
+import Profile from "./pages/Profile/index.jsx";
 
 function App() {
   return (
@@ -32,7 +32,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/hireService" element={<HireServiceForm />} />
         <Route element={<PrivateUserRoutes />}>
-          {/* <Route path="/profile" element={<Profile />} /> */}
+          <Route path="/profile" element={<Profile />} />
           <Route path="/ProviderHome" element={<ProviderHome />} />
           <Route path="/new-service" element={<NewService />} />
           <Route path="/service-admin-details" element={<ServiceDetails />} />

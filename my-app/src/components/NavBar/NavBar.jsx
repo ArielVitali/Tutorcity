@@ -34,7 +34,7 @@ const NavBar = ({ menus }) => {
               {menus.map((Menu, index) => (
                 <Link key={index} to={Menu.to}>
                   <li
-                    className={`flex rounded-md p-2 cursor-pointer hover:bg-green-200 bg-white  text-sm items-center gap-x-4
+                    className={`flex rounded-md p-2 cursor-pointer hover:bg-slate-200 bg-white  text-sm items-center gap-x-4
                     `}
                   >
                     <div>{Menu.src}</div>
@@ -45,7 +45,10 @@ const NavBar = ({ menus }) => {
             </ul>
           </div>
         )}
-        <Link to={"/"} className="btn btn-ghost normal-case text-xl">
+        <Link
+          to={session ? "/ProviderHome" : "/"}
+          className="btn btn-ghost normal-case text-xl"
+        >
           TutorCity
         </Link>
       </div>
@@ -55,25 +58,25 @@ const NavBar = ({ menus }) => {
           <div id="profile" className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
-                <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.QjynegEfQVPq5kIEuX9fWQHaFj%26pid%3DApi&f=1&ipt=a37cb0f91afc6cb8e58fc76eed4cd6958f97d4ad880b07c8159dcc2a992e17ed&ipo=images" />
+                <img
+                  src={
+                    session ? session.profileImgUrl : "../../public/deadmau.png"
+                  }
+                />
               </div>
             </label>
             <ul
               tabIndex={0}
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
-              <li>
-                <a className="justify-between">
-                  Profile
-                  <span className="badge">New</span>
-                </a>
-              </li>
-              <li>
-                <a>Settings</a>
-              </li>
-              <Link to={"/"}>
+              <Link to={"/profile"}>
+                <li className="justify-between">
+                  <a>Profile</a>
+                </li>
+              </Link>
+              <Link onClick={logout}>
                 <li>
-                  <a onClick={logout}>Logout</a>
+                  <a>Logout</a>
                 </li>
               </Link>
             </ul>

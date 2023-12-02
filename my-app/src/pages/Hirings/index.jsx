@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { PiArrowCircleLeftDuotone } from "react-icons/pi";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { useFetch } from "../../hooks/useFetch.js";
 import { getHiringsByProvider } from "../../api/apiDataSource.js";
 
 const index = () => {
@@ -15,16 +14,48 @@ const index = () => {
 
   const navigate = useNavigate();
 
-  const { data, loading } = useFetch(getHiringsByProvider);
-
   useEffect(() => {
-    if (!loading && data) {
-      setAcceptedHirings(data.filter((item) => item.status === "Accepted"));
-      setCanceledHirings(data.filter((item) => item.status === "Canceled"));
-      setFinalizedHirings(data.filter((item) => item.status === "Finalized"));
-      setPendingHirings(data.filter((item) => item.status === "Pending"));
-    }
-  }, [data, loading]);
+    const fetchHirings = async () => {
+      try {
+        const hiringsData = await getHiringsByProvider();
+        setAcceptedHirings(
+          hiringsData.filter((item) => item.status === "Accepted")
+        );
+        setCanceledHirings(
+          hiringsData.filter((item) => item.status === "Canceled")
+        );
+        setFinalizedHirings(
+          hiringsData.filter((item) => item.status === "Finalized")
+        );
+        setPendingHirings(
+          hiringsData.filter((item) => item.status === "Pending")
+        );
+      } catch (error) {
+        console.error("Error trying to get hirings:", error);
+      }
+    };
+    fetchHirings();
+  }, []);
+
+  const handleStatusChange = (hiringId, newStatus, allHirings) => {
+    // Update the state based on the new status
+    const updatedHirings = allHirings.map((hiring) =>
+      hiring._id === hiringId ? { ...hiring, status: newStatus } : hiring
+    );
+
+    setAcceptedHirings(
+      updatedHirings.filter((item) => item.status === "Accepted")
+    );
+    setCanceledHirings(
+      updatedHirings.filter((item) => item.status === "Canceled")
+    );
+    setFinalizedHirings(
+      updatedHirings.filter((item) => item.status === "Finalized")
+    );
+    setPendingHirings(
+      updatedHirings.filter((item) => item.status === "Pending")
+    );
+  };
 
   const buttons = [
     {
@@ -58,6 +89,7 @@ const index = () => {
                 hirings={pendingHirings}
                 status={"Pending"}
                 number={pendingHirings.length}
+                onStatusChange={handleStatusChange}
               />
             </motion.div>
             <motion.div
@@ -75,6 +107,7 @@ const index = () => {
                 hirings={acceptedHirings}
                 status={"Accepted"}
                 number={acceptedHirings.length}
+                onStatusChange={handleStatusChange}
               />
             </motion.div>
             {/* <h3 className="text-2xl font-semibold">Canceled</h3> */}
@@ -93,6 +126,7 @@ const index = () => {
                 hirings={canceledHirings}
                 status={"Canceled"}
                 number={canceledHirings.length}
+                onStatusChange={handleStatusChange}
               />
             </motion.div>
             {/* <h3 className="text-2xl font-semibold">Finalized</h3> */}
@@ -111,6 +145,7 @@ const index = () => {
                 hirings={finalizedHirings}
                 status={"Finalized"}
                 number={finalizedHirings.length}
+                onStatusChange={handleStatusChange}
               />
             </motion.div>
           </div>

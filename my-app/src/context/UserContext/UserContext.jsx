@@ -37,9 +37,7 @@ export const UserProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      console.log(email, password, "email and password");
-      const response = await loginAPI(email, password);
-      console.log(response, "response from login api");
+      const response = await loginAPI({ email, password });
       setSession(response.user);
       return response;
     } catch (error) {

@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { PiGraduationCapDuotone, PiArrowRightDuotone } from "react-icons/pi";
 import { Link } from "react-router-dom";
 import HomeContent from "./HomeContent";
 import { Menus } from "../../components/NavBar/SideMenu.jsx";
+import { UserContext } from "../../context/UserContext/UserContext.jsx";
 
 const index = () => {
   const [open, setOpen] = useState(false);
+  const { session } = useContext(UserContext);
 
   return (
     <div className="flex">
@@ -68,10 +70,12 @@ const index = () => {
       <div className="h-screen flex-1 p-7">
         <div className="w-full my-2 sm:flex sm:justify-between sm:items-center my-4">
           <div className="w-full flex justify-center md:w-fit">
-            <h3 className="md:text-5xl">Bienvenida Ana</h3>
+            <h3 className="md:text-5xl">
+              Welcome {session.first_name} {session.last_name}
+            </h3>
           </div>
           <div className="w-full my-4 flex justify-center md:w-fit">
-            <Link to="/NewService">
+            <Link to="/new-service">
               <button className="btn btn-sm  md:btn-md bg-black text-white hover:bg-[#2dc653] hover:border-2 hover:border-black hover:text-black font-bold shadow-xl">
                 New Service
               </button>

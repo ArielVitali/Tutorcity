@@ -4,7 +4,6 @@ import { useLocation } from "react-router-dom";
 import ServiceHomeComments from "./Comments/ServiceHomeComments.jsx";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { useFetch } from "../../hooks/useFetch.js";
 import {
   getCommentsByService,
   // getPublicUserData,

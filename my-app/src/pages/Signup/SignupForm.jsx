@@ -13,6 +13,7 @@ const SignupForm = () => {
     first_name: "",
     last_name: "",
     email: "",
+    phone_number: "",
     password: "",
   });
 
@@ -22,7 +23,6 @@ const SignupForm = () => {
       ...prevFormData,
       [name]: value,
     }));
-    console.log(formData);
   };
 
   const handleSubmit = async (event) => {
@@ -34,75 +34,76 @@ const SignupForm = () => {
 
       if (response) {
         navigate("/ProviderHome");
+        // navigate("/profile");
       }
     } catch (error) {
       console.error("Error trying to signup:", error);
     }
   };
 
-  const content = [
-    <div>
-      <FormLabel text="First Name" styles="font-medium" />
-      <FormInput
-        type="text"
-        name="first_name"
-        required={true}
-        styles="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-black shadow-sm rounded-lg"
-        value={formData.first_name}
-        onChange={handleInputChange}
-      />
-    </div>,
-    <div>
-      <FormLabel text="Last Name" styles="font-medium" />
-      <FormInput
-        type="text"
-        name="last_name"
-        required={true}
-        styles="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-black shadow-sm rounded-lg"
-        value={formData.last_name}
-        onChange={handleInputChange}
-      />
-    </div>,
-    <div>
-      <FormLabel text="Email" styles="font-medium" />
-      <FormInput
-        type="email"
-        name="email"
-        required={true}
-        styles="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-black shadow-sm rounded-lg"
-        value={formData.email}
-        onChange={handleInputChange}
-      />
-    </div>,
-    <div>
-      <FormLabel text="Password" styles="font-medium" />
-      <FormInput
-        type="password"
-        name="password"
-        required={true}
-        styles="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-black shadow-sm rounded-lg"
-        value={formData.password}
-        onChange={handleInputChange}
-      />
-    </div>,
-    <Button
-      key={"signupButton"}
-      type="submit"
-      styles={
-        "w-full px-4 py-2 text-black   bg-[#5dd39e] border border-black hover:bg-[#1f2421] hover:text-white  rounded-lg duration-200"
-      }
-      text={"Sign Up"}
-    />,
-  ];
-
-  // <Form content={content} styles={styles} />
-  const styles = "mt-8 space-y-5";
-
   return (
-    <form className={styles} onSubmit={handleSubmit}>
-      {content.map((element, index) => {
-        return <div key={index}>{element}</div>;
-      })}
+    <form className="mt-8 space-y-5" onSubmit={handleSubmit}>
+      <div key={"first_name"}>
+        <label className="font-medium">First name</label>
+        <input
+          type="text"
+          name="first_name"
+          required
+          className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-black shadow-sm rounded-lg"
+          value={formData.first_name}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div key={"last_name"}>
+        <label className="font-medium">Last name</label>
+        <input
+          type="text"
+          name="last_name"
+          required
+          className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-black shadow-sm rounded-lg"
+          value={formData.last_name}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div key={"email"}>
+        <label className="font-medium">Email</label>
+        <input
+          type="email"
+          name="email"
+          required
+          className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-black shadow-sm rounded-lg"
+          onChange={handleInputChange}
+          value={formData.email}
+        />
+      </div>
+      <div key={"phone_number"}>
+        <label className="font-medium">Phone number</label>
+        <input
+          type="text"
+          name="phone_number"
+          required
+          className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-black shadow-sm rounded-lg"
+          onChange={handleInputChange}
+          value={formData.phone_number}
+        />
+      </div>
+      <div key={"password"}>
+        <label className="font-medium">Password</label>
+        <input
+          type="password"
+          name="password"
+          required
+          className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-black shadow-sm rounded-lg"
+          onChange={handleInputChange}
+          value={formData.password}
+        />
+      </div>
+      <button
+        className="w-full px-4 py-2 text-black   bg-[#5dd39e] border border-black hover:bg-[#1f2421] hover:text-white  rounded-lg duration-200"
+        type="submit"
+      >
+        Register
+      </button>
     </form>
   );
 };

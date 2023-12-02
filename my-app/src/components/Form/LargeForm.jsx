@@ -41,6 +41,7 @@ const LargeForm = ({
                       // Add the value and onChange attributes here
                       value={formData[field.name]}
                       onChange={handleInputChange}
+                      required
                       className="block  textarea w-full rounded-md  p-1.5 text-gray-900 shadow-sm ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
                     ></textarea>
                   </div>
@@ -64,7 +65,8 @@ const LargeForm = ({
                       // Add the value and onChange attributes here
                       value={formData[field.name]}
                       onChange={handleInputChange}
-                      className="block w-full rounded-md  p-1.5 text-gray-900 shadow-sm  ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                      required
+                      className="input block w-full rounded-md  p-1.5 text-gray-900 shadow-sm  ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
                     />
                   </div>
                 </div>
@@ -84,7 +86,8 @@ const LargeForm = ({
                       name={field.name}
                       value={formData[field.name]}
                       onChange={handleInputChange}
-                      className="block w-full rounded-md p-1.5 text-gray-900 shadow-sm ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                      required
+                      className="select block w-full rounded-md p-1.5 text-gray-900 shadow-sm ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
                     >
                       <option value="" disabled>
                         Select {field.label}
@@ -113,10 +116,15 @@ const LargeForm = ({
                       name={field.name}
                       id={field.id}
                       autoComplete={field.autoComplete}
-                      // Add the value and onChange attributes here
+                      {...(field.type === "number" && {
+                        step: field.step,
+                        min: field.min,
+                        max: field.max,
+                      })}
                       value={formData[field.name]}
                       onChange={handleInputChange}
-                      className="block w-full rounded-md  p-1.5 text-gray-900 shadow-sm   ring-gray-300 placeholder:text-gray-400  sm:text-sm sm:leading-6"
+                      required
+                      className="input block w-full rounded-md  p-1.5 text-gray-900 shadow-sm   ring-gray-300 placeholder:text-gray-400  sm:text-sm sm:leading-6"
                     />
                   </div>
                 </div>
