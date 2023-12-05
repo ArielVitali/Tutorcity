@@ -1,4 +1,4 @@
-# TutorCity - README
+# TutorCity Backend - README
 
 TutorCity is an online service platform that allows users to offer and search for tutoring services. Users offering their services can register, authenticate, and manage services and service contracts.
 
