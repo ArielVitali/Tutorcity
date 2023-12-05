@@ -60,7 +60,9 @@ const NavBar = ({ menus }) => {
               <div className="w-10 rounded-full">
                 <img
                   src={
-                    session ? session.profileImgUrl : "../../public/deadmau.png"
+                    session.profileImgUrl === ""
+                      ? "../../avatar.png"
+                      : session.profileImgUrl
                   }
                 />
               </div>

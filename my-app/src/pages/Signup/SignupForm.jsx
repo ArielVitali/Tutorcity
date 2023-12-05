@@ -1,7 +1,3 @@
-import Form from "../../components/Form/index.jsx";
-import FormInput from "../../components/Form/formInput.jsx";
-import FormLabel from "../../components/Form/formLabel.jsx";
-import Button from "../../components/Button/Button.jsx";
 import { useState, useContext } from "react";
 import { UserContext } from "../../context/UserContext/UserContext.jsx";
 import { useNavigate } from "react-router-dom";
@@ -30,11 +26,9 @@ const SignupForm = () => {
 
     try {
       const response = await register(formData);
-      console.log(response);
 
       if (response) {
-        navigate("/ProviderHome");
-        // navigate("/profile");
+        navigate("/profile");
       }
     } catch (error) {
       console.error("Error trying to signup:", error);

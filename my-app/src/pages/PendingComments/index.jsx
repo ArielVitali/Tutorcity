@@ -24,7 +24,6 @@ const index = () => {
         } else {
           commentData = await getPendingComments(serviceId);
         }
-        console.log(commentData, "comment data");
         setPendingComments(commentData);
       } catch (error) {
         console.error("Error fetching user info:", error);
@@ -52,7 +51,7 @@ const index = () => {
   let commentsComponent = !pendingComments ? (
     <Spinner />
   ) : pendingComments.length === 0 ? (
-    <Empty />
+    <Empty text={"No comments for review"} />
   ) : (
     pendingComments.map((comment, index) => (
       <li key={index} className="p-4">
@@ -78,12 +77,11 @@ const index = () => {
         visible: { opacity: 1, y: 0 },
       }}
     >
-      <div>
-        <ActionsNav title={"Pending Comments"} items={buttons} />
-        <div className="align-center md:flex md:justify-center ">
-          <div className="md:w-[1000px]">
-            <ul>{commentsComponent}</ul>
-          </div>
+      <div className="flex justify-center">
+        <div className="w-full lg:w-[1000px]">
+          <ActionsNav title={"Pending Comments"} items={buttons} />
+
+          <ul>{commentsComponent}</ul>
         </div>
       </div>
     </motion.div>

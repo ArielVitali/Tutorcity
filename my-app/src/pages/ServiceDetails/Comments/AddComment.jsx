@@ -1,8 +1,10 @@
 import { PiXDuotone } from "react-icons/pi";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { createComment } from "../../../api/apiDataSource";
+import { ToastContext } from "../../../context/SnackbarContext/ToastContext";
 
 const AddComment = ({ closeModal, serviceName, serviceId }) => {
+  const { openToast } = useContext(ToastContext);
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -28,17 +30,18 @@ const AddComment = ({ closeModal, serviceName, serviceId }) => {
 
   const handleSend = async () => {
     try {
-      const response = await createComment(serviceId, formData);
-      console.log(response);
+      await createComment(serviceId, formData);
+      openToast("Comment created successfully", "success");
     } catch (error) {
       console.error("Error submitting the form:", error);
+      openToast("Error creating comment", "error");
     } finally {
       closeModal();
     }
   };
 
   return (
-    <dialog open className="modal modal-bottom sm:modal-middle ">
+    <dialog open className="modal modal-bottom sm:modal-middle backdrop-blur">
       <div className="modal-box bg-[#96e6b3]">
         <div className="flex items-center justify-between my-2">
           <h3 className="font-bold text-lg my-2">
@@ -68,6 +71,8 @@ const AddComment = ({ closeModal, serviceName, serviceId }) => {
                       type="text"
                       id="contact-form-first-name"
                       name="first_name"
+                      required
+                      maxLength={30}
                       value={formData.first_name}
                       onChange={handleChange}
                       className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
@@ -86,6 +91,8 @@ const AddComment = ({ closeModal, serviceName, serviceId }) => {
                       type="text"
                       id="contact-form-lat-name"
                       name="last_name"
+                      required
+                      maxLength={30}
                       value={formData.last_name} // Bind the value to the state
                       onChange={handleChange}
                       className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
@@ -109,6 +116,8 @@ const AddComment = ({ closeModal, serviceName, serviceId }) => {
                     placeholder="Enter your comment"
                     rows="5"
                     cols="40"
+                    required
+                    maxLength={150}
                   ></textarea>
                 </div>
                 <div className="col-span-2">

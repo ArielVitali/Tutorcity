@@ -6,7 +6,9 @@ export const PrivateUserRoutes = () => {
   const { session, loading } = useContext(UserContext);
 
   return loading ? (
-    <div className="bg-green-900">Loading...</div>
+    <div className="w-full h-full">
+      <span className="loading loading-spinner text-neutral m-6 text-6xl text-center"></span>
+    </div>
   ) : session ? (
     <Outlet />
   ) : (

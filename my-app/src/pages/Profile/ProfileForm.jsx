@@ -9,6 +9,7 @@ const ProfileForm = ({ formData, handleInputChange, onSubmit }) => {
           type="text"
           name="first_name"
           required
+          maxLength={30}
           className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-black shadow-sm rounded-lg"
           value={formData.first_name}
           onChange={handleInputChange}
@@ -20,6 +21,7 @@ const ProfileForm = ({ formData, handleInputChange, onSubmit }) => {
           type="text"
           name="last_name"
           required
+          maxLength={30}
           className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-black shadow-sm rounded-lg"
           value={formData.last_name}
           onChange={handleInputChange}
@@ -45,6 +47,7 @@ const ProfileForm = ({ formData, handleInputChange, onSubmit }) => {
           className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-black shadow-sm rounded-lg"
           value={formData.degree}
           onChange={handleInputChange}
+          maxLength={30}
         />
       </div>
 
@@ -55,14 +58,15 @@ const ProfileForm = ({ formData, handleInputChange, onSubmit }) => {
           rows={4}
           value={formData.experience}
           onChange={handleInputChange}
+          maxLength={150}
           required
-          className="block  textarea w-full rounded-md  p-1.5 text-gray-900 shadow-sm ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+          className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-black shadow-sm rounded-lg"
         ></textarea>
       </div>
 
       <div className="text-center">
         <button
-          className=" px-4 py-2 text-black w-[50%]  bg-[#5dd39e] border border-black hover:bg-[#1f2421] hover:text-white  rounded-lg duration-200"
+          className=" px-4 py-2 text-black w-[30%]  bg-[#5dd39e] border border-black hover:bg-[#1f2421] hover:text-white  rounded-lg duration-200"
           type="submit"
         >
           Update

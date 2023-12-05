@@ -11,14 +11,16 @@ const CommentsContainer = ({ comments, serviceId, serviceName }) => {
 
   const openModal = () => {
     setIsModalOpen(true);
+    document.body.style.overflow = "hidden";
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
+    document.body.style.overflow = "auto";
   };
 
   return (
-    <div>
+    <div className={isModalOpen ? "overflow-hidden" : ""}>
       {session ? (
         <section className=" flex justify-center">
           <div className="max-w-screen-xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
@@ -36,7 +38,7 @@ const CommentsContainer = ({ comments, serviceId, serviceName }) => {
                 </Link>
               </div>
             </div>
-            <div className="columns-1 sm:columns-2 sm:gap-6 lg:columns-1  lg:gap-8  lg:w-[1000px] drop-shadow-lg mt-8 ">
+            <div className="columns-1 sm:gap-6 lg:gap-8 lg:w-[950px] drop-shadow-lg mt-8 ">
               {comments}
             </div>
           </div>
@@ -56,7 +58,7 @@ const CommentsContainer = ({ comments, serviceId, serviceName }) => {
                 </button>
               </div>
             </div>
-            <div className="columns-1 sm:columns-2 sm:gap-6 lg:columns-1  lg:gap-8  lg:w-[1000px] drop-shadow-lg mt-8 ">
+            <div className="columns-1 sm:gap-6  lg:gap-8  lg:w-[950px] drop-shadow-lg mt-8 ">
               {comments}
             </div>
           </div>

@@ -3,7 +3,6 @@ import instance from "./config/config.axios.js";
 export const loginAPI = async (data) => {
   try {
     const response = await instance.post("/auth", data);
-    console.log(response, "response api");
     localStorage.setItem("jwt", JSON.stringify(response.data.jwt));
     localStorage.setItem("user", JSON.stringify(response.data.user));
     return response.data;
@@ -14,14 +13,44 @@ export const loginAPI = async (data) => {
 
 export const registerAPI = async (data) => {
   try {
-    console.log(data, "data api");
     const response = await instance.post("/users", data);
-    console.log(response, "response api");
     localStorage.setItem("jwt", JSON.stringify(response.data.jwt));
     localStorage.setItem("user", JSON.stringify(response.data.user));
     return response.data;
   } catch (error) {
     throw error.response.data;
+  }
+};
+
+export const requestPasswordReset = async (email) => {
+  try {
+    const response = await instance.post("/auth/request-password-reset", {
+      email,
+    });
+    return response.data.payload;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+export const passwordReset = async (password) => {
+  try {
+    const response = await instance.post("/auth/reset-password", {
+      password,
+    });
+    return response.data.payload;
+  } catch (error) {
+    throw error.response.data;
+  }
+};
+
+export const updateUser = async (data) => {
+  try {
+    const response = await instance.patch("/users", data);
+    localStorage.setItem("user", JSON.stringify(response.data.payload.user));
+    return response.data.payload.user;
+  } catch (error) {
+    throw error.response;
   }
 };
 
@@ -93,7 +122,7 @@ export const updateService = async (serviceId, data) => {
 export const getHiringsByProvider = async () => {
   try {
     const response = await instance.get("/hirings/user");
-    console.log(response.data.payload, "response from axios");
+
     return response.data.payload;
   } catch (error) {
     throw error.response;
@@ -112,16 +141,6 @@ export const updateHiring = async (hiringId, data) => {
 export const createHiring = async (serviceId, data) => {
   try {
     const response = await instance.post(`/hirings/${serviceId}`, data);
-    return response.data;
-  } catch (error) {
-    throw error.response;
-  }
-};
-
-export const updateUser = async (data) => {
-  try {
-    const response = await instance.patch("/users", data);
-    localStorage.setItem("user", JSON.stringify(response.data.user));
     return response.data;
   } catch (error) {
     throw error.response;
@@ -182,6 +201,15 @@ export const updateComment = async (commentId, data) => {
 export const deleteComment = async (commentId) => {
   try {
     const response = await instance.delete(`/comments/${commentId}`);
+    return response.data.payload;
+  } catch (error) {
+    throw error.response;
+  }
+};
+
+export const deleteService = async (serviceId) => {
+  try {
+    const response = await instance.delete(`/services/${serviceId}`);
     return response.data.payload;
   } catch (error) {
     throw error.response;

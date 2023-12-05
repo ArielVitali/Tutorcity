@@ -49,7 +49,7 @@ const index = () => {
             <Link key={index} to={Menu.to}>
               <li
                 key={index}
-                className={`flex  rounded-md p-2 cursor-pointer hover:bg-green-200   text-sm items-center gap-x-4 
+                className={`flex  rounded-md p-2 cursor-pointer hover:scale-125   text-sm items-center gap-x-4 
                 ${Menu.gap ? "mt-9 duration-100" : "mt-2 duration-100"} ${
                   index === 0 && "bg-light-white"
                 } `}

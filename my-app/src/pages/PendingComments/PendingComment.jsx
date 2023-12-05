@@ -1,22 +1,31 @@
 import { updateComment, deleteComment } from "../../api/apiDataSource";
+import { ToastContext } from "../../context/SnackbarContext/ToastContext";
+import { useContext } from "react";
 
 const PendingComment = ({ serviceTitle, comment, removeComment }) => {
+  const { openToast } = useContext(ToastContext);
   const handleAccept = async () => {
     try {
-      const response = await updateComment(comment._id, {
+      await updateComment(comment._id, {
         status: "Accepted",
+        service: comment.service._id,
+        ratedTimes: comment.service.ratedTimes,
+        ratingTotalPoints: comment.service.ratingTotalPoints,
+        rating: comment.rating,
       });
-      console.log("Comment accepted:", response);
+
+      openToast("Comment accepted", "success");
       removeComment(comment._id);
     } catch (error) {
+      openToast("Error accepting comment", "error");
       console.error("Error accepting comment:", error);
     }
   };
 
   const handleReject = async () => {
     try {
-      const response = await deleteComment(comment._id);
-      console.log("Comment rejected:", response);
+      await deleteComment(comment._id);
+      openToast("Comment rejected", "success");
       removeComment(comment._id);
     } catch (error) {
       console.error("Error rejecting comment:", error);

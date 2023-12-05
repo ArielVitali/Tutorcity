@@ -3,11 +3,13 @@ import LargeForm from "../../components/Form/LargeForm.jsx";
 import { useNavigate } from "react-router-dom";
 import { PiArrowCircleLeftDuotone } from "react-icons/pi";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import { createHiring } from "../../api/apiDataSource.js";
+import { ToastContext } from "../../context/SnackbarContext/ToastContext.jsx";
 
 const index = () => {
+  const { openToast } = useContext(ToastContext);
   let { state } = useLocation();
   const { serviceId } = state;
   const [formData, setFormData] = useState({
@@ -24,13 +26,15 @@ const index = () => {
 
     try {
       const response = await createHiring(serviceId, formData);
-      console.log(response);
       if (response.status === 200) {
+        openToast("Hiring created successfully", "success");
         navigate(-1);
       } else {
+        openToast("Error creating the hiring", "error");
         console.error("Error submitting the form");
       }
     } catch (error) {
+      openToast("Error submitting the form", "error");
       console.error("Error submitting the form:", error);
     }
   };
@@ -110,7 +114,7 @@ const index = () => {
       }}
     >
       <div className="flex justify-center">
-        <div className="w-full">
+        <div className="w-full lg:w-[1000px]">
           <ActionsNav title="Hire Service" items={buttons} />
 
           <div className="md:flex justify-center ">

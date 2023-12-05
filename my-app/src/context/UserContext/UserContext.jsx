@@ -47,7 +47,6 @@ export const UserProvider = ({ children }) => {
 
   const register = async (userInfo) => {
     try {
-      console.log(userInfo, "user info");
       const response = await registerAPI(userInfo);
       setSession(response.user);
       return response;

@@ -1,12 +1,13 @@
 import { PiAlienDuotone } from "react-icons/pi";
+import { RxAvatar } from "react-icons/rx";
 
 const ServiceHomeComments = ({ comment }) => {
   return (
-    <div className="px-4 mb-8 ">
+    <div className="mb-8">
       <blockquote className="rounded-lg bg-gray-50 p-6 shadow-sm sm:p-8">
         <div className="flex items-center gap-4">
           <div className="rounded-full ">
-            <PiAlienDuotone className="w-10 h-10 text-green-500" />
+            <RxAvatar className="w-10 h-10 text-green-500" />
           </div>
           <div>
             <div className="flex justify-center gap-0.5 text-green-500">

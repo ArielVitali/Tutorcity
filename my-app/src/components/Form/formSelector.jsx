@@ -1,10 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { AiOutlineSearch } from "react-icons/ai";
-import { useWipe } from "../../context/WipeContextProvider/WipeContext";
 
-const Selector = ({ field, onSelect, data }) => {
-  const { isWiped, unwipe } = useWipe();
+const Selector = ({ field, onSelect, data, isWiped }) => {
   const [options, setOptions] = useState(null);
   const [inputValue, setInputValue] = useState("");
   const [selected, setSelected] = useState("");
@@ -12,17 +10,16 @@ const Selector = ({ field, onSelect, data }) => {
   const selectorRef = useRef(null);
 
   useEffect(() => {
-    if (isWiped) {
-      setSelected("");
-      unwipe();
-    }
-  }, [isWiped, unwipe]);
-
-  useEffect(() => {
     setOptions(data);
   }, [data]);
 
-  // Add event listener to handle clicks outside of the selector
+  useEffect(() => {
+    if (isWiped) {
+      setSelected("");
+      setInputValue("");
+    }
+  }, [isWiped]);
+
   useEffect(() => {
     function handleClickOutside(event) {
       if (selectorRef.current && !selectorRef.current.contains(event.target)) {
@@ -30,11 +27,9 @@ const Selector = ({ field, onSelect, data }) => {
       }
     }
 
-    // Attach the event listener
     document.addEventListener("click", handleClickOutside);
 
     return () => {
-      // Remove the event listener when the component unmounts
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);

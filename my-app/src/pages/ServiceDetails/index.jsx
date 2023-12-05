@@ -4,10 +4,8 @@ import { useLocation } from "react-router-dom";
 import ServiceHomeComments from "./Comments/ServiceHomeComments.jsx";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import {
-  getCommentsByService,
-  // getPublicUserData,
-} from "../../api/apiDataSource";
+import { getCommentsByService } from "../../api/apiDataSource";
+import UserInfo from "./UserInfo.jsx";
 
 const index = () => {
   const [comments, setComments] = useState(null);
@@ -47,6 +45,10 @@ const index = () => {
       >
         <div className="lg:flex justify-center ">
           <DetailsContainer service={service} />
+        </div>
+
+        <div className="lg:flex justify-center mt-4">
+          <UserInfo user={service.user} />
         </div>
       </motion.div>
 

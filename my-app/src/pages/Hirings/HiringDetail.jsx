@@ -12,7 +12,7 @@ const HiringDetail = ({ hiring, onStatusChange, hirings }) => {
       setStatus(newStatus);
       onStatusChange(hiring._id, newStatus, hirings);
     } catch (error) {
-      console.log(error);
+      throw new Error(error);
     }
   };
 

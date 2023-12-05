@@ -38,7 +38,7 @@ const LargeForm = ({
                       name={field.name}
                       id={field.id}
                       rows={4}
-                      // Add the value and onChange attributes here
+                      maxLength={field.maxLength ? field.maxLength : 150}
                       value={formData[field.name]}
                       onChange={handleInputChange}
                       required
@@ -121,6 +121,7 @@ const LargeForm = ({
                         min: field.min,
                         max: field.max,
                       })}
+                      maxLength={field.maxLength ? field.maxLength : 30}
                       value={formData[field.name]}
                       onChange={handleInputChange}
                       required

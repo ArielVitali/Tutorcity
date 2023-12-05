@@ -1,13 +1,13 @@
-import { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { UserContext } from "../../context/UserContext/UserContext.jsx";
+import { requestPasswordReset } from "../../api/apiDataSource.js";
+import { useNavigate } from "react-router-dom";
+import { useState, useContext } from "react";
+import { ToastContext } from "../../context/SnackbarContext/ToastContext.jsx";
 
-const LoginForm = () => {
-  const { login } = useContext(UserContext);
+const RequestPasswordResetForm = () => {
+  const { openToast } = useContext(ToastContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
-    password: "",
   });
 
   const handleInputChange = (event) => {
@@ -21,15 +21,17 @@ const LoginForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await login(formData.email, formData.password);
+      const response = await requestPasswordReset(formData.email);
+
       if (response) {
-        navigate("/ProviderHome");
+        openToast("Email sent", "success");
+        navigate("/login");
       }
     } catch (error) {
+      openToast("Error sending email", "error");
       console.error("Error trying to login:", error);
     }
   };
-
   return (
     <form className="mt-8 space-y-5" onSubmit={handleSubmit}>
       <div key={"email"}>
@@ -42,29 +44,14 @@ const LoginForm = () => {
           onChange={handleInputChange}
         />
       </div>
-      <div key={"password"}>
-        <label className="font-medium">Password</label>
-        <input
-          type="password"
-          name="password"
-          required
-          className="w-full mt-2 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-black shadow-sm rounded-lg"
-          onChange={handleInputChange}
-        />
-      </div>
       <button
         className="w-full px-4 py-2 text-black   bg-[#5dd39e] border border-black hover:bg-[#1f2421] hover:text-white  rounded-lg duration-200"
         type="submit"
       >
-        Login
+        Send
       </button>
-      <div key={"forgotPasswordLink"} className="text-center">
-        <Link to={"/request-password-reset"} className="hover:text-[#5dd39e] ">
-          Forgot password?
-        </Link>
-      </div>
     </form>
   );
 };
 
-export default LoginForm;
+export default RequestPasswordResetForm;

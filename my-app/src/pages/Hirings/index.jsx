@@ -68,87 +68,86 @@ const index = () => {
   ];
 
   return (
-    <div>
-      <ActionsNav title="Hirings" items={buttons} />
-      <div className=" md:flex md:justify-center ">
-        <div className="md:w-[1000px]">
-          <div>
-            {/* <h3 className="text-2xl font-semibold">Accepted</h3> */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              whileFocus="visible"
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 0.5 }}
-              variants={{
-                hidden: { opacity: 0, y: -50 },
-                visible: { opacity: 1, y: 0 },
-              }}
-            >
-              <List
-                hirings={pendingHirings}
-                status={"Pending"}
-                number={pendingHirings.length}
-                onStatusChange={handleStatusChange}
-              />
-            </motion.div>
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              whileFocus="visible"
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 0.5 }}
-              variants={{
-                hidden: { opacity: 0, y: -50 },
-                visible: { opacity: 1, y: 0 },
-              }}
-            >
-              <List
-                hirings={acceptedHirings}
-                status={"Accepted"}
-                number={acceptedHirings.length}
-                onStatusChange={handleStatusChange}
-              />
-            </motion.div>
-            {/* <h3 className="text-2xl font-semibold">Canceled</h3> */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              whileFocus="visible"
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 0.5 }}
-              variants={{
-                hidden: { opacity: 0, y: -50 },
-                visible: { opacity: 1, y: 0 },
-              }}
-            >
-              <List
-                hirings={canceledHirings}
-                status={"Canceled"}
-                number={canceledHirings.length}
-                onStatusChange={handleStatusChange}
-              />
-            </motion.div>
-            {/* <h3 className="text-2xl font-semibold">Finalized</h3> */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              whileFocus="visible"
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 0.5 }}
-              variants={{
-                hidden: { opacity: 0, y: -50 },
-                visible: { opacity: 1, y: 0 },
-              }}
-            >
-              <List
-                hirings={finalizedHirings}
-                status={"Finalized"}
-                number={finalizedHirings.length}
-                onStatusChange={handleStatusChange}
-              />
-            </motion.div>
-          </div>
+    <div className="flex justify-center">
+      <div className="w-full lg:w-[1000px]">
+        <ActionsNav title="Hirings" items={buttons} />
+
+        <div>
+          {/* <h3 className="text-2xl font-semibold">Accepted</h3> */}
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            whileFocus="visible"
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.5 }}
+            variants={{
+              hidden: { opacity: 0, y: -50 },
+              visible: { opacity: 1, y: 0 },
+            }}
+          >
+            <List
+              hirings={pendingHirings}
+              status={"Pending"}
+              number={pendingHirings.length}
+              onStatusChange={handleStatusChange}
+            />
+          </motion.div>
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            whileFocus="visible"
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.5 }}
+            variants={{
+              hidden: { opacity: 0, y: -50 },
+              visible: { opacity: 1, y: 0 },
+            }}
+          >
+            <List
+              hirings={acceptedHirings}
+              status={"Accepted"}
+              number={acceptedHirings.length}
+              onStatusChange={handleStatusChange}
+            />
+          </motion.div>
+          {/* <h3 className="text-2xl font-semibold">Canceled</h3> */}
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            whileFocus="visible"
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.5 }}
+            variants={{
+              hidden: { opacity: 0, y: -50 },
+              visible: { opacity: 1, y: 0 },
+            }}
+          >
+            <List
+              hirings={canceledHirings}
+              status={"Canceled"}
+              number={canceledHirings.length}
+              onStatusChange={handleStatusChange}
+            />
+          </motion.div>
+          {/* <h3 className="text-2xl font-semibold">Finalized</h3> */}
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            whileFocus="visible"
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.5 }}
+            variants={{
+              hidden: { opacity: 0, y: -50 },
+              visible: { opacity: 1, y: 0 },
+            }}
+          >
+            <List
+              hirings={finalizedHirings}
+              status={"Finalized"}
+              number={finalizedHirings.length}
+              onStatusChange={handleStatusChange}
+            />
+          </motion.div>
         </div>
       </div>
     </div>

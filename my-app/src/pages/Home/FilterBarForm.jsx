@@ -1,14 +1,10 @@
-import FormLabel from "../../components/Form/formLabel.jsx";
-import Button from "../../components/Button/Button.jsx";
-import Form from "../../components/Form/index.jsx";
 import Selector from "../../components/Form/formSelector.jsx";
 import { useState, useEffect } from "react";
-import { useWipe } from "../../context/WipeContextProvider/WipeContext.jsx";
 import { getCategories } from "../../api/apiDataSource.js";
 
-const FilterBarForm = ({ updateSelectedOptions }) => {
-  const { wipe } = useWipe();
+const FilterBarForm = ({ updateSelectedOptions, isWiped, setIsWiped }) => {
   const [categories, setCategories] = useState([]);
+
   const [selectedOptions, setSelectedOptions] = useState({
     category: "",
     type: "",
@@ -40,68 +36,76 @@ const FilterBarForm = ({ updateSelectedOptions }) => {
     handleOptionChange("type", "");
     handleOptionChange("frequency", "");
     handleOptionChange("rating", "");
-    wipe();
+    setIsWiped(true);
   };
 
   useEffect(() => {
-    // Trigger form submission whenever selectedOptions change
+    updateSelectedOptions(selectedOptions);
+  }, [selectedOptions, updateSelectedOptions]);
+
+  useEffect(() => {
     updateSelectedOptions(selectedOptions);
   }, [selectedOptions]);
 
-  const content = [
-    <ul
-      key={"inputs"}
-      className="grid grid-cols-1 p-4  sm:grid-cols-2  lg:flex md:w-full justify-center"
-    >
-      <div key={"category"} className="sm:px-4 md:w-full">
-        <FormLabel text="Category" styles={"label justify-center"} />
-        <Selector
-          field={"category"}
-          onSelect={(value) => handleOptionChange("category", value)}
-          data={categories}
-        />
+  return (
+    <div>
+      <form className="mx-auto w-full z-0">
+        <ul
+          key={"inputs"}
+          className="grid grid-cols-1 p-4  sm:grid-cols-2  lg:flex md:w-full justify-center"
+        >
+          <div key={"category"} className="sm:px-4 md:w-full">
+            <label className="label justify-center">Category</label>
+            <Selector
+              field={"category"}
+              onSelect={(value) => handleOptionChange("category", value)}
+              data={categories}
+              isWiped={isWiped}
+            />
+          </div>
+          <div key={"type"} className="sm:px-4 md:w-full">
+            <label className="label justify-center">Type</label>
+            <Selector
+              field={"type"}
+              onSelect={(value) => handleOptionChange("type", value)}
+              data={[{ name: "Private" }, { name: "Group" }]}
+              isWiped={isWiped}
+            />
+          </div>
+          <div key={"frequency"} className="sm:px-4 md:w-full">
+            <label className="label justify-center">Frequency</label>
+            <Selector
+              field={"frequency"}
+              onSelect={(value) => handleOptionChange("frequency", value)}
+              data={[
+                { name: "One time" },
+                { name: "Weekly" },
+                { name: "Monthly" },
+              ]}
+              isWiped={isWiped}
+            />
+          </div>
+          <div key={"rating"} className="sm:px-4 md:w-full">
+            <label className="label justify-center">Rating</label>
+            <Selector
+              field={"rating"}
+              onSelect={(value) => handleOptionChange("rating", value)}
+              data={[{ name: "Ascendent" }, { name: "Descendent" }]}
+              isWiped={isWiped}
+            />
+          </div>
+        </ul>
+      </form>
+      <div
+        key={"filter button"}
+        className="w-full h-fit flex justify-center my-4"
+      >
+        <button className={"btn bg-white md:btn-wide"} onClick={handleWipe}>
+          Wipe
+        </button>
       </div>
-      <div key={"type"} className="sm:px-4 md:w-full">
-        <FormLabel text="Type" styles={"label justify-center"} />
-        <Selector
-          field={"type"}
-          onSelect={(value) => handleOptionChange("type", value)}
-          data={[{ name: "Private" }, { name: "Group" }, { name: "Public" }]}
-        />
-      </div>
-      <div key={"frequency"} className="sm:px-4 md:w-full">
-        <FormLabel text="Frequency" styles={"label justify-center"} />
-        <Selector
-          field={"frequency"}
-          onSelect={(value) => handleOptionChange("frequency", value)}
-          data={[{ name: "Daily" }, { name: "Weekly" }, { name: "Monthly" }]}
-        />
-      </div>
-      <div key={"rating"} className="sm:px-4 md:w-full">
-        <FormLabel text="Rating" styles={"label justify-center"} />
-        <Selector
-          field={"rating"}
-          onSelect={(value) => handleOptionChange("rating", value)}
-          data={[{ name: "Ascendent" }, { name: "Descendent" }]}
-        />
-      </div>
-    </ul>,
-    <div
-      key={"filter button"}
-      className="w-full h-fit flex justify-center my-4"
-    >
-      <Button
-        type={"submit"}
-        text={"wipe"}
-        styles={"btn bg-white md:btn-wide"}
-        onClick={handleWipe}
-      />
-    </div>,
-  ];
-
-  const styles = "mx-auto w-full z-0 ";
-
-  return <Form content={content} styles={styles} />;
+    </div>
+  );
 };
 
 export default FilterBarForm;

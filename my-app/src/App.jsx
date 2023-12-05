@@ -12,34 +12,37 @@ import { Menus } from "./components/NavBar/SideMenu.jsx";
 import CommentsInbox from "./pages/PendingComments/index.jsx";
 import HiringsHome from "./pages/Hirings/index.jsx";
 import NewService from "./pages/NewService/index.jsx";
-
+import RequestForgotPassword from "./pages/RequestPasswordReset/index.jsx";
+import { ToastProvider } from "./context/SnackbarContext/ToastContext.jsx";
 import { PrivateUserRoutes } from "./utils/Routes/PrivateUserRoutes.jsx";
 import Profile from "./pages/Profile/index.jsx";
 
 function App() {
   return (
     <UserProvider>
-      <NavBar menus={Menus} />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/service-details" element={<ServiceDetails />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/reset-password" element={<ForgotPassword />} />
-        {/* <Route
-            path="/request-reset-password"
+      <ToastProvider>
+        <NavBar menus={Menus} />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/service-details" element={<ServiceDetails />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/reset-password" element={<ForgotPassword />} />
+          <Route
+            path="/request-password-reset"
             element={<RequestForgotPassword />}
-          /> */}
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/hireService" element={<HireServiceForm />} />
-        <Route element={<PrivateUserRoutes />}>
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/ProviderHome" element={<ProviderHome />} />
-          <Route path="/new-service" element={<NewService />} />
-          <Route path="/service-admin-details" element={<ServiceDetails />} />
-          <Route path="/CommentsInbox" element={<CommentsInbox />} />
-          <Route path="/Hirings" element={<HiringsHome />} />
-        </Route>
-      </Routes>
+          />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/hireService" element={<HireServiceForm />} />
+          <Route element={<PrivateUserRoutes />}>
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/ProviderHome" element={<ProviderHome />} />
+            <Route path="/new-service" element={<NewService />} />
+            <Route path="/service-admin-details" element={<ServiceDetails />} />
+            <Route path="/CommentsInbox" element={<CommentsInbox />} />
+            <Route path="/Hirings" element={<HiringsHome />} />
+          </Route>
+        </Routes>
+      </ToastProvider>
     </UserProvider>
   );
 }

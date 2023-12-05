@@ -3,10 +3,14 @@ import { UserContext } from "../../context/UserContext/UserContext";
 import { updateUser, uploadImage } from "../../api/apiDataSource";
 import { useContext, useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import DialogBox from "../../components/Modals/DialogBox.jsx";
+import DialogBox from "../../components/Modals/Dialog.jsx";
 import ImageUploadSection from "../../components/ImageUpload.jsx";
+import ActionsNav from "../../components/ActionsNav/index.jsx";
+import { PiArrowCircleLeftDuotone } from "react-icons/pi";
+import { ToastContext } from "../../context/SnackbarContext/ToastContext.jsx";
 
 const index = () => {
+  const { openToast } = useContext(ToastContext);
   const navigate = useNavigate();
   const { session, setSession } = useContext(UserContext);
   const [image, setImage] = useState(null);
@@ -32,14 +36,15 @@ const index = () => {
     }));
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
-      console.log(formData);
       const userData = await updateUser(formData);
-      console.log(userData);
+      openToast("User updated successfully", "success");
       setSession({ ...session, ...userData });
       navigate("/ProviderHome");
     } catch (error) {
+      openToast("Error updating user", "error");
       console.error("Error trying to update user:", error);
     }
   };
@@ -48,9 +53,10 @@ const index = () => {
     setIsSubmitting(true);
     try {
       const uploadData = await uploadImage(image);
-      console.log(uploadData);
+      openToast("Image uploaded successfully", "success");
       setSession({ ...session, profileImgUrl: uploadData });
     } catch (error) {
+      openToast("Error uploading image", "error");
       console.error("Error trying to upload image:", error);
     }
     setIsSubmitting(false);
@@ -60,34 +66,40 @@ const index = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  const NavButtons = [
+    {
+      element: (
+        <button className="btn glass" onClick={() => navigate(-1)}>
+          <PiArrowCircleLeftDuotone className="text-3xl" />
+        </button>
+      ),
+    },
+  ];
+
   return (
     <div>
       <section className="container mx-auto md:py-6 px-5">
+        <ActionsNav items={NavButtons} />
         <h1 className="text-center">
           <span className="text-lg md:text-4xl">Profile</span>
         </h1>
-        <div className="lg:grid lg:grid-cols-12 lg:gap-5 mt-5">
-          <div className="lg:col-span-3">
-            <div className="grid grid-cols-12 gap-5 items-center">
-              <div className="col-span-12 text-center">
-                <img
-                  src={
-                    session.profileImgUrl === ""
-                      ? "../../public/deadmau.png"
-                      : session.profileImgUrl
-                  }
-                  alt="Profile"
-                  className="mx-auto block rounded-full h-40 w-40 object-cover"
-                />
-              </div>
-              <div className="col-span-12 text-center">
-                <button
-                  onClick={openModal}
-                  className="btn glass bg-slate-300 w-40"
-                >
-                  Upload Image
-                </button>
-              </div>
+        <div className=" lg:grid lg:grid-cols-12 lg:gap-5 mt-5">
+          <div className="lg:col-span-4">
+            <div className="col-span-12 flex flex-col items-center justify-center h-full">
+              <img
+                src={
+                  session.profileImgUrl === ""
+                    ? "../../avatar.png"
+                    : session.profileImgUrl
+                }
+                className="mx-auto block rounded-full w-40 h-40 md:h-[14rem] md:w-[14rem] object-cover"
+              />
+              <button
+                onClick={openModal}
+                className="btn glass bg-slate-300 w-30 mt-4"
+              >
+                Upload
+              </button>
             </div>
             <DialogBox
               open={isModalOpen}
@@ -101,7 +113,7 @@ const index = () => {
               }
             />
           </div>
-          <div className="mt-5 lg:mt-0 col-span-9">
+          <div className="mt-5 lg:mt-0 col-span-8">
             <ProfileForm
               formData={formData}
               handleInputChange={handleInputChange}

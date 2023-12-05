@@ -3,14 +3,13 @@ import { useDropzone } from "react-dropzone";
 import Spinner from "../components/Spinner/index.jsx";
 
 const ImageUploadSection = ({ onImageSelected, onSubmit, isSubmitting }) => {
-  const [previewSrc, setPreviewSrc] = useState(null); // Estado para la URL de previsualización
+  const [previewSrc, setPreviewSrc] = useState(null);
 
   const onDrop = useCallback(
     (acceptedFiles) => {
       const file = acceptedFiles[0];
       onImageSelected(file);
 
-      // Generar la URL de previsualización
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreviewSrc(reader.result);

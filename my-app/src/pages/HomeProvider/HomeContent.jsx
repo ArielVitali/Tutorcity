@@ -2,6 +2,7 @@ import ServiceContainer from "../../components/Containers/ServiceContainer.jsx";
 import { useState, useEffect } from "react";
 import Spinner from "../../components/Spinner/index.jsx";
 import { getServicesByUser } from "../../api/apiDataSource";
+import Empty from "../../components/empty/index.jsx";
 
 const HomeContent = () => {
   const [publishedServices, setPublishedServices] = useState([]);
@@ -55,26 +56,32 @@ const HomeContent = () => {
 
   return (
     <div>
-      <ul className="my-4">
-        <h5 className="md:text-3xl font-semibold">Published</h5>
-        {loading && !publishedComponents.length ? (
-          <div className="flex justify-center my-4">
-            <span className="loading loading-spinner loading-lg text-center"></span>
-          </div>
-        ) : (
-          publishedComponents
-        )}
-      </ul>
-      <ul className="my-4">
-        <h5 className="md:text-3xl font-semibold">Unpublished</h5>
-        {loading && !unpublishedComponents.length ? (
-          <div className="flex justify-center my-4">
-            <span className="loading loading-spinner loading-lg text-center"></span>
-          </div>
-        ) : (
-          unpublishedComponents
-        )}
-      </ul>
+      {!loading && !publishedServices.length && !unpublishedServices.length ? (
+        <Empty text={"No services created..."} />
+      ) : (
+        <>
+          <ul className="my-4">
+            <h5 className="md:text-3xl font-semibold">Published</h5>
+            {loading && !publishedComponents.length ? (
+              <div className="flex justify-center my-4">
+                <span className="loading loading-spinner loading-lg text-center"></span>
+              </div>
+            ) : (
+              publishedComponents
+            )}
+          </ul>
+          <ul className="my-4">
+            <h5 className="md:text-3xl font-semibold">Unpublished</h5>
+            {loading && !unpublishedComponents.length ? (
+              <div className="flex justify-center my-4">
+                <span className="loading loading-spinner loading-lg text-center"></span>
+              </div>
+            ) : (
+              unpublishedComponents
+            )}
+          </ul>
+        </>
+      )}
     </div>
   );
 };
