@@ -21,7 +21,6 @@ class HiringRouter extends RouterClass {
     this.get("/:serviceId", ["PRIVATE"], async (req, res) => {
       try {
         const response = await getHiringsByServiceId(req.params.serviceId);
-        console.log(response);
         res.sendSuccess(response);
       } catch (error) {
         res.sendServerError(`something went wrong ${error}`);

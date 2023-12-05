@@ -24,7 +24,9 @@ class CommentDAO {
 
   async getPendingCommentsByServiceId(service) {
     try {
-      const response = await commentModel.find({ service, status: "Pending" });
+      const response = await commentModel
+        .find({ service, status: "Pending" })
+        .populate("service");
       return response;
     } catch (error) {
       throw error;
@@ -33,7 +35,6 @@ class CommentDAO {
 
   async getPendingComments() {
     try {
-      console.log("response en dao");
       const response = await commentModel
         .find({ status: "Pending" })
         .populate("service");

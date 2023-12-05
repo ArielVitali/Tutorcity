@@ -12,7 +12,8 @@ export const getServices = async (queries) => {
     let sortOptions = 1;
 
     if (category !== undefined && category !== "") {
-      queryConditions.category = category;
+      const categoryFound = await getCategoryByName(category);
+      queryConditions.category = categoryFound[0]._id;
     }
 
     if (type !== undefined && type !== "") {
@@ -46,7 +47,6 @@ export const getServicesByUserId = async (userId) => {
   try {
     return await ServiceDAO.getServiceByUserId(userId);
   } catch (error) {
-    console.log(error);
     throw error;
   }
 };

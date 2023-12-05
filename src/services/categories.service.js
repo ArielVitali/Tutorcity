@@ -18,7 +18,6 @@ export const getCategoryById = async (id) => {
 
 export const getCategoryByName = async (name) => {
   try {
-    console.log(name, " in categories.service.js");
     return await CategoriesDAO.getCategoryByName(name);
   } catch (error) {
     throw error;

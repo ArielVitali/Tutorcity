@@ -15,9 +15,11 @@ class ServiceDAO {
   async getServices(query, sortOptions, hasConditions) {
     try {
       if (!hasConditions) {
-        const response = await serviceModel.find().populate("user");
+        query.isPublished = true;
+        const response = await serviceModel.find(query).populate("user");
         return response;
       } else {
+        query.isPublished = true;
         const response = await serviceModel
           .find(query)
           .populate("user")
@@ -41,7 +43,7 @@ class ServiceDAO {
 
   async getServiceByUserId(user) {
     try {
-      const response = await serviceModel.find({ user });
+      const response = await serviceModel.find({ user }).populate("user");
       return response;
     } catch (error) {
       throw error;
@@ -62,7 +64,6 @@ class ServiceDAO {
 
   async deleteService(id) {
     try {
-      console.log("antes de borrarrr", id);
       const response = await serviceModel.deleteOne({ _id: id });
       return response;
     } catch (error) {

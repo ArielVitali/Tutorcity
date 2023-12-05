@@ -5,6 +5,7 @@ const categoryCollection = "categories";
 const categorySchema = new mongoose.Schema({
   name: {
     type: String,
+    maxLength: [30, "Exceeded characters"],
     required: true,
   },
   services: [

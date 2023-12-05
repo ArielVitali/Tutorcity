@@ -13,7 +13,7 @@ export const sendPasswordResetEmail = async (user) => {
       expiresIn: "1h",
     });
 
-    const resetLink = `http://localhost:5173/reset-password/${token}`;
+    const resetLink = `http://localhost:5173/reset-password?token=${token}`;
     const subject = "Reset your password";
     const text = `Hi ${first_name} ${last_name}! Please click the link below to reset your password: ${resetLink}`;
     const html = `

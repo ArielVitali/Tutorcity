@@ -41,7 +41,6 @@ class AuthRouter extends RouterClass {
         const response = await updateUser(req.user.id, { password });
         res.sendSuccess(response);
       } catch (error) {
-        console.log("error");
         res.sendServerError(error);
       }
     });

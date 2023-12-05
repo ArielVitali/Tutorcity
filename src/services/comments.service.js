@@ -1,4 +1,5 @@
 import CommentDAO from "../DAOs/mongo/classes/Comment.class.js";
+import { getServiceById, updateService } from "./services.service.js";
 
 export const getCommentsByServiceId = async (serviceId) => {
   try {
@@ -47,6 +48,7 @@ export const createNewComment = async (serviceId, commentInfo) => {
       comment,
       rating,
     };
+
     return await CommentDAO.createComment(newCommentInfo);
   } catch (error) {
     throw error;
@@ -55,8 +57,25 @@ export const createNewComment = async (serviceId, commentInfo) => {
 
 export const updateComment = async (id, updateInfo) => {
   try {
-    const { status } = updateInfo;
-    return await CommentDAO.updateComment(id, { status });
+    let response;
+    const { status, service, ratedTimes, ratingTotalPoints, rating } =
+      updateInfo;
+
+    if (rating && service && ratedTimes && ratingTotalPoints) {
+      const newRatingTotalPoints = ratingTotalPoints + rating;
+      const newRatedTimes = ratedTimes + 1;
+      const newRatingAverage = newRatingTotalPoints / newRatedTimes;
+
+      response = await CommentDAO.updateComment(id, { status });
+      await updateService(service, {
+        ratedTimes: newRatedTimes,
+        ratingTotalPoints: newRatingTotalPoints,
+        ratingAverage: newRatingAverage,
+      });
+      return response;
+    }
+
+    return (response = await CommentDAO.updateComment(id, { status }));
   } catch (error) {
     throw error;
   }

@@ -6,10 +6,12 @@ const userCollection = "users";
 const userSchema = new mongoose.Schema({
   first_name: {
     type: String,
+    maxLength: [30, "Exceeded characters"],
     required: true,
   },
   last_name: {
     type: String,
+    maxLength: [30, "Exceeded characters"],
     required: true,
   },
   email: {
@@ -27,7 +29,7 @@ const userSchema = new mongoose.Schema({
   },
   degree: {
     type: String,
-    maxLength: [50, "Exceeded characters"],
+    maxLength: [30, "Exceeded characters"],
     trim: true,
   },
   experience: {
@@ -53,7 +55,6 @@ userSchema.pre("save", async function (next) {
     user.password = await bcrypt.hash(user.password, salt);
     next();
   } catch (error) {
-    console.log(error);
     throw new Error("Error while hashing the password.");
   }
 });

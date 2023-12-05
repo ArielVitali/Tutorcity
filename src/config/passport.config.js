@@ -24,7 +24,6 @@ const initializePassport = () => {
       },
       async (jwt_payload, done) => {
         try {
-          console.log("jwt_payload", jwt_payload);
           return done(null, jwt_payload);
         } catch (error) {
           return done(error);
@@ -39,7 +38,6 @@ const initializePassport = () => {
       { passReqToCallback: true, usernameField: "email" },
       async (req, username, password, done) => {
         try {
-          console.log("req.body");
           const user = await getUserByEmail(username);
 
           if (user) {

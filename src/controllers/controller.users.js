@@ -63,7 +63,6 @@ class UsersRouter extends RouterClass {
             req.user.id,
             req.file.buffer
           );
-          console.log(response);
           res.sendSuccess(response);
         } catch (error) {
           res.sendServerError(error);
@@ -71,9 +70,9 @@ class UsersRouter extends RouterClass {
       }
     );
 
-    this.patch("/:id", ["PRIVATE"], async (req, res) => {
+    this.patch("/", ["PRIVATE"], async (req, res) => {
       try {
-        const response = await updateUser(req.params.id, req.body);
+        const response = await updateUser(req.user.id, req.body);
         res.sendSuccess(response);
       } catch (error) {
         res.sendServerError(error);

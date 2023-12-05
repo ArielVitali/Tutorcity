@@ -15,7 +15,7 @@ const serviceSchema = new mongoose.Schema({
   },
   name: {
     type: String,
-    maxLength: [45, "The service name exceeds the max chars."],
+    maxLength: [30, "The service name exceeds the max chars."],
     required: true,
     trim: true,
   },

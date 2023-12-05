@@ -84,8 +84,6 @@ class RouterClass {
       if (policies[0] === "PRIVATE") {
         passport.authenticate("jwt", { session: false }, (error, user) => {
           if (error || !user) {
-            console.log("error", error);
-            console.log("user", user);
             return res.status(401).send({ error: "Unauthorized" });
           }
 

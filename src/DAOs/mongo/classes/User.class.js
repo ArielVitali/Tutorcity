@@ -32,7 +32,11 @@ class UserDAO {
 
   async updateUser(id, data) {
     try {
-      const response = await userModel.updateOne({ _id: id }, { $set: data });
+      const response = await userModel.findOneAndUpdate(
+        { _id: id },
+        { $set: data },
+        { new: true }
+      );
       return response;
     } catch (error) {
       throw error;

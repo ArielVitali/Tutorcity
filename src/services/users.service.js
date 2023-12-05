@@ -1,5 +1,6 @@
 import UserDAO from "../DAOs/mongo/classes/User.class.js";
 import { uploadImage } from "./fileUpload.service.js";
+import { generateToken } from "../Utils/token/tokenManager.js";
 
 export const getUserById = async (serviceId) => {
   try {
@@ -59,14 +60,29 @@ export const updateUser = async (id, updateInfo) => {
       profile_img_url,
     };
 
-    const user = await UserDAO.getUserById(id);
+    let user = await UserDAO.getUserById(id);
     if (!user) return "User not found";
 
     if (password) {
-      return await user.updateWithHashedPassword(updatedUserInfo);
+      await user.updateWithHashedPassword(updatedUserInfo);
     } else {
-      return await UserDAO.updateUser(id, updatedUserInfo);
+      user = await UserDAO.updateUser(id, updatedUserInfo);
     }
+
+    const repsonse = {
+      user: {
+        id: user._id,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+        phone_number: user.phone_number,
+        degree: user.degree,
+        experience: user.experience,
+        profileImgUrl: user.profile_img_url,
+      },
+    };
+
+    return repsonse;
   } catch (error) {
     throw error;
   }
@@ -83,9 +99,7 @@ export const getPublicUserProfile = async (user) => {
 
 export const updatedUserProfileImg = async (id, file) => {
   try {
-    console.log("entreeee a updatedUserProfileImg");
     const imgURL = await uploadImage(file);
-    console.log(imgURL);
     const updatedUserInfo = { profile_img_url: imgURL };
     await updateUser(id, updatedUserInfo);
     return imgURL;

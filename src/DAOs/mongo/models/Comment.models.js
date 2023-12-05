@@ -10,10 +10,12 @@ const commentSchema = new mongoose.Schema({
   },
   first_name: {
     type: String,
+    maxLength: [30, "Exceeded characters"],
     required: true,
   },
   last_name: {
     type: String,
+    maxLength: [30, "Exceeded characters"],
     required: true,
   },
   comment: {
